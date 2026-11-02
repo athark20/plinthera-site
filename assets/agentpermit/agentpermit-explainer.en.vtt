@@ -1,0 +1,89 @@
+WEBVTT
+
+1
+00:00:00.800 --> 00:00:04.158
+Your AI agents don't just answer questions anymore.
+
+2
+00:00:04.158 --> 00:00:07.619
+They issue refunds, grant access, and move data.
+
+3
+00:00:08.317 --> 00:00:11.745
+But most of them act on whatever access they were given.
+
+4
+00:00:11.745 --> 00:00:14.799
+No one checks first, and nothing records why.
+
+5
+00:00:15.483 --> 00:00:19.608
+AgentPermit puts a checkpoint between your agents and your systems.
+
+6
+00:00:19.608 --> 00:00:22.001
+Every agent, explicitly permitted.
+
+7
+00:00:22.717 --> 00:00:24.600
+Before it acts, the agent asks.
+
+8
+00:00:24.600 --> 00:00:30.369
+AgentPermit knows who's asking from the agent's sign-in, not from what the request claims.
+
+9
+00:00:31.083 --> 00:00:33.116
+Your rules decide every request.
+
+10
+00:00:33.116 --> 00:00:35.403
+Routine actions go straight through.
+
+11
+00:00:35.403 --> 00:00:37.164
+Risky ones are stopped.
+
+12
+00:00:39.083 --> 00:00:42.005
+Anything in between waits for a named person.
+
+13
+00:00:42.005 --> 00:00:47.823
+The request stays frozen until they approve or reject it, in the console or in Teams.
+
+14
+00:00:49.083 --> 00:00:50.787
+And there's no way around it.
+
+15
+00:00:50.787 --> 00:00:54.789
+Your systems only accept actions that come through AgentPermit.
+
+16
+00:00:56.083 --> 00:01:00.076
+Every decision leaves a signed receipt, chained to the one before.
+
+17
+00:01:00.076 --> 00:01:01.588
+Change one, and it shows.
+
+18
+00:01:01.588 --> 00:01:04.549
+And anyone with the public key can check it.
+
+19
+00:01:06.083 --> 00:01:11.765
+It runs in your own Azure tenant, and works with Copilot Studio, your own code, and MCP.
+
+20
+00:01:11.765 --> 00:01:13.679
+Your data stays with you.
+
+21
+00:01:14.883 --> 00:01:17.053
+AgentPermit, from Plinthera.
+
+22
+00:01:17.053 --> 00:01:20.761
+Book your demo at plinthera.com/agentpermit.

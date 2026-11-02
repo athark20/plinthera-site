@@ -117,7 +117,8 @@ section.tint{background:var(--bg-2)}
 .menu ul{list-style:none;margin:0;padding:8px 0 16px}
 .menu a{display:block;padding:14px 0;text-decoration:none;color:var(--brand);font-weight:600;border-bottom:1px solid var(--line)}
 .menu .btn{margin-top:16px;width:100%;display:inline-flex;padding:0 22px;border-bottom:0;color:var(--btn-fg)}
-@media (min-width:900px){ .nav-links{display:flex} .nav-cta{display:inline-flex} .menu-btn{display:none} .menu{display:none!important} }
+.nav-links a,.nav-cta{white-space:nowrap}
+@media (min-width:1120px){ .nav-links{display:flex} .nav-cta{display:inline-flex} .menu-btn{display:none} .menu{display:none!important} }
 
 /* hero */
 .hero{padding-block:clamp(48px,7vw,96px) clamp(56px,8vw,112px)}
@@ -218,6 +219,9 @@ section.tint{background:var(--bg-2)}
 .hero .also .new{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;background:var(--amber);color:var(--amber-ink);border-radius:999px;padding:3px 8px}
 .hero .also svg{width:14px;height:14px;transition:transform var(--t-micro) var(--ease-out)}
 .hero .also:hover svg{transform:translateX(3px)}
+.alsos{display:flex;flex-direction:column;align-items:flex-start;gap:10px;margin-top:18px}
+.alsos .also{margin-top:0}
+.hero .also .new.prod{background:var(--brand);color:#fff}
 .sports .ai{display:inline-block;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);background:var(--bg-2);border-radius:999px;padding:4px 10px;white-space:nowrap}
 .sports .for{color:var(--fg-2);font-size:.9rem;margin:0}
 .sports .for b{color:var(--brand);font-weight:600}
@@ -233,6 +237,57 @@ section.tint{background:var(--bg-2)}
 .quote{margin:48px auto 0;max-width:820px;text-align:center}
 .quote blockquote{margin:0;font:italic 400 clamp(1.3rem,2.4vw,1.75rem)/1.4 var(--serif);color:var(--brand)}
 .quote cite{display:block;margin-top:14px;font-style:normal;color:var(--fg-2);font-size:.95rem}
+
+/* product: AgentPermit, on the navy base */
+.product{background:var(--base);color:var(--on-base)}
+.product .wrap{display:grid;gap:44px;align-items:center}
+@media (min-width:980px){ .product .wrap{grid-template-columns:1.05fr .95fr;gap:64px} }
+.product .eyebrow{color:var(--amber)}
+.product .eyebrow .os{color:var(--on-base-2)}
+.product h2{color:var(--on-base)}
+.product h2 .tag{display:block;color:var(--amber);margin-top:6px}
+.product .lead{color:var(--on-base-2)}
+.ap-points{list-style:none;margin:30px 0 0;padding:0;display:grid;gap:18px}
+@media (min-width:620px){ .ap-points{grid-template-columns:1fr 1fr;gap:20px 30px} }
+.ap-points li{position:relative;padding-left:20px}
+.ap-points li::before{content:"";position:absolute;left:0;top:.5em;width:8px;height:8px;border-radius:2px;background:var(--amber)}
+.ap-points b{display:block;color:var(--on-base);font-weight:600;margin-bottom:2px}
+.ap-points span{color:var(--on-base-2);font-size:.95rem}
+.ap-stack{margin:28px 0 0;color:var(--on-base-2);font-size:.9rem;max-width:62ch}
+.product .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.btn-on-base{background:transparent;color:var(--on-base);border-color:rgba(255,255,255,.4)}
+.btn-on-base:hover{border-color:var(--on-base)}
+.ap-demo{background:var(--card);color:var(--fg);border-radius:16px;padding:22px;box-shadow:0 30px 60px -30px rgba(0,0,0,.55);width:100%;max-width:520px;justify-self:center}
+.ap-bar{display:flex;align-items:center;gap:8px;font:500 .78rem var(--mono);color:var(--fg-2);padding-bottom:14px;border-bottom:1px solid var(--line)}
+.ap-bar i{width:8px;height:8px;border-radius:50%;background:var(--line);display:inline-block}
+.ap-bar i:first-child{background:var(--amber)}
+.ap-bar .ap-n{margin-left:auto}
+.ap-rows{display:grid;gap:10px;margin-top:16px}
+.ap-row{display:grid;grid-template-columns:70px 1fr;gap:12px;align-items:baseline}
+.ap-row .k{font:500 .72rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--fg-2)}
+.ap-row .v{font:500 .92rem var(--mono);color:var(--brand);overflow-wrap:anywhere}
+.ap-row .v small{display:block;font:400 .85rem var(--font);color:var(--fg-2);margin-top:2px}
+.ap-gate{position:relative;overflow:hidden;margin-top:16px;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;background:var(--base);color:var(--on-base)}
+.ap-gate svg{flex:0 0 30px;width:30px;height:20px}
+.ap-gate b{display:block;font-weight:600;font-size:.95rem}
+.ap-gate span{display:block;font-size:.85rem;color:var(--on-base-2)}
+.ap-gate::after{content:"";position:absolute;top:0;bottom:0;left:0;width:40%;background:linear-gradient(90deg,transparent,rgba(233,162,59,.35),transparent);transform:translateX(-120%);pointer-events:none}
+.ap-gate.scan::after{animation:apscan 650ms var(--ease-in-out)}
+@keyframes apscan{from{transform:translateX(-120%)}to{transform:translateX(300%)}}
+.ap-oc{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.oc{--c:var(--brand);font:600 .85rem var(--font);border-radius:999px;padding:0 14px;min-height:40px;border:1.5px solid var(--line);background:var(--bg);color:var(--fg-2);cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background-color var(--d2) var(--ease-out),border-color var(--d2) var(--ease-out),color var(--d2) var(--ease-out),transform var(--t-micro) var(--ease-out)}
+.oc::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
+.oc.allow{--c:#357A4E} .oc.ask{--c:var(--amber)} .oc.deny{--c:#B3443C}
+.oc:hover{transform:translateY(-1px);border-color:var(--c)}
+.oc[aria-pressed="true"]{background:var(--c);border-color:var(--c);color:#fff}
+.oc.ask[aria-pressed="true"]{color:var(--amber-ink)}
+.oc[aria-pressed="true"]::before{background:currentColor}
+.ap-result{margin:14px 0 0;font-weight:600;color:var(--brand);min-height:1.6em}
+.ap-receipt{margin:12px 0 0;padding-top:12px;border-top:1px dashed var(--line);font:500 .78rem var(--mono);color:var(--fg-2);overflow-wrap:anywhere}
+.ap-receipt b{color:var(--brand);font-weight:500}
+.ap-note{margin:12px 0 0;font-size:.82rem;color:var(--fg-2)}
+.ap-swap{animation:apin var(--d2) var(--ease-out)}
+@keyframes apin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
 /* about + trust */
 .about .wrap{display:grid;gap:40px}
@@ -321,6 +376,7 @@ footer .addr{color:var(--on-base)}
       <ul class="nav-links" id="navlinks">
         <li><a href="#approach">Approach</a></li>
         <li><a href="#services">Services</a></li>
+        <li><a href="#agentpermit">AgentPermit</a></li>
         <li><a href="#sports">Sports tech</a></li>
         <li><a href="#work">Work</a></li>
         <li><a href="#about">About</a></li>
@@ -345,6 +401,7 @@ footer .addr{color:var(--on-base)}
       <ul>
         <li><a href="#approach">Approach</a></li>
         <li><a href="#services">Services</a></li>
+        <li><a href="#agentpermit">AgentPermit</a></li>
         <li><a href="#sports">Sports tech</a></li>
         <li><a href="#work">Work</a></li>
         <li><a href="#about">About</a></li>
@@ -368,7 +425,10 @@ footer .addr{color:var(--on-base)}
         <a class="btn btn-primary" href="#contact">Book a free teardown <svg class="arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
         <a class="btn btn-secondary" href="#approach">See how we work</a>
       </div>
-      <a class="also" href="#sports"><span class="new">New</span> Booking, academy and enquiry systems for sport, with AI built in <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+      <div class="alsos">
+        <a class="also" href="#agentpermit"><span class="new prod">Product</span> AgentPermit: every agent, explicitly permitted <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        <a class="also" href="#sports"><span class="new">New</span> Booking, academy and enquiry systems for sport, with AI built in <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+      </div>
       <p class="proofline"><span>Fortune-500 telecom</span><span>Global insurance carrier</span><span>Indian automotive manufacturer</span></p>
     </div>
     <div class="plinth" role="img" aria-label="A stepped base of three blocks: people and process at the bottom, data and governance above, AI agents on top">
@@ -402,6 +462,43 @@ footer .addr{color:var(--on-base)}
     </div>
   </div>
 </div>
+
+<section class="product" id="agentpermit" aria-labelledby="ap-title">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow" data-reveal>Our product <span class="os">· open source</span></p>
+      <h2 id="ap-title" data-reveal>AgentPermit <span class="tag">Every agent. Explicitly permitted.</span></h2>
+      <p class="lead" data-reveal>An enforcement and evidence gateway for AI agents. Before an agent issues a refund, grants access or releases a record, it asks AgentPermit. The answer is allow, ask a named person, or deny, and every answer comes with a signed receipt. The agent never reaches the system any other way.</p>
+      <ul class="ap-points" data-reveal-group>
+        <li data-reveal><b>Rules before actions</b><span>A catalogue of actions by domain and risk tier, with rules per agent: a refund over 1,000 waits for sign-off.</span></li>
+        <li data-reveal><b>A named person signs off</b><span>Risky actions pause until the accountable person approves them; nothing runs in the meantime.</span></li>
+        <li data-reveal><b>Evidence, not just logs</b><span>Every decision produces a hash-chained, signed receipt that auditors can verify.</span></li>
+        <li data-reveal><b>No way around it</b><span>Identity comes from the signed-in caller, and a paired data-loss policy stops agents reaching systems directly.</span></li>
+      </ul>
+      <p class="ap-stack" data-reveal>Built first for Microsoft Copilot Studio and Power Platform, with a custom connector, and callable from any agent runtime. Runs on Azure API Management, Entra ID, Azure SQL and Key Vault. .NET 10 gateway, 226 automated tests, Apache-2.0 licence.</p>
+      <div class="actions" data-reveal>
+        <a class="btn btn-amber" href="#contact" data-need="AgentPermit">Book a demo <svg class="arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        <a class="btn btn-on-base" href="https://github.com/athark20/agentpermit-core" target="_blank" rel="noopener">View on GitHub</a>
+      </div>
+    </div>
+    <div class="ap-demo" id="ap-demo" data-reveal>
+      <div class="ap-bar" aria-hidden="true"><i></i><i></i><i></i><span>agentpermit / decision</span><span class="ap-n" id="ap-n">1 / 3</span></div>
+      <div class="ap-rows" id="ap-rows">
+        <div class="ap-row"><span class="k">Agent</span><span class="v" id="ap-agent">service-desk-copilot</span></div>
+        <div class="ap-row"><span class="k">Action</span><span class="v" id="ap-action">Ticket.Update<small id="ap-params">priority P3 to P2, ticket 4471</small></span></div>
+      </div>
+      <div class="ap-gate" id="ap-gate"><svg viewBox="0 0 92 60" aria-hidden="true"><use href="#mark"/></svg><div><b>AgentPermit</b><span id="ap-rule">Rule: service agents may update tickets</span></div></div>
+      <div class="ap-oc" role="group" aria-label="Show an example decision">
+        <button type="button" class="oc allow" data-i="0" aria-pressed="true">Allow</button>
+        <button type="button" class="oc ask" data-i="1" aria-pressed="false">Ask a person</button>
+        <button type="button" class="oc deny" data-i="2" aria-pressed="false">Deny</button>
+      </div>
+      <p class="ap-result" id="ap-result" aria-live="off">Allowed. Executed through the adapter.</p>
+      <p class="ap-receipt" id="ap-receipt">Receipt <b>#4f2a…c81d</b> chained to #9e01…7b3a, signed</p>
+      <p class="ap-note">Example decisions. Tap an outcome to see each case.</p>
+    </div>
+  </div>
+</section>
 
 <section class="principles" id="why" aria-labelledby="why-title">
   <div class="wrap">
@@ -612,7 +709,7 @@ footer .addr{color:var(--on-base)}
       <ul data-reveal>
         <li>Claude Enterprise and the Claude API; Microsoft Copilot Studio, Azure AI Foundry and Azure AI Search; AWS Bedrock; Google Vertex AI; n8n and Power Platform</li>
         <li>Certified: Azure Administrator (AZ-104), Azure AI Engineer (AI-102), GitHub Copilot (GH-300)</li>
-        <li>Agent governance built in: every deployment ships with an evaluation suite, a logged approval path and a kill switch</li>
+        <li>Agent governance built in: every deployment ships with an evaluation suite, a logged approval path and a kill switch, and can run behind <a href="#agentpermit">AgentPermit</a>, our open-source permission gateway for agents</li>
         <li>Pune, India and Dubai, UAE; working hours overlap the GCC, Singapore, the UK and US mornings</li>
       </ul>
     </div>
@@ -638,7 +735,7 @@ footer .addr{color:var(--on-base)}
       <div class="item" data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><div><b>Vendor review ready</b><span>Security questionnaire answers, insurance certificates and subprocessor list available on request from security@plinthera.com.</span></div></div>
     </div>
     <div class="platforms" data-reveal aria-label="Platforms we build on">
-      <span class="chip">Claude Enterprise</span><span class="chip">Claude API</span><span class="chip">Microsoft Copilot Studio</span><span class="chip">Azure AI Foundry</span><span class="chip">Azure AI Search</span><span class="chip">AWS Bedrock</span><span class="chip">Google Vertex AI</span><span class="chip">Power Platform</span><span class="chip">n8n</span><span class="chip">Langfuse</span><span class="chip">Promptfoo</span>
+      <span class="chip">Claude Enterprise</span><span class="chip">Claude API</span><span class="chip">Microsoft Copilot Studio</span><span class="chip">Azure AI Foundry</span><span class="chip">Azure AI Search</span><span class="chip">AWS Bedrock</span><span class="chip">Google Vertex AI</span><span class="chip">Power Platform</span><span class="chip">n8n</span><span class="chip">Langfuse</span><span class="chip">Promptfoo</span><span class="chip">AgentPermit</span>
     </div>
   </div>
 </section>
@@ -659,6 +756,8 @@ footer .addr{color:var(--on-base)}
       <div class="faq-a" id="fa-4" role="region" aria-labelledby="fq-4"><div><p>Fixed price per package with a written scope. Half on signature, the rest at the gates. Change requests are priced from a published rate card and start only when signed. Retainers are monthly in advance with a quarterly exit.</p></div></div>
       <button class="faq-q" aria-expanded="false" aria-controls="fa-5" id="fq-5">What happens after handover? <span class="pm" aria-hidden="true"></span></button>
       <div class="faq-a" id="fa-5" role="region" aria-labelledby="fq-5"><div><p>Thirty days of hypercare are included. After that your team runs the system with the runbook and evaluation suite we leave behind. If you want us to keep monitoring, upgrading models and reporting on governance, that is the Managed AI Operations retainer, and you can leave it at any quarter end.</p></div></div>
+      <button class="faq-q" aria-expanded="false" aria-controls="fa-7" id="fq-7">What is AgentPermit, and do I need it? <span class="pm" aria-hidden="true"></span></button>
+      <div class="faq-a" id="fa-7" role="region" aria-labelledby="fq-7"><div><p>AgentPermit is our open-source gateway that sits between AI agents and the systems they act on. Every action is checked against your rules before it runs: allowed, sent to a named person for sign-off, or denied, with a signed receipt for each decision. You do not need it to work with us; we recommend it wherever agents touch money, access or customer records. The core is free under the Apache-2.0 licence on GitHub, and we deploy and support it as part of an Agent and Copilot Deployment or Managed AI Operations.</p></div></div>
       <button class="faq-q" aria-expanded="false" aria-controls="fa-6" id="fq-6">I run a sports venue or academy. How does that work? <span class="pm" aria-hidden="true"></span></button>
       <div class="faq-a" id="fa-6" role="region" aria-labelledby="fq-6"><div><p>Differently from the enterprise work. Sports-tech products are priced as a development fee paid up front plus a monthly fee, and they run on Plinthera's own platform, so there is no cloud account, no server and no IT person on your side. The monthly fee covers hosting, updates, backups, the AI enquiry desk and support. A slot-booking system is live in two to three weeks; an academy system in three to four. Your bookings, students and payment records are yours and can be exported at any time, and if you leave, we hand them over in a format the next system can read. Start with a venue walkthrough or message us on WhatsApp.</p></div></div>
     </div>
@@ -687,7 +786,7 @@ footer .addr{color:var(--on-base)}
         <div class="field"><label for="f-company">Company</label><input id="f-company" name="company" type="text" autocomplete="organization" required><span class="err">Please add your company.</span></div>
         <div class="field"><label for="f-size">Company size</label><select id="f-size" name="size" required><option value="">Choose</option><option>1–19</option><option>20–199</option><option>200–1,999</option><option>2,000+</option></select><span class="err">Please choose a size.</span></div>
       </div>
-      <div class="field"><label for="f-need">What you are looking for</label><select id="f-need" name="need"><option>AI automation for my team (teardown)</option><option>Claude Enterprise or Microsoft 365 Copilot rollout</option><option>Sports: slot booking for a venue</option><option>Sports: academy and ground management</option><option>Sports: AI enquiry desk and operations</option><option>Something else</option></select></div>
+      <div class="field"><label for="f-need">What you are looking for</label><select id="f-need" name="need"><option>AI automation for my team (teardown)</option><option>Claude Enterprise or Microsoft 365 Copilot rollout</option><option>AgentPermit: control what our AI agents can do</option><option>Sports: slot booking for a venue</option><option>Sports: academy and ground management</option><option>Sports: AI enquiry desk and operations</option><option>Something else</option></select></div>
       <div class="row">
         <div class="field"><label for="f-market">Where you operate</label><select id="f-market" name="market"><option>UAE / GCC</option><option>Singapore / SEA</option><option>United States</option><option>United Kingdom</option><option>Australia / NZ</option><option>India</option><option>Other</option></select></div>
         <div class="field"><label for="f-platform">Main platform</label><select id="f-platform" name="platform"><option>Microsoft 365 / Azure</option><option>Claude Enterprise / Anthropic</option><option>AWS</option><option>Google Cloud</option><option>Mixed or unsure</option></select></div>
@@ -711,7 +810,7 @@ footer .addr{color:var(--on-base)}
         <p class="tag">The base under your AI</p>
         <p style="color:var(--on-base-2);margin:14px 0 0;max-width:38ch">Senior-led AI transformation for the mid-market, and booking, academy and enquiry systems for sport. Delivered from India, built to be handed over.</p>
       </div>
-      <div data-reveal><h4>Services</h4><ul><li><a href="#services">Workflow Teardown</a></li><li><a href="#services">Opportunity Audit</a></li><li><a href="#services">Automation Sprint</a></li><li><a href="#services">Deployment</a></li><li><a href="#rollouts">Claude Enterprise rollouts</a></li><li><a href="#services">Managed AI Operations</a></li></ul></div>
+      <div data-reveal><h4>Services</h4><ul><li><a href="#agentpermit">AgentPermit</a></li><li><a href="#services">Workflow Teardown</a></li><li><a href="#services">Opportunity Audit</a></li><li><a href="#services">Automation Sprint</a></li><li><a href="#services">Deployment</a></li><li><a href="#rollouts">Claude Enterprise rollouts</a></li><li><a href="#services">Managed AI Operations</a></li></ul></div>
       <div data-reveal><h4>Sports tech</h4><ul><li><a href="#sports">Slot Booking</a></li><li><a href="#sports">Academy and Ground</a></li><li><a href="#sports">AI Enquiry Desk</a></li><li><a href="#approach">How we work</a></li><li><a href="#about">About</a></li><li><a href="#faq">FAQ</a></li></ul></div>
       <div data-reveal><h4>Contact</h4><ul><li><a href="mailto:hello@plinthera.com">hello@plinthera.com</a></li><li><a href="mailto:security@plinthera.com">security@plinthera.com</a></li><li><a href="https://wa.me/918177833697" target="_blank" rel="noopener">+91 81778 33697 (WhatsApp)</a></li><li>Pune, India</li><li>Dubai, UAE</li></ul></div>
     </div>
@@ -858,15 +957,73 @@ footer .addr{color:var(--on-base)}
     setTimeout(() => { b.textContent = old; }, 1800);
   }));
 
+  /* AgentPermit decision card: while it is on screen it cycles through three example decisions. The request
+     rows slide in, the gate scans, then the outcome lights up and the receipt updates. Hovering or focusing
+     the card pauses it; tapping an outcome shows that case and stops the cycle. Reduced motion: one static case. */
+  (function () {
+    const card = document.getElementById('ap-demo');
+    if (!card) return;
+    const $ = id => document.getElementById(id);
+    const S = [
+      { agent: 'service-desk-copilot', action: 'Ticket.Update', params: 'priority P3 to P2, ticket 4471', rule: 'Rule: service agents may update tickets', result: 'Allowed. Executed through the adapter.', receipt: '#4f2a…c81d', prev: '#9e01…7b3a' },
+      { agent: 'support-copilot', action: 'Refund.Issue', params: 'amount 4,200, order 81-2207', rule: 'Rule: refunds over 1,000 need sign-off', result: 'Paused until the finance lead approves.', receipt: '#7c41…e9a2', prev: '#4f2a…c81d' },
+      { agent: 'sales-assistant', action: 'Record.Release', params: 'customer file to an external address', rule: 'Rule: customer records never leave without legal review', result: 'Denied. Nothing reached the CRM.', receipt: '#b90e…17f3', prev: '#7c41…e9a2' }
+    ];
+    const chips = Array.from(card.querySelectorAll('.oc'));
+    const gate = $('ap-gate'), rows = $('ap-rows'), result = $('ap-result'), receipt = $('ap-receipt'), counter = $('ap-n');
+    let i = RM() ? 1 : 0, timer = null, visible = false, manual = false, held = false;
+    const pending = [];
+    const later = (fn, ms) => { pending.push(setTimeout(fn, ms)); };
+    const restart = (el, cls) => { el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); };
+    function render(n, animate) {
+      pending.splice(0).forEach(clearTimeout);
+      const s = S[n];
+      $('ap-agent').textContent = s.agent;
+      $('ap-action').firstChild.nodeValue = s.action;
+      $('ap-params').textContent = s.params;
+      $('ap-rule').textContent = s.rule;
+      counter.textContent = (n + 1) + ' / ' + S.length;
+      chips.forEach(c => c.setAttribute('aria-pressed', 'false'));
+      const settle = () => {
+        chips[n].setAttribute('aria-pressed', 'true');
+        result.textContent = s.result;
+        receipt.innerHTML = 'Receipt <b>' + s.receipt + '</b> chained to ' + s.prev + ', signed';
+        if (animate) { restart(result, 'ap-swap'); restart(receipt, 'ap-swap'); }
+      };
+      if (!animate) { settle(); return; }
+      restart(rows, 'ap-swap');
+      result.textContent = '';
+      later(() => restart(gate, 'scan'), 220);
+      later(settle, 880);
+    }
+    const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
+    const run = () => { stop(); if (!manual && visible && !held && !document.hidden && !RM()) timer = setInterval(() => { i = (i + 1) % S.length; render(i, true); }, 4200); };
+    chips.forEach(c => c.addEventListener('click', () => { manual = true; stop(); result.setAttribute('aria-live', 'polite'); i = Number(c.dataset.i); render(i, !RM()); }));
+    card.addEventListener('pointerenter', () => { held = true; stop(); });
+    card.addEventListener('pointerleave', () => { held = false; run(); });
+    card.addEventListener('focusin', () => { held = true; stop(); });
+    card.addEventListener('focusout', () => { held = false; run(); });
+    document.addEventListener('visibilitychange', run);
+    if ('IntersectionObserver' in window) new IntersectionObserver(([e]) => { visible = e.isIntersecting; run(); }, { threshold: 0.35 }).observe(card);
+    render(i, false);
+  })();
+
   /* lead form: this site has no server, so the form prepares the enquiry and the visitor sends it
      on WhatsApp (one tap, message filled in) or by email. */
   const form = document.getElementById('lead-form'), done = document.getElementById('done'), submitBtn = document.getElementById('submit-btn');
-  /* the button follows the request type: sports options ask for a walkthrough, everything else a teardown */
-  form.need.addEventListener('change', () => { if (!submitBtn.disabled) submitBtn.textContent = /^Sports/.test(form.need.value) ? 'Request a walkthrough' : 'Request a teardown'; });
+  /* the button follows the request type: sports ask for a walkthrough, AgentPermit for a demo, everything else a teardown */
+  const labelFor = need => /^Sports/.test(need) ? 'Request a walkthrough' : /^AgentPermit/.test(need) ? 'Request a demo' : 'Request a teardown';
+  const kindFor = need => /^Sports/.test(need) ? 'Venue walkthrough request' : /^AgentPermit/.test(need) ? 'AgentPermit demo request' : 'Teardown request';
+  form.need.addEventListener('change', () => { if (!submitBtn.disabled) submitBtn.textContent = labelFor(form.need.value); });
+  /* buttons elsewhere on the page (data-need) preselect what the visitor is looking for */
+  document.querySelectorAll('[data-need]').forEach(a => a.addEventListener('click', () => {
+    const opt = Array.from(form.need.options).find(o => o.text.indexOf(a.dataset.need) === 0);
+    if (opt) { form.need.value = opt.value; form.need.dispatchEvent(new Event('change')); }
+  }));
   const WA_NUMBER = '918177833697';
   function fieldOk(input, test){ const f = input.closest('.field'); const ok = test(input.value.trim()); f.classList.toggle('invalid', !ok); return ok; }
   function composeMessage(d){
-    const kind = /^Sports/.test(d.need) ? 'Venue walkthrough request' : 'Teardown request';
+    const kind = kindFor(d.need);
     return `${kind}\n\nName: ${d.name}\nWork email: ${d.email}\nCompany: ${d.company} (${d.size})\nLooking for: ${d.need}\nMarket: ${d.market}\nPlatform: ${d.platform}\n\nThe work:\n${d.work}\n`;
   }
   form.addEventListener('submit', async e => {
@@ -877,7 +1034,7 @@ footer .addr{color:var(--on-base)}
     const data = { name: name.value.trim(), email: email.value.trim(), company: company.value.trim(), size: size.value, need: form.need.value, market: form.market.value, platform: form.platform.value, work: work.value.trim() };
     submitBtn.disabled = true; submitBtn.textContent = 'Sending…';
     const stored = false;
-    submitBtn.disabled = false; submitBtn.textContent = /^Sports/.test(data.need) ? 'Request a walkthrough' : 'Request a teardown';
+    submitBtn.disabled = false; submitBtn.textContent = labelFor(data.need);
     if (stored) {
       done.innerHTML = '<h3>Received. We will reply within one working day.</h3><p>Thank you. Your request has reached the Plinthera team. A copy of what you sent is below.</p>' +
         '<textarea readonly aria-label="Your request"></textarea><div class="copyrow"><button type="button" class="btn btn-secondary btn-sm" data-copy-msg>Copy the message</button><span class="addr">hello@plinthera.com</span></div>';

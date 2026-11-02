@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AgentPermit | Every agent, explicitly permitted | Plinthera</title>
+<meta name="description" content="AgentPermit checks every action an AI agent tries to take before it runs: allowed, sent to a named person for sign-off, or denied, with a signed receipt for each decision. Runs in your own Azure tenant; built for Copilot Studio.">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#0B2545">
+<link rel="canonical" href="https://plinthera.com/agentpermit/">
+<link rel="preload" href="/assets/fonts/sora-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/sora-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="modulepreload" href="/assets/agentpermit/checkpoint.js">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Plinthera">
+<meta property="og:title" content="AgentPermit | Every agent, explicitly permitted">
+<meta property="og:description" content="The checkpoint between your AI agents and the systems they act on: allow, ask a named person, or deny, with a signed receipt for every decision.">
+<meta property="og:url" content="https://plinthera.com/agentpermit/">
+<meta property="og:image" content="https://plinthera.com/assets/agentpermit/og-agentpermit.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AgentPermit | Every agent, explicitly permitted">
+<meta name="twitter:description" content="The checkpoint between your AI agents and the systems they act on: allow, ask a named person, or deny, with a signed receipt for every decision.">
+<meta name="twitter:image" content="https://plinthera.com/assets/agentpermit/og-agentpermit.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"AgentPermit","url":"https://plinthera.com/agentpermit/","applicationCategory":"SecurityApplication","operatingSystem":"Microsoft Azure","description":"An enforcement and evidence gateway for AI agents. Every action an agent requests is allowed, sent to a named person for sign-off, or denied, and every decision is written to a signed, hash-chained receipt.","image":"https://plinthera.com/assets/agentpermit/og-agentpermit.png","provider":{"@type":"Organization","name":"Plinthera","url":"https://plinthera.com/"}}</script>
+<script>document.documentElement.classList.add('js')</script>
+<style>
+@font-face{font-family:"Sora";font-style:normal;font-weight:400;font-display:swap;src:url("/assets/fonts/sora-400.woff2") format("woff2")}
+@font-face{font-family:"Sora";font-style:normal;font-weight:600;font-display:swap;src:url("/assets/fonts/sora-600.woff2") format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:500;font-display:swap;src:url("/assets/fonts/jetbrains-mono-500.woff2") format("woff2")}
+/* ---------- Design plan: AgentPermit page ----------
+   Subject: a gateway that checks every action an AI agent takes. Readers: CIOs, CISOs, risk owners and the people
+   who run Copilot Studio. Job: show in one glance what the checkpoint does, then get a demo booked.
+   Concept: the checkpoint maquette. The page is built around a scale model in which the gate is the Plinthera mark
+   turned into a gatehouse and receipts stack up into a plinth of evidence. The model explains; the copy confirms.
+   Colour is the decision: moss = allowed, amber = waiting for a person, brick = denied; the same three colours in
+   the model, the log, the chips and the receipt. Type: Sora throughout; JetBrains Mono only for literal machine
+   data (agent names, action IDs, hashes). Motion: the model is the one moving thing; everything else is still. */
+:root{
+  --bg:#FFFFFF; --bg-2:#F3F5F9; --fg:#111111; --fg-2:#5A6B82; --brand:#0B2545; --amber:#E9A23B; --amber-ink:#0B2545;
+  --line:#E2E6EC; --base:#0B2545; --on-base:#FFFFFF; --on-base-2:#B9C4D4;
+  --btn-bg:#0B2545; --btn-fg:#FFFFFF; --btn-2-line:#0B2545; --shadow:0 10px 30px -18px rgba(11,37,69,.35);
+  --focus:#E9A23B; --moss:#357A4E; --moss-ink:#2E6B44; --moss-tint:#E7F1EA; --brick:#B3443C; --brick-ink:#9A3830; --brick-tint:#F7E7E5; --amber-tint:#FCF1DF;
+  --font:"Sora","Segoe UI",Roboto,Helvetica,Arial,sans-serif; --mono:"JetBrains Mono",Consolas,Menlo,monospace;
+  --ease-out:cubic-bezier(.2,.8,.2,1); --ease-in-out:cubic-bezier(.65,0,.35,1);
+  --d1:140ms; --d2:220ms; --d3:380ms; --d4:640ms; --t-micro:var(--d1);
+  --max:1180px; --gutter-l:max(16px,env(safe-area-inset-left,0px)); --gutter-r:max(16px,env(safe-area-inset-right,0px));
+  --nav-h:62px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important} }
+body{margin:0;background:var(--bg);color:var(--fg);font:400 1.0625rem/1.6 var(--font);font-feature-settings:"ss01";overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
+img,svg{max-width:100%}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:var(--gutter-l);top:-48px;background:var(--amber);color:var(--amber-ink);padding:10px 14px;border-radius:6px;font-weight:600;z-index:100;transition:top var(--t-micro) var(--ease-out)}
+.skip:focus{top:calc(env(safe-area-inset-top,0px) + 8px)}
+.wrap{max-width:var(--max);margin:0 auto;padding-left:var(--gutter-l);padding-right:var(--gutter-r)}
+h1,h2,h3{color:var(--brand);font-weight:600;letter-spacing:-.02em;text-wrap:balance;margin:0}
+h2{font-size:clamp(1.85rem,3.4vw,2.6rem);line-height:1.1;margin-bottom:18px}
+h3{font-size:1.2rem;letter-spacing:-.01em;line-height:1.3}
+p{margin:0 0 1em}
+.lead{font-size:clamp(1.08rem,1.5vw,1.25rem);color:var(--fg-2);max-width:62ch}
+.mono{font-family:var(--mono)}
+section{padding-block:clamp(64px,9vw,120px);scroll-margin-top:84px}
+section.tint{background:var(--bg-2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 22px;border-radius:8px;font:600 1rem var(--font);text-decoration:none;cursor:pointer;border:1.5px solid transparent;transition:transform var(--t-micro) var(--ease-out),box-shadow var(--t-micro) var(--ease-out),background-color var(--t-micro) var(--ease-out),color var(--t-micro) var(--ease-out)}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)} .btn:active{transform:translateY(0) scale(.98);box-shadow:none}
+.btn-primary{background:var(--btn-bg);color:var(--btn-fg)}
+.btn-secondary{background:transparent;color:var(--brand);border-color:var(--btn-2-line)}
+.btn-amber{background:var(--amber);color:var(--amber-ink)}
+.btn-on-base{background:transparent;color:var(--on-base);border-color:rgba(255,255,255,.4)}
+.btn-on-base:hover{border-color:var(--on-base)}
+.btn-wa svg{width:18px;height:18px;fill:currentColor}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+
+/* nav (shared with the home page) */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid transparent;transition:border-color var(--t-micro) var(--ease-out)}
+.nav.scrolled{border-bottom-color:var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:76px;transition:min-height var(--d3) var(--ease-out)}
+.nav.scrolled .wrap{min-height:var(--nav-h)}
+.logo{display:inline-flex;align-items:center;gap:12px;color:var(--brand);text-decoration:none;transition:transform var(--d3) var(--ease-out);transform-origin:left center}
+.logo svg{display:block;height:28px;width:auto}
+.nav.scrolled .logo{transform:scale(.92)}
+.right{display:flex;align-items:center;gap:14px}
+.prog{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;text-decoration:none;color:var(--brand)}
+.prog svg{width:36px;height:24px;display:block;overflow:visible}
+.prog rect{transform-box:fill-box;transform-origin:left center}
+.prog .ghost{opacity:.16}
+.prog .p1{transform:scaleX(clamp(0,calc(var(--p,0) / .34),1))}
+.prog .p2{transform:scaleX(clamp(0,calc((var(--p,0) - .33) / .34),1))}
+.prog .p3{transform:scaleX(clamp(0,calc((var(--p,0) - .66) / .34),1))}
+@supports (animation-timeline: scroll()){ @media (prefers-reduced-motion: no-preference){
+  .prog .p1,.prog .p2,.prog .p3{animation:fillx linear both;animation-timeline:scroll(root)}
+  .prog .p1{animation-range:0% 34%} .prog .p2{animation-range:33% 67%} .prog .p3{animation-range:66% 100%}
+}}
+@keyframes fillx{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.nav-links{display:none;gap:4px;margin:0;padding:0;list-style:none}
+.nav-links a{display:inline-block;padding:10px 12px;border-radius:6px;text-decoration:none;color:var(--fg-2);font-weight:600;font-size:.95rem;white-space:nowrap;transition:color var(--t-micro),background-color var(--t-micro)}
+.nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--brand);background:var(--bg-2)}
+.nav-cta{display:none;white-space:nowrap}
+.menu-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:1.5px solid var(--line);border-radius:8px;background:transparent;color:var(--brand);cursor:pointer}
+.menu-btn svg{width:22px;height:22px}
+.menu{display:none;position:absolute;left:0;right:0;top:100%;border-top:1px solid var(--line);background:var(--bg);box-shadow:var(--shadow);max-height:calc(100vh - 76px);overflow-y:auto}
+.menu .wrap{display:block;min-height:0;padding-bottom:20px}
+.menu.open{display:block}
+.menu ul{list-style:none;margin:0;padding:8px 0 16px}
+.menu a{display:block;padding:14px 0;text-decoration:none;color:var(--brand);font-weight:600;border-bottom:1px solid var(--line)}
+.menu a[aria-current="page"]{color:var(--fg-2)}
+.menu .btn{margin-top:16px;width:100%;display:inline-flex;padding:0 22px;border-bottom:0;color:var(--btn-fg)}
+@media (min-width:1120px){ .nav-links{display:flex} .nav-cta{display:inline-flex} .menu-btn{display:none} .menu{display:none!important} }
+
+/* ---------- the story: intro, the model, five steps ---------- */
+.story{padding:0;scroll-margin-top:0}
+.story-grid{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"intro" "stage" "steps"}
+.intro{grid-area:intro;padding:clamp(28px,6vw,44px) var(--gutter-r) 28px var(--gutter-l)}
+.by{display:flex;align-items:center;gap:10px;margin:0 0 18px;color:var(--fg-2);font-weight:600;font-size:.95rem}
+.by svg{width:30px;height:20px;color:var(--brand)}
+.intro h1{font-size:clamp(2.35rem,8.6vw,3.6rem);line-height:1.02;margin:0 0 20px}
+.intro .lead{margin-bottom:26px}
+.hint{display:none;margin:32px 0 0;color:var(--fg-2);font-size:.92rem;align-items:center;gap:10px}
+.hint svg{width:18px;height:18px;flex:none}
+.stage-col{grid-area:stage;position:sticky;top:var(--nav-h);z-index:4;height:min(58svh,560px);min-height:340px}
+.steps{grid-area:steps;list-style:none;margin:0;padding:0 var(--gutter-r) 8svh var(--gutter-l)}
+.step{min-height:46svh;padding:26px 0 18px;max-width:34rem}
+.step .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--brand);color:var(--brand);font-weight:600;font-size:.9rem;margin:0 0 12px;font-variant-numeric:tabular-nums}
+.step h2{font-size:clamp(1.4rem,2.2vw,1.75rem);margin:0 0 10px}
+.step p{color:var(--fg-2);margin:0}
+.step .eg{font-family:var(--mono);font-size:.92em;color:var(--brand)}
+@media (min-width:1000px){
+  .story-grid{grid-template-columns:minmax(420px,37%) minmax(0,1fr);grid-template-rows:auto 1fr;grid-template-areas:"intro stage" "steps stage"}
+  .intro,.steps{padding-left:max(var(--gutter-l),calc((100vw - var(--max)) / 2 + 16px));padding-right:clamp(28px,3.4vw,56px)}
+  .intro{min-height:calc(100svh - var(--nav-h));display:flex;flex-direction:column;justify-content:center;padding-block:48px 64px}
+  .intro h1{font-size:clamp(2.5rem,3.3vw,3.4rem)}
+  .hint{display:flex}
+  .stage-col{position:relative;top:auto;height:auto;min-height:0;z-index:auto;padding-right:max(var(--gutter-r),28px)}
+  /* the model sits in a framed window, about 7:5, centred in the window height while the steps scroll */
+  .stage-col .stage{--sh:min(calc((100vw - max(420px,37vw) - 44px) / 1.42),calc(100svh - var(--nav-h) - 40px));
+    position:sticky;top:calc(var(--nav-h) + (100svh - var(--nav-h) - var(--sh)) / 2);height:var(--sh);border-radius:20px;box-shadow:inset 0 0 0 1px var(--line)}
+  .steps{padding-bottom:0}
+  .step{min-height:76svh;display:flex;flex-direction:column;justify-content:center;padding:40px 0}
+  .step:last-child{min-height:calc(100svh - var(--nav-h))}
+  .js .step{opacity:.42;transition:opacity var(--d4) var(--ease-out)}
+  .js .step.on{opacity:1}
+}
+
+/* the stage: canvas, labels drawn over it, decision log, controls */
+.stage{position:relative;height:100%;overflow:hidden;background:var(--bg-2);isolation:isolate;container-type:inline-size}
+/* the HUD follows the width of the stage, not the window: a narrow stage on a laptop gets the phone controls.
+   --inset-* tell the model how much of each edge the HUD covers, so it frames the scene inside the rest. */
+.stage-art{position:absolute;inset:0;--inset-t:44px;--inset-b:58px;--inset-l:20px;--inset-r:8px}
+@container (min-width:640px){ .stage-art{--inset-t:64px;--inset-b:72px;--inset-l:118px;--inset-r:20px} }
+.stage-art img,.stage-art canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.stage-art img{object-fit:cover;transition:opacity var(--d4) var(--ease-out)}
+.stage-art canvas{opacity:0;transition:opacity var(--d4) var(--ease-out)}
+.stage.ready .stage-art canvas{opacity:1}
+.stage.ready .stage-art img{opacity:0}
+.labels{position:absolute;inset:0;pointer-events:none;z-index:1}
+.lbl,.chip{position:absolute;left:0;top:0;white-space:nowrap;will-change:transform}
+.lbl{font:600 .76rem/1 var(--font);color:var(--brand);background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:6px;padding:6px 8px;box-shadow:0 6px 14px -10px rgba(11,37,69,.45);transition:opacity var(--d3) var(--ease-out)}
+.lbl.agent{font:500 .72rem/1 var(--mono);margin-left:-6px}
+.lbl.gate{background:var(--brand);border-color:var(--brand);color:#fff}
+
+.lbl.off{opacity:0}
+.chip span{display:inline-flex;align-items:center;gap:7px;font:600 .78rem/1 var(--font);padding:7px 10px 7px 9px;border-radius:999px;background:#fff;box-shadow:0 8px 18px -10px rgba(11,37,69,.5);animation:chip 1.9s var(--ease-out) both}
+.chip i{width:8px;height:8px;border-radius:50%;background:currentColor;flex:none}
+.chip.k-allow span{color:var(--moss-ink)}
+.chip.k-ask span{color:var(--brand)} .chip.k-ask i{background:var(--amber)}
+.chip.k-deny span{color:var(--brick-ink)}
+@keyframes chip{0%{opacity:0;transform:translateY(8px) scale(.94)}12%{opacity:1;transform:none}74%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-12px)}}
+@media (prefers-reduced-motion: reduce){ .chip span{animation:none} }
+.hud{display:none}
+.stage.live .hud{display:block}
+.hud-log{position:absolute;z-index:2;left:10px;top:8px;right:60px;pointer-events:none;padding:6px 10px;border-radius:10px;background:rgba(243,245,249,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.hud-log:has(.log:empty){background:none}
+.hud-t{margin:0 0 6px;font-size:.78rem;font-weight:600;color:var(--fg-2)}
+.log{list-style:none;margin:0;padding:0;font:500 .7rem/1.45 var(--mono);color:var(--brand)}
+.log li{display:flex;flex-wrap:wrap;gap:0 8px;padding:2px 0}
+.log li:first-child{animation:logIn var(--d3) var(--ease-out) both}
+.log li:nth-child(n+2){opacity:.62}
+.log li:nth-child(n+4){display:none!important}
+.log .who{color:var(--fg-2)}
+.log .out.k-allow{color:var(--moss-ink)} .log .out.k-ask{color:#8A5A12} .log .out.k-deny{color:var(--brick-ink)}
+@keyframes logIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.hud-t,.log li:nth-child(n+2){display:none}
+@container (min-width:640px){
+  .hud-log{left:14px;top:12px;right:auto;max-width:460px;padding:8px 12px}
+  .hud-t{display:block}
+  .log li:nth-child(n+2){display:flex}
+  .log{font-size:.74rem}
+}
+.hud-pause{position:absolute;z-index:2;right:10px;top:8px;display:inline-flex;align-items:center;gap:8px;min-height:40px;min-width:40px;justify-content:center;padding:0 10px;border:1.5px solid var(--line);border-radius:8px;background:rgba(255,255,255,.92);color:var(--brand);font:600 .85rem var(--font);cursor:pointer}
+.hud-pause svg{width:16px;height:16px;fill:currentColor}
+.hud-pause .i-play{display:none}
+.hud-pause[aria-pressed="true"] .i-play{display:block}
+.hud-pause[aria-pressed="true"] .i-pause{display:none}
+.hud-pause span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@container (min-width:640px){ .hud-pause{right:20px;top:16px} .hud-pause span{position:static;width:auto;height:auto;overflow:visible;clip:auto} }
+@media (prefers-reduced-motion: reduce){ .hud-pause{display:none!important} }
+.hud-try{position:absolute;z-index:2;left:0;right:0;bottom:0;display:flex;align-items:center;gap:8px;padding:10px 12px 12px;overflow-x:auto;scrollbar-width:none;background:linear-gradient(to top,rgba(243,245,249,.96) 55%,rgba(243,245,249,0))}
+.hud-try::-webkit-scrollbar{display:none}
+.hud-try .tl{font-size:.8rem;font-weight:600;color:var(--fg-2);white-space:nowrap;margin-right:2px}
+.hud-try button{flex:none;min-height:40px;padding:0 13px;border-radius:999px;border:1.5px solid var(--line);background:#fff;color:var(--brand);font:600 .82rem var(--font);cursor:pointer;white-space:nowrap;transition:border-color var(--t-micro),transform var(--t-micro) var(--ease-out)}
+.hud-try button:hover{border-color:var(--brand)}
+.hud-try button:active{transform:scale(.97)}
+.hud-try button i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;vertical-align:0}
+.hud-try .k-allow i{background:var(--moss)} .hud-try .k-ask i{background:var(--amber)} .hud-try .k-deny i{background:var(--brick)}
+@container (min-width:640px){ .hud-try{left:20px;right:20px;bottom:18px;padding:0;background:none;flex-wrap:wrap;overflow:visible} }
+.stage.no-webgl .hud,.stage.no-webgl .labels{display:none}
+
+/* ---------- inside the gate: nine checks ---------- */
+.checks{list-style:none;counter-reset:c;margin:40px 0 0;padding:0;display:grid;gap:0 40px;border-top:1px solid var(--line)}
+@media (min-width:760px){ .checks{grid-template-columns:1fr 1fr;grid-auto-flow:column;grid-template-rows:repeat(5,auto)} }
+@media (min-width:1080px){ .checks{grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,auto)} }
+.checks li{counter-increment:c;display:grid;grid-template-columns:34px 1fr;gap:4px 12px;padding:20px 0;border-bottom:1px solid var(--line)}
+.checks li::before{content:counter(c);grid-row:span 2;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 1.5px #C9D2DE;color:var(--brand);font-weight:600;font-size:.85rem;font-variant-numeric:tabular-nums}
+.checks b{color:var(--brand);font-weight:600}
+.checks span{color:var(--fg-2);font-size:.95rem}
+.checks li.gate-step::before{background:var(--brand);box-shadow:none;color:#fff}
+
+/* ---------- the receipt ---------- */
+.rc-grid{display:grid;gap:44px;margin-top:40px;align-items:start}
+@media (min-width:960px){ .rc-grid{grid-template-columns:minmax(0,440px) 1fr;gap:64px} }
+.slip{position:relative;background:#fff;padding:30px 26px 26px;font:500 .8rem/1.75 var(--mono);color:var(--brand);box-shadow:0 30px 50px -34px rgba(11,37,69,.5),0 2px 0 rgba(11,37,69,.04);border-radius:2px 2px 6px 6px;max-width:440px;
+  -webkit-mask:radial-gradient(circle 6px at 10px 0,#0000 98%,#000) -10px 0/20px 100% repeat-x;mask:radial-gradient(circle 6px at 10px 0,#0000 98%,#000) -10px 0/20px 100% repeat-x}
+.slip .hd{display:flex;justify-content:space-between;gap:12px;font:600 .92rem var(--font);margin:0 0 4px}
+.slip .no{margin:0;color:var(--fg-2)}
+.slip dl{display:grid;grid-template-columns:auto 1fr;gap:0 16px;margin:18px 0 0;padding-top:14px;border-top:1px dashed #C9D2DE}
+.slip dl+dl{margin-top:14px}
+.slip dt{color:var(--fg-2)}
+.slip dd{margin:0;overflow-wrap:anywhere}
+.slip .k{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--brand);color:#fff;font:600 .66rem var(--font);margin-left:6px;vertical-align:1px}
+.slip .ok{color:var(--moss-ink)}
+.stamp{position:absolute;right:16px;top:84px;transform:rotate(-9deg);border:2px solid var(--moss);color:var(--moss-ink);border-radius:8px;padding:5px 10px;font:600 .8rem/1.2 var(--font);text-align:center;background:rgba(255,255,255,.7)}
+.stamp small{display:block;font:500 .64rem var(--mono);color:var(--moss-ink)}
+.notes{list-style:none;margin:0;padding:0;display:grid;gap:26px}
+.notes li{display:grid;grid-template-columns:30px 1fr;gap:4px 14px}
+.notes .k{grid-row:span 2;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--brand);color:#fff;font-weight:600;font-size:.8rem}
+.notes b{color:var(--brand);font-weight:600}
+.notes span{color:var(--fg-2)}
+
+/* ---------- where it runs ---------- */
+.fit{display:grid;gap:18px;margin-top:40px}
+@media (min-width:980px){ .fit{grid-template-columns:1fr 1.15fr 1fr;gap:0;align-items:stretch} }
+.col{border:1.5px solid var(--line);border-radius:12px;padding:22px 22px 18px;background:#fff;position:relative}
+.col h3{font-size:1rem;margin:0 0 14px;color:var(--fg-2);letter-spacing:0}
+.col ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.col li b{display:block;color:var(--brand);font-weight:600}
+.col li span{color:var(--fg-2);font-size:.92rem}
+.col.core{background:var(--brand);border-color:var(--brand);color:var(--on-base)}
+.col.core h3{color:var(--on-base-2)}
+.col.core li b{color:#fff}
+.col.core li span{color:var(--on-base-2)}
+.col.core .capbar{position:absolute;left:50%;top:-1.5px;transform:translateX(-50%);width:34%;height:6px;border-radius:0 0 4px 4px;background:var(--amber)}
+@media (min-width:980px){
+  .col.core{margin-inline:28px}
+  .col.core::before,.col.core::after{content:"";position:absolute;top:50%;width:28px;height:2px;background:var(--brand)}
+  .col.core::before{right:100%} .col.core::after{left:100%}
+}
+@media (max-width:979.98px){
+  .col.core::before,.col.core::after{content:"";position:absolute;left:50%;width:2px;height:18px;background:var(--brand)}
+  .col.core::before{bottom:100%} .col.core::after{top:100%}
+}
+.fit-notes{display:grid;gap:22px;margin-top:36px}
+@media (min-width:860px){ .fit-notes{grid-template-columns:1fr 1fr;gap:40px} }
+.fit-notes p{margin:0;color:var(--fg-2)}
+.fit-notes b{color:var(--brand);font-weight:600}
+.stages{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0 0;padding:0;list-style:none}
+.stages li{padding:6px 12px;border-radius:999px;background:var(--bg-2);color:var(--brand);font-weight:600;font-size:.88rem}
+.stages li.on{background:var(--brand);color:#fff}
+.stages .sep{padding:0;background:none;color:var(--fg-2)}
+.stages svg{width:16px;height:16px;display:block}
+
+/* ---------- catalogue ---------- */
+.domains{display:flex;flex-wrap:wrap;gap:10px;margin:36px 0 0;padding:0;list-style:none}
+.domains li{display:inline-flex;align-items:baseline;gap:8px;padding:10px 14px;border-radius:8px;border:1.5px solid var(--line);background:#fff;color:var(--brand);font-weight:600;font-size:.95rem}
+.domains li span{color:var(--fg-2);font-weight:400;font-variant-numeric:tabular-nums}
+.examples{margin:26px 0 0;color:var(--fg-2);max-width:76ch}
+
+/* ---------- FAQ (shared pattern) ---------- */
+.faq-list{margin-top:32px;border-top:1px solid var(--line);max-width:860px}
+.faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:20px 0;cursor:pointer;font:600 1.05rem var(--font);color:var(--brand)}
+.faq-q .pm{position:relative;flex:0 0 28px;width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;transition:transform 240ms var(--ease-out),background-color var(--t-micro)}
+.faq-q .pm::before,.faq-q .pm::after{content:"";position:absolute;width:12px;height:2px;background:currentColor;border-radius:1px}
+.faq-q .pm::after{transform:rotate(90deg);transition:transform 240ms var(--ease-out)}
+.faq-q[aria-expanded="true"] .pm{transform:rotate(45deg);background:var(--bg-2)}
+.faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows 320ms var(--ease-in-out)}
+.faq-a>div{overflow:hidden}
+.faq-a p{color:var(--fg-2);margin:0;padding:0 0 22px;max-width:70ch}
+.faq-q[aria-expanded="true"]+.faq-a{grid-template-rows:1fr}
+
+/* ---------- closing ---------- */
+.close{background:var(--base);color:var(--on-base)}
+.close h2{color:#fff;max-width:20ch}
+.close p{color:var(--on-base-2);max-width:56ch;font-size:1.1rem}
+.close .actions{margin-top:28px}
+
+/* footer (shared) */
+footer{background:var(--base);color:var(--on-base);padding-block:clamp(48px,7vw,80px) 28px;border-top:1px solid rgba(255,255,255,.12)}
+footer .top{display:grid;gap:36px}
+@media (min-width:860px){ footer .top{grid-template-columns:1.4fr 1fr 1fr 1fr} }
+footer .logo{color:var(--on-base)}
+footer .tag{margin:16px 0 0;color:var(--amber);font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+footer h4{margin:0 0 12px;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--on-base-2)}
+footer ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+footer li{min-height:32px;display:flex;align-items:center} footer li a{display:inline-block;padding:6px 0}
+footer a{color:var(--on-base);text-decoration:none;opacity:.9} footer a:hover{opacity:1;text-decoration:underline;text-underline-offset:3px}
+footer .legal{margin-top:44px;padding-top:20px;border-top:1px solid rgba(255,255,255,.14);display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;color:var(--on-base-2);font-size:.85rem}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+</head>
+<body id="top">
+<a class="skip" href="#main">Skip to content</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="wordmark" viewBox="0 0 967.4 198"><path fill="currentColor" d="M42 170V23H92.4Q110.8 23 123.7 29Q136.6 35 143.4 46.1Q150.2 57.2 150.2 72.4V75.6Q150.2 90.8 143.4 101.9Q136.6 113 123.7 119.1Q110.8 125.2 92.4 125.2H70.4V170ZM70.4 47.6V100.6H94.8Q103.4 100.6 109.3 97.2Q115.2 93.8 118.3 87.8Q121.4 81.8 121.4 74Q121.4 66.2 118.3 60.2Q115.2 54.2 109.3 50.9Q103.4 47.6 94.8 47.6Z M171.8 170V44.8H158.2V24H199.6V170Z M235.6 170V82.2H220.4V61.4H263.4V170ZM245.8 48.4Q237.6 48.4 233.7 44.1Q229.8 39.8 229.8 33.2Q229.8 26.6 233.7 22.4Q237.6 18.2 245.8 18.2Q254 18.2 257.8 22.4Q261.6 26.6 261.6 33.2Q261.6 39.8 257.8 44.1Q254 48.4 245.8 48.4Z M294.4 170V61.4H316.4V88.2Q317.4 84 318.8 80.2Q323.2 69.2 331.9 63.6Q340.6 58 353.6 58H354.8Q374.2 58 384.2 70.5Q394.2 83 394.2 107.8V170H366.4V105.4Q366.4 95.4 360.7 89.2Q355 83 345 83Q334.8 83 328.5 89.3Q322.2 95.6 322.2 106.2V170Z M470.2 171.4Q455.2 171.4 445.5 167.5Q435.8 163.6 431 154.3Q426.2 145 426.2 129.2V81.8H409V61.4H426.4V30.8H452.4V61.4H485.8V81.8H452.2V131Q452.2 139 456.5 143.3Q460.8 147.6 468.8 147.6H485.8V171.4Z M508.2 170V24H536V79.8Q540.2 69.6 548 64Q556.2 58 569 58H570.2Q588.8 58 598.4 70.8Q608 83.6 608 108V170H580.2V105.4Q580.2 95 574.3 89Q568.4 83 558.8 83Q548.6 83 542.3 89.7Q536 96.4 536 107.2V170Z M685.4 173.8Q671.4 173.8 660.9 169Q650.4 164.2 643.5 156.1Q636.6 148 633.1 138Q629.6 128 629.6 117.6V113.8Q629.6 103 633.1 92.9Q636.6 82.8 643.5 74.9Q650.4 67 660.6 62.3Q670.8 57.6 684.2 57.6Q701.8 57.6 713.7 65.3Q725.6 73 731.6 85.5Q737.6 98 737.6 112.4V122.4H656Q656.6 128.6 658.8 133.8Q662 141.8 668.6 146.3Q675.2 150.8 685.4 150.8Q695.6 150.8 702 146.7Q708.4 142.6 710.2 136.6H735.8Q733.4 147.8 726.6 156.2Q719.8 164.6 709.3 169.2Q698.8 173.8 685.4 173.8ZM656.4 105.4H711Q710.4 100.2 708.6 96Q705.6 88.6 699.5 84.6Q693.4 80.6 684.2 80.6Q675 80.6 668.6 84.8Q662.2 89 659 96.8Q657.2 100.8 656.4 105.4Z M759.8 170V61.4H781.8V96.6Q783.6 81 791.2 72Q801.2 60 820.6 60H824.6V84.2H817Q803 84.2 795.3 91.7Q787.6 99.2 787.6 113.4V170Z M907.4 170V149.2Q906 153.4 904.2 156.8Q899.6 164.6 891.7 168.7Q883.8 172.8 872.4 172.8Q860.6 172.8 851.7 168.6Q842.8 164.4 837.9 156.6Q833 148.8 833 137.8Q833 125.8 838.9 118.2Q844.8 110.6 855.5 106.8Q866.2 103 880.6 103H902.8V102Q902.8 92.6 898.2 88Q893.6 83.4 884 83.4Q879 83.4 872 83.6Q865 83.8 857.9 84.1Q850.8 84.4 845.2 84.8V61.2Q849.8 60.8 855.6 60.4Q861.4 60 867.5 59.9Q873.6 59.8 879 59.8Q895.8 59.8 906.9 64.2Q918 68.6 923.7 78Q929.4 87.4 929.4 102.6V170ZM902.8 119.6H880.2Q870.6 119.6 865.5 124.3Q860.4 129 860.4 136.4Q860.4 143.8 865.5 148.4Q870.6 153 880.2 153Q886 153 890.9 150.9Q895.8 148.8 899.1 143.7Q902.4 138.6 902.8 129.8Z"/></symbol>
+  <symbol id="mark" viewBox="0 0 92 60"><rect x="28" y="0" width="36" height="16" rx="2" fill="#E9A23B"/><rect x="14" y="22" width="64" height="16" rx="2" fill="currentColor"/><rect x="0" y="44" width="92" height="16" rx="2" fill="currentColor"/></symbol>
+  <symbol id="wa" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.8-1.4.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.1.6a2.7 2.7 0 0 0 1.8-1.2c.2-.6.2-1.1.2-1.2l-.5-.3Z"/></symbol>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="Plinthera home">
+      <svg viewBox="0 0 92 60" style="height:26px;width:40px" aria-hidden="true"><use href="#mark"/></svg>
+      <svg viewBox="0 0 967.4 198" style="height:28px;width:137px" aria-hidden="true"><use href="#wordmark"/></svg>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-links" id="navlinks">
+        <li><a href="/#approach">Approach</a></li>
+        <li><a href="/#services">Services</a></li>
+        <li><a href="/agentpermit/" aria-current="page">AgentPermit</a></li>
+        <li><a href="/#sports">Sports tech</a></li>
+        <li><a href="/#work">Work</a></li>
+        <li><a href="/#about">About</a></li>
+        <li><a href="/#faq">FAQ</a></li>
+      </ul>
+    </nav>
+    <div class="right">
+      <a class="prog" href="#top" aria-label="Page progress; back to top" title="Back to top">
+        <svg viewBox="0 0 92 60" aria-hidden="true">
+          <rect class="ghost" x="28" y="0" width="36" height="16" rx="2" fill="#E9A23B"/><rect class="ghost" x="14" y="22" width="64" height="16" rx="2" fill="currentColor"/><rect class="ghost" x="0" y="44" width="92" height="16" rx="2" fill="currentColor"/>
+          <rect class="p1" x="0" y="44" width="92" height="16" rx="2" fill="currentColor"/><rect class="p2" x="14" y="22" width="64" height="16" rx="2" fill="currentColor"/><rect class="p3" x="28" y="0" width="36" height="16" rx="2" fill="#E9A23B"/>
+        </svg>
+      </a>
+      <a class="btn btn-primary nav-cta" href="/?need=AgentPermit#contact">Book a demo</a>
+      <button class="menu-btn" id="menubtn" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="menu" id="menu">
+    <div class="wrap">
+      <ul>
+        <li><a href="/#approach">Approach</a></li>
+        <li><a href="/#services">Services</a></li>
+        <li><a href="/agentpermit/" aria-current="page">AgentPermit</a></li>
+        <li><a href="/#sports">Sports tech</a></li>
+        <li><a href="/#work">Work</a></li>
+        <li><a href="/#about">About</a></li>
+        <li><a href="/#faq">FAQ</a></li>
+      </ul>
+      <a class="btn btn-primary" href="/?need=AgentPermit#contact">Book a demo</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="story" aria-labelledby="ap-h1">
+  <div class="story-grid">
+    <div class="intro">
+      <p class="by"><svg viewBox="0 0 92 60" aria-hidden="true"><use href="#mark"/></svg>AgentPermit, from Plinthera</p>
+      <h1 id="ap-h1">Every agent. Explicitly permitted.</h1>
+      <p class="lead">The checkpoint between your AI agents and the systems they act on. Before an agent issues a refund, grants access or exports data, your rules decide: go ahead, wait for a named person, or stop. Every decision is signed and kept.</p>
+      <div class="actions">
+        <a class="btn btn-amber" href="/?need=AgentPermit#contact">Book a demo</a>
+        <a class="btn btn-secondary btn-wa" href="https://wa.me/918177833697?text=Hi%20Plinthera%2C%20I%27d%20like%20to%20know%20more%20about%20AgentPermit." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa"/></svg>Ask on WhatsApp</a>
+      </div>
+      <p class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v16M6 14l6 6 6-6"/></svg>Scroll to follow a request through the gate</p>
+    </div>
+
+    <div class="stage-col">
+      <div class="stage" data-checkpoint>
+        <div class="stage-art" role="img" aria-label="A scale model of AgentPermit. Three AI agents send requests down three lanes to a gate shaped like the Plinthera mark. Allowed requests pass through to the system they asked for. A large refund waits at an approver's desk until a named person signs it off. A denied request is stopped at the gate. A request that tries to go around the gate hits the wall. Every decision sends a signed receipt to a chained stack.">
+          <img src="/assets/agentpermit/checkpoint-poster.webp" alt="" width="1400" height="1100" decoding="async" fetchpriority="high">
+          <canvas aria-hidden="true"></canvas>
+        </div>
+        <div class="labels" data-labels aria-hidden="true"></div>
+        <div class="hud">
+          <div class="hud-log"><p class="hud-t">Decisions</p><ol class="log" data-log aria-live="off"></ol></div>
+          <button type="button" class="hud-pause" data-pause aria-pressed="false"><svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></svg><svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11a.8.8 0 0 0 1.2.7l9-5.5a.8.8 0 0 0 0-1.4l-9-5.5A.8.8 0 0 0 4 2.5Z"/></svg><span>Pause</span></button>
+          <div class="hud-try" role="group" aria-labelledby="try-l">
+            <span class="tl" id="try-l">Send a request</span>
+            <button type="button" class="k-allow" data-send="small-refund"><i></i>Refund AED 180</button>
+            <button type="button" class="k-ask" data-send="large-refund"><i></i>Refund AED 4,200</button>
+            <button type="button" class="k-deny" data-send="bulk-export"><i></i>Export 38,000 records</button>
+            <button type="button" class="k-deny" data-send="bypass-front"><i></i>Go around the gate</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ol class="steps">
+      <li class="step" data-step="asks">
+        <p class="n" aria-hidden="true">1</p>
+        <h2>The agent asks first</h2>
+        <p>Right before it acts, the agent sends AgentPermit the action and its details, such as <span class="eg">Refund.Issue</span> for AED 4,200. Who is asking comes from the agent's sign-in, never from what the request says, and an agent that isn't registered can't act at all.</p>
+      </li>
+      <li class="step" data-step="rules">
+        <p class="n" aria-hidden="true">2</p>
+        <h2>Your rules decide</h2>
+        <p>Every action in the catalogue has a risk level, and your rules set the answer. For example, refunds up to AED 1,000 go through, larger ones wait for the finance lead, and anything over AED 5,000 is refused. Rules are published as signed versions, so a new limit applies without a redeploy.</p>
+      </li>
+      <li class="step" data-step="person">
+        <p class="n" aria-hidden="true">3</p>
+        <h2>A named person signs off</h2>
+        <p>When a rule says ask, the request waits with its details frozen. The accountable person approves or rejects it in the AgentPermit console or in a Teams card. If anything in the request changes while it waits, it is refused.</p>
+      </li>
+      <li class="step" data-step="wall">
+        <p class="n" aria-hidden="true">4</p>
+        <h2>There is no way around the gate</h2>
+        <p>Your systems accept agent actions from AgentPermit and nothing else, and a paired data-loss policy in Power Platform stops agents connecting to them directly. An agent that keeps testing a refusal is quarantined automatically.</p>
+      </li>
+      <li class="step" data-step="receipts">
+        <p class="n" aria-hidden="true">5</p>
+        <h2>Every decision leaves a receipt</h2>
+        <p>Each decision is written to a receipt, signed with a key that never leaves your Azure Key Vault and chained to the receipt before it. An auditor can check any receipt independently, and altering one breaks the chain.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="tint" id="inside" aria-labelledby="inside-h">
+  <div class="wrap">
+    <h2 id="inside-h">Nine checks, in a fixed order</h2>
+    <p class="lead">Every request goes through the same pipeline, whether it comes from Copilot Studio, your own code or an MCP client. Any check can stop it.</p>
+    <ol class="checks">
+      <li><b>Identity</b><span>The agent is identified from its sign-in token. A request that names a different agent is refused.</span></li>
+      <li><b>Replay protection</b><span>Each request carries a key only that agent can use, so a retry never runs an action twice.</span></li>
+      <li><b>Safety switches</b><span>A kill switch, per-agent quarantine and rate limits apply before any rule is read.</span></li>
+      <li><b>Action check</b><span>The action must be in the catalogue, and its details must be valid.</span></li>
+      <li class="gate-step"><b>Your rules</b><span>The signed policy answers allow, ask a person, or deny.</span></li>
+      <li><b>Enforcement</b><span>In a staged rollout, low-risk blocks can be logged before they are applied. High and critical actions are enforced from day one.</span></li>
+      <li><b>Sign-off</b><span>If a person must approve, the request is frozen until they decide.</span></li>
+      <li><b>Execution</b><span>AgentPermit performs the action itself. Agents never hold the credentials for your systems.</span></li>
+      <li><b>Receipt</b><span>Signed in Key Vault and chained to the receipt before it.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section id="receipts" aria-labelledby="rc-h">
+  <div class="wrap">
+    <h2 id="rc-h">What every receipt proves</h2>
+    <p class="lead">A log says what happened. A receipt proves it: who asked, exactly what was approved, what ran, and that nothing has changed since.</p>
+    <div class="rc-grid">
+      <figure class="slip" aria-label="Example receipt" style="margin:0">
+        <p class="hd"><span>AgentPermit receipt</span><span>2 Nov 2026</span></p>
+        <p class="no">RCPT-7F3A9C2E41B84D06, 14:07:31 GST</p>
+        <div class="stamp" aria-hidden="true">Signed<small>RS256</small></div>
+        <dl>
+          <dt>Agent</dt><dd>support-copilot<span class="k" aria-label="note 1">1</span></dd>
+          <dt>Action</dt><dd>Refund.Issue</dd>
+          <dt>Details</dt><dd>AED 4,200, customer 18842</dd>
+          <dt>Decision</dt><dd>Ask a person</dd>
+          <dt>Signed off</dt><dd>Finance lead, 14:06:58</dd>
+          <dt>Result</dt><dd class="ok">Succeeded</dd>
+        </dl>
+        <dl>
+          <dt>Request</dt><dd>sha256:4f2a91…e0c81d<span class="k" aria-label="note 2">2</span></dd>
+          <dt>Previous</dt><dd>sha256:9e01b7…a47b3a<span class="k" aria-label="note 3">3</span></dd>
+          <dt>Signature</dt><dd>RS256, key receipts-07<span class="k" aria-label="note 4">4</span></dd>
+        </dl>
+      </figure>
+      <ol class="notes">
+        <li><span class="k" aria-hidden="true">1</span><b>Who asked, and for what</b><span>The agent's identity as its sign-in proved it, the action, and its details.</span></li>
+        <li><span class="k" aria-hidden="true">2</span><b>Exactly what was approved</b><span>A fingerprint of the request, taken when it was frozen for sign-off. The action that ran must match it.</span></li>
+        <li><span class="k" aria-hidden="true">3</span><b>The chain</b><span>The fingerprint of the receipt before this one. Remove or edit any receipt and every later one stops matching.</span></li>
+        <li><span class="k" aria-hidden="true">4</span><b>The signature</b><span>Made with a key held in your Azure Key Vault, which never leaves it. Anyone with the public key can verify the receipt without asking us.</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="tint" id="fit" aria-labelledby="fit-h">
+  <div class="wrap">
+    <h2 id="fit-h">Built for the Microsoft estate you already run</h2>
+    <p class="lead">AgentPermit is deployed single-tenant into your own Azure subscription, in the region you choose. Requests, approvals and receipts stay in your tenant.</p>
+    <div class="fit">
+      <div class="col">
+        <h3>Agents reach it through</h3>
+        <ul>
+          <li><b>Copilot Studio connector</b><span>One action in a topic, for low-code agents and Power Platform</span></li>
+          <li><b>REST API</b><span>One call, for agents written in any language</span></li>
+          <li><b>MCP</b><span>For agents and tools that speak the Model Context Protocol</span></li>
+        </ul>
+      </div>
+      <div class="col core">
+        <span class="capbar" aria-hidden="true"></span>
+        <h3>AgentPermit, in your tenant</h3>
+        <ul>
+          <li><b>Azure API Management</b><span>Checks the agent's sign-in and the shape of every request</span></li>
+          <li><b>The gateway</b><span>Runs the nine checks, on Azure Container Apps</span></li>
+          <li><b>Entra ID, Azure SQL, Key Vault</b><span>Identity and roles, the record of every request, the signing keys</span></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>It acts on your systems through</h3>
+        <ul>
+          <li><b>SQL and REST adapters</b><span>Direct to your databases and APIs</span></li>
+          <li><b>Power Automate and Logic Apps</b><span>Reaching more than 1,400 Microsoft connectors</span></li>
+          <li><b>Its own identity</b><span>Your systems accept agent actions from AgentPermit only</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fit-notes">
+      <div>
+        <p><b>Rolls out agent by agent.</b> Each agent moves through three stages, so you can tune rules on real traffic before they bite.</p>
+        <ol class="stages" aria-label="Rollout stages">
+          <li>Observe</li><li class="sep" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg></li>
+          <li>Warn</li><li class="sep" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg></li>
+          <li class="on">Enforce</li>
+        </ol>
+      </div>
+      <p><b>A console for the people who own the rules.</b> Plain-language screens for agents, rules, approvals and evidence, with sign-in through Entra ID. Four roles, Admin, Approver, Agent owner and Viewer, map to your Entra groups.</p>
+    </div>
+  </div>
+</section>
+
+<section id="catalogue" aria-labelledby="cat-h">
+  <div class="wrap">
+    <h2 id="cat-h">65 actions, ready to govern</h2>
+    <p class="lead">The catalogue covers the actions that move money, change access or expose data. Each arrives with its risk level already set, so the riskiest actions are protected from the first day.</p>
+    <ul class="domains">
+      <li>Banking <span>11</span></li>
+      <li>Identity and access <span>8</span></li>
+      <li>HR <span>7</span></li>
+      <li>Finance <span>6</span></li>
+      <li>Procurement <span>6</span></li>
+      <li>Customer service <span>4</span></li>
+      <li>Data <span>4</span></li>
+      <li>Cloud operations <span>4</span></li>
+      <li>Sales <span>3</span></li>
+      <li>Healthcare <span>3</span></li>
+      <li>Government <span>3</span></li>
+      <li>IT service management <span>2</span></li>
+      <li>Treasury <span>2</span></li>
+      <li>Communications <span>2</span></li>
+    </ul>
+    <p class="examples">Among them: international transfers, sanctions overrides, privileged access grants, payroll runs, changes to an employee's bank details, bulk deletes and exports, production deployments, prescriptions and contract signatures.</p>
+  </div>
+</section>
+
+<section class="tint" id="faq" aria-labelledby="faq-h">
+  <div class="wrap">
+    <h2 id="faq-h">Questions buyers ask</h2>
+    <div class="faq-list">
+      <button class="faq-q" aria-expanded="false" aria-controls="fa-1" id="fq-1">Do our agents need to change? <span class="pm" aria-hidden="true"></span></button>
+      <div class="faq-a" id="fa-1" role="region" aria-labelledby="fq-1"><div><p>One step is added. Right before the real action, the agent asks AgentPermit and carries on only if the answer is allow. In Copilot Studio that is one connector action in the topic; in code it is one API call.</p></div></div>
+      <button class="faq-q" aria-expanded="false" aria-controls="fa-2" id="fq-2">What happens if AgentPermit is unavailable? <span class="pm" aria-hidden="true"></span></button>
+      <div class="faq-a" id="fa-2" role="region" aria-labelledby="fq-2"><div><p>The agent stops at the checkpoint, because nothing runs without an allow. In production the gateway keeps at least one instance running at all times and is spread across availability zones.</p></div></div>
+      <button class="faq-q" aria-expanded="false" aria-controls="fa-3" id="fq-3">Where does our data go? <span class="pm" aria-hidden="true"></span></button>
+      <div class="faq-a" id="fa-3" role="region" aria-labelledby="fq-3"><div><p>Nowhere new. AgentPermit runs single-tenant in your own Azure subscription, in the region you choose, so requests, approvals and receipts stay in your tenant.</p></div></div>
+      <button class="faq-q" aria-expanded="false" aria-controls="fa-4" id="fq-4">Which agents can it govern? <span class="pm" aria-hidden="true"></span></button>
+      <div class="faq-a" id="fa-4" role="region" aria-labelledby="fq-4"><div><p>Copilot Studio and Power Platform agents through the custom connector, and any other agent or tool through the REST API or MCP. All three go through the same checks.</p></div></div>
+      <button class="faq-q" aria-expanded="false" aria-controls="fa-5" id="fq-5">How do we roll it out without disrupting work? <span class="pm" aria-hidden="true"></span></button>
+      <div class="faq-a" id="fa-5" role="region" aria-labelledby="fq-5"><div><p>Agent by agent, in three stages: observe, warn, enforce. In the first two, low and medium-risk blocks are recorded but not applied, so you can tune the rules on real traffic. High and critical actions are enforced from day one.</p></div></div>
+      <button class="faq-q" aria-expanded="false" aria-controls="fa-6" id="fq-6">How do we get it? <span class="pm" aria-hidden="true"></span></button>
+      <div class="faq-a" id="fa-6" role="region" aria-labelledby="fq-6"><div><p>Plinthera deploys AgentPermit in your tenant, connects your first agents and rules, trains your approvers and supports it afterwards. It can run on its own or as part of an Agent and Copilot Deployment or Managed AI Operations engagement.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="close" aria-labelledby="close-h">
+  <div class="wrap">
+    <h2 id="close-h">See it in front of your own agents</h2>
+    <p>Bring one agent and one action that worries you. We'll walk through an allow, a sign-off and a denial with it, receipts included.</p>
+    <div class="actions">
+      <a class="btn btn-amber" href="/?need=AgentPermit#contact">Book a demo</a>
+      <a class="btn btn-on-base btn-wa" href="https://wa.me/918177833697?text=Hi%20Plinthera%2C%20I%27d%20like%20to%20know%20more%20about%20AgentPermit." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa"/></svg>Ask on WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <a class="logo" href="/" aria-label="Plinthera home"><svg viewBox="0 0 92 60" style="height:26px;width:40px" aria-hidden="true"><use href="#mark"/></svg><svg viewBox="0 0 967.4 198" style="height:28px;width:137px" aria-hidden="true"><use href="#wordmark"/></svg></a>
+        <p class="tag">The base under your AI</p>
+        <p style="color:var(--on-base-2);margin:14px 0 0;max-width:38ch">Senior-led AI transformation for the mid-market, and booking, academy and enquiry systems for sport. Delivered from India, built to be handed over.</p>
+      </div>
+      <div><h4>Services</h4><ul><li><a href="/agentpermit/">AgentPermit</a></li><li><a href="/#services">Workflow Teardown</a></li><li><a href="/#services">Opportunity Audit</a></li><li><a href="/#services">Automation Sprint</a></li><li><a href="/#services">Deployment</a></li><li><a href="/#rollouts">Claude Enterprise rollouts</a></li><li><a href="/#services">Managed AI Operations</a></li></ul></div>
+      <div><h4>Sports tech</h4><ul><li><a href="/#sports">Slot Booking</a></li><li><a href="/#sports">Academy and Ground</a></li><li><a href="/#sports">AI Enquiry Desk</a></li><li><a href="/#approach">How we work</a></li><li><a href="/#about">About</a></li><li><a href="/#faq">FAQ</a></li></ul></div>
+      <div><h4>Contact</h4><ul><li><a href="mailto:hello@plinthera.com">hello@plinthera.com</a></li><li><a href="mailto:security@plinthera.com">security@plinthera.com</a></li><li><a href="https://wa.me/918177833697" target="_blank" rel="noopener">+91 81778 33697 (WhatsApp)</a></li><li>Pune, India</li><li>Dubai, UAE</li></ul></div>
+    </div>
+    <div class="legal">
+      <span>© <span id="year">2026</span> Plinthera. Example agents, amounts and receipts on this page are illustrations. Microsoft, Azure, Copilot Studio, Power Platform, Entra and Teams are trademarks of Microsoft Corporation; Plinthera is an independent company.</span>
+      <span><a href="/privacy.html">Privacy notice</a> · plinthera.com</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  /* nav: border once the page has scrolled */
+  const nav = document.getElementById('nav');
+  const sentinel = document.createElement('div'); sentinel.style.cssText = 'position:absolute;top:0;height:1px;width:1px;';
+  document.body.prepend(sentinel);
+  if ('IntersectionObserver' in window) new IntersectionObserver(([e]) => nav.classList.toggle('scrolled', !e.isIntersecting)).observe(sentinel);
+  else nav.classList.add('scrolled');
+
+  /* mobile menu */
+  const menuBtn = document.getElementById('menubtn'), menu = document.getElementById('menu');
+  function setMenu(open){ menu.classList.toggle('open', open); menuBtn.setAttribute('aria-expanded', String(open)); menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu'); }
+  menuBtn.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
+  menu.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && menu.classList.contains('open')) { setMenu(false); menuBtn.focus(); } });
+
+  /* the story: whichever step crosses the reading line steers the model.
+     Desktop: the middle of the window. Phone: a line in the space below the model. */
+  const steps = Array.from(document.querySelectorAll('.step'));
+  const stageCol = document.querySelector('.stage-col');
+  const desk = matchMedia('(min-width:1000px)');
+  let current = null, sRaf = 0;
+  function pick(){
+    sRaf = 0;
+    const vh = innerHeight;
+    let line = vh * 0.5;
+    if (!desk.matches) { const b = stageCol.getBoundingClientRect().bottom; line = b + (vh - b) * 0.35; }
+    let name = 'overview';
+    for (const s of steps) { const r = s.getBoundingClientRect(); if (r.top <= line && r.bottom > line) { name = s.dataset.step; break; } }
+    if (name === current) return;
+    current = name;
+    steps.forEach(s => s.classList.toggle('on', s.dataset.step === name));
+    document.documentElement.dataset.apStep = name;
+    dispatchEvent(new CustomEvent('ap:step'));
+  }
+  addEventListener('scroll', () => { if (!sRaf) sRaf = requestAnimationFrame(pick); }, { passive: true });
+  addEventListener('resize', () => { current = null; pick(); });
+  pick();
+
+  /* scroll progress in the nav mark */
+  let pRaf = null;
+  const setProgress = () => { pRaf = null; const max = document.documentElement.scrollHeight - innerHeight; document.documentElement.style.setProperty('--p', max > 0 ? Math.min(1, Math.max(0, scrollY / max)).toFixed(4) : '0'); };
+  addEventListener('scroll', () => { if (!pRaf) pRaf = requestAnimationFrame(setProgress); }, { passive: true });
+  setProgress();
+
+  /* FAQ: one open at a time */
+  document.querySelectorAll('.faq-q').forEach(q => q.addEventListener('click', () => {
+    const open = q.getAttribute('aria-expanded') === 'true';
+    document.querySelectorAll('.faq-q[aria-expanded="true"]').forEach(o => o.setAttribute('aria-expanded', 'false'));
+    q.setAttribute('aria-expanded', String(!open));
+  }));
+
+  document.getElementById('year').textContent = String(new Date().getFullYear());
+})();
+</script>
+<script type="module" src="/assets/agentpermit/checkpoint.js"></script>
+</body>
+</html>

@@ -207,13 +207,16 @@ section.tint{background:var(--bg-2)}
 @media (prefers-reduced-motion: reduce){ .hud-pause{display:none!important} }
 .hud-try{position:absolute;z-index:2;left:0;right:0;bottom:0;display:flex;align-items:center;gap:8px;padding:10px 12px 12px;overflow-x:auto;scrollbar-width:none;background:linear-gradient(to top,rgba(243,245,249,.96) 55%,rgba(243,245,249,0))}
 .hud-try::-webkit-scrollbar{display:none}
-.hud-try .tl{font-size:.8rem;font-weight:600;color:var(--fg-2);white-space:nowrap;margin-right:2px}
+.hud-try .tl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@container (min-width:900px){ .hud-try .tl{position:static;width:auto;height:auto;overflow:visible;clip:auto;font-size:.8rem;font-weight:600;color:var(--fg-2);margin-right:2px} }
 .hud-try button{flex:none;min-height:40px;padding:0 13px;border-radius:999px;border:1.5px solid var(--line);background:#fff;color:var(--brand);font:600 .82rem var(--font);cursor:pointer;white-space:nowrap;transition:border-color var(--t-micro),transform var(--t-micro) var(--ease-out)}
 .hud-try button:hover{border-color:var(--brand)}
 .hud-try button:active{transform:scale(.97)}
 .hud-try button i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;vertical-align:0}
 .hud-try .k-allow i{background:var(--moss)} .hud-try .k-ask i{background:var(--amber)} .hud-try .k-deny i{background:var(--brick)}
-@container (min-width:640px){ .hud-try{left:20px;right:20px;bottom:18px;padding:0;background:none;flex-wrap:wrap;overflow:visible} }
+/* one row of controls: it scrolls sideways until the stage is wide enough to show all four */
+@container (min-width:640px){ .hud-try{left:8px;right:8px;bottom:10px;padding:6px 12px} }
+@container (min-width:880px){ .hud-try{left:20px;right:20px;bottom:18px;padding:0;background:none;overflow:visible} }
 .stage.no-webgl .hud,.stage.no-webgl .labels{display:none}
 
 /* ---------- inside the gate: nine checks ---------- */

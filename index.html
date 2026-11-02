@@ -243,7 +243,6 @@ section.tint{background:var(--bg-2)}
 .product .wrap{display:grid;gap:44px;align-items:center}
 @media (min-width:980px){ .product .wrap{grid-template-columns:1.05fr .95fr;gap:64px} }
 .product .eyebrow{color:var(--amber)}
-.product .eyebrow .os{color:var(--on-base-2)}
 .product h2{color:var(--on-base)}
 .product h2 .tag{display:block;color:var(--amber);margin-top:6px}
 .product .lead{color:var(--on-base-2)}
@@ -466,7 +465,7 @@ footer .addr{color:var(--on-base)}
 <section class="product" id="agentpermit" aria-labelledby="ap-title">
   <div class="wrap">
     <div>
-      <p class="eyebrow" data-reveal>Our product <span class="os">· open source</span></p>
+      <p class="eyebrow" data-reveal>Our product</p>
       <h2 id="ap-title" data-reveal>AgentPermit <span class="tag">Every agent. Explicitly permitted.</span></h2>
       <p class="lead" data-reveal>An enforcement and evidence gateway for AI agents. Before an agent issues a refund, grants access or releases a record, it asks AgentPermit. The answer is allow, ask a named person, or deny, and every answer comes with a signed receipt. The agent never reaches the system any other way.</p>
       <ul class="ap-points" data-reveal-group>
@@ -475,10 +474,10 @@ footer .addr{color:var(--on-base)}
         <li data-reveal><b>Evidence, not just logs</b><span>Every decision produces a hash-chained, signed receipt that auditors can verify.</span></li>
         <li data-reveal><b>No way around it</b><span>Identity comes from the signed-in caller, and a paired data-loss policy stops agents reaching systems directly.</span></li>
       </ul>
-      <p class="ap-stack" data-reveal>Built first for Microsoft Copilot Studio and Power Platform, with a custom connector, and callable from any agent runtime. Runs on Azure API Management, Entra ID, Azure SQL and Key Vault. .NET 10 gateway, 226 automated tests, Apache-2.0 licence.</p>
+      <p class="ap-stack" data-reveal>Built first for Microsoft Copilot Studio and Power Platform, with a custom connector, and callable from any agent runtime. Runs on Azure API Management, Entra ID, Azure SQL and Key Vault. .NET 10 gateway with 226 automated tests.</p>
       <div class="actions" data-reveal>
         <a class="btn btn-amber" href="#contact" data-need="AgentPermit">Book a demo <svg class="arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
-        <a class="btn btn-on-base" href="https://github.com/athark20/agentpermit-core" target="_blank" rel="noopener">View on GitHub</a>
+        <a class="btn btn-on-base" href="https://wa.me/918177833697?text=Hi%20Plinthera%2C%20I%27d%20like%20to%20know%20more%20about%20AgentPermit." target="_blank" rel="noopener">Ask on WhatsApp</a>
       </div>
     </div>
     <div class="ap-demo" id="ap-demo" data-reveal>
@@ -709,7 +708,7 @@ footer .addr{color:var(--on-base)}
       <ul data-reveal>
         <li>Claude Enterprise and the Claude API; Microsoft Copilot Studio, Azure AI Foundry and Azure AI Search; AWS Bedrock; Google Vertex AI; n8n and Power Platform</li>
         <li>Certified: Azure Administrator (AZ-104), Azure AI Engineer (AI-102), GitHub Copilot (GH-300)</li>
-        <li>Agent governance built in: every deployment ships with an evaluation suite, a logged approval path and a kill switch, and can run behind <a href="#agentpermit">AgentPermit</a>, our open-source permission gateway for agents</li>
+        <li>Agent governance built in: every deployment ships with an evaluation suite, a logged approval path and a kill switch, and can run behind <a href="#agentpermit">AgentPermit</a>, our permission gateway for AI agents</li>
         <li>Pune, India and Dubai, UAE; working hours overlap the GCC, Singapore, the UK and US mornings</li>
       </ul>
     </div>
@@ -757,7 +756,7 @@ footer .addr{color:var(--on-base)}
       <button class="faq-q" aria-expanded="false" aria-controls="fa-5" id="fq-5">What happens after handover? <span class="pm" aria-hidden="true"></span></button>
       <div class="faq-a" id="fa-5" role="region" aria-labelledby="fq-5"><div><p>Thirty days of hypercare are included. After that your team runs the system with the runbook and evaluation suite we leave behind. If you want us to keep monitoring, upgrading models and reporting on governance, that is the Managed AI Operations retainer, and you can leave it at any quarter end.</p></div></div>
       <button class="faq-q" aria-expanded="false" aria-controls="fa-7" id="fq-7">What is AgentPermit, and do I need it? <span class="pm" aria-hidden="true"></span></button>
-      <div class="faq-a" id="fa-7" role="region" aria-labelledby="fq-7"><div><p>AgentPermit is our open-source gateway that sits between AI agents and the systems they act on. Every action is checked against your rules before it runs: allowed, sent to a named person for sign-off, or denied, with a signed receipt for each decision. You do not need it to work with us; we recommend it wherever agents touch money, access or customer records. The core is free under the Apache-2.0 licence on GitHub, and we deploy and support it as part of an Agent and Copilot Deployment or Managed AI Operations.</p></div></div>
+      <div class="faq-a" id="fa-7" role="region" aria-labelledby="fq-7"><div><p>AgentPermit is our gateway that sits between AI agents and the systems they act on. Every action is checked against your rules before it runs: allowed, sent to a named person for sign-off, or denied, with a signed receipt for each decision. You do not need it to work with us; we recommend it wherever agents touch money, access or customer records. We deploy and support it for clients, on its own or as part of an Agent and Copilot Deployment or Managed AI Operations; book a demo to see it working with your own agents.</p></div></div>
       <button class="faq-q" aria-expanded="false" aria-controls="fa-6" id="fq-6">I run a sports venue or academy. How does that work? <span class="pm" aria-hidden="true"></span></button>
       <div class="faq-a" id="fa-6" role="region" aria-labelledby="fq-6"><div><p>Differently from the enterprise work. Sports-tech products are priced as a development fee paid up front plus a monthly fee, and they run on Plinthera's own platform, so there is no cloud account, no server and no IT person on your side. The monthly fee covers hosting, updates, backups, the AI enquiry desk and support. A slot-booking system is live in two to three weeks; an academy system in three to four. Your bookings, students and payment records are yours and can be exported at any time, and if you leave, we hand them over in a format the next system can read. Start with a venue walkthrough or message us on WhatsApp.</p></div></div>
     </div>

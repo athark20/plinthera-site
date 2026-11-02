@@ -10,7 +10,6 @@
 <link rel="canonical" href="https://plinthera.com/agentpermit/">
 <link rel="preload" href="/assets/fonts/sora-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/sora-600.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="modulepreload" href="/assets/agentpermit/checkpoint.js">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/assets/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -20,27 +19,24 @@
 <meta property="og:title" content="AgentPermit | Every agent, explicitly permitted">
 <meta property="og:description" content="The checkpoint between your AI agents and the systems they act on: allow, ask a named person, or deny, with a signed receipt for every decision.">
 <meta property="og:url" content="https://plinthera.com/agentpermit/">
-<meta property="og:image" content="https://plinthera.com/assets/agentpermit/og-agentpermit.png">
+<meta property="og:image" content="https://plinthera.com/assets/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AgentPermit | Every agent, explicitly permitted">
 <meta name="twitter:description" content="The checkpoint between your AI agents and the systems they act on: allow, ask a named person, or deny, with a signed receipt for every decision.">
-<meta name="twitter:image" content="https://plinthera.com/assets/agentpermit/og-agentpermit.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"AgentPermit","url":"https://plinthera.com/agentpermit/","applicationCategory":"SecurityApplication","operatingSystem":"Microsoft Azure","description":"An enforcement and evidence gateway for AI agents. Every action an agent requests is allowed, sent to a named person for sign-off, or denied, and every decision is written to a signed, hash-chained receipt.","image":"https://plinthera.com/assets/agentpermit/og-agentpermit.png","provider":{"@type":"Organization","name":"Plinthera","url":"https://plinthera.com/"}}</script>
-<script>document.documentElement.classList.add('js')</script>
+<meta name="twitter:image" content="https://plinthera.com/assets/og-image.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"AgentPermit","url":"https://plinthera.com/agentpermit/","applicationCategory":"SecurityApplication","operatingSystem":"Microsoft Azure","description":"An enforcement and evidence gateway for AI agents. Every action an agent requests is allowed, sent to a named person for sign-off, or denied, and every decision is written to a signed, hash-chained receipt.","image":"https://plinthera.com/assets/og-image.png","provider":{"@type":"Organization","name":"Plinthera","url":"https://plinthera.com/"}}</script>
 <style>
 @font-face{font-family:"Sora";font-style:normal;font-weight:400;font-display:swap;src:url("/assets/fonts/sora-400.woff2") format("woff2")}
 @font-face{font-family:"Sora";font-style:normal;font-weight:600;font-display:swap;src:url("/assets/fonts/sora-600.woff2") format("woff2")}
 @font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:500;font-display:swap;src:url("/assets/fonts/jetbrains-mono-500.woff2") format("woff2")}
 /* ---------- Design plan: AgentPermit page ----------
    Subject: a gateway that checks every action an AI agent takes. Readers: CIOs, CISOs, risk owners and the people
-   who run Copilot Studio. Job: show in one glance what the checkpoint does, then get a demo booked.
-   Concept: the checkpoint maquette. The page is built around a scale model in which the gate is the Plinthera mark
-   turned into a gatehouse and receipts stack up into a plinth of evidence. The model explains; the copy confirms.
-   Colour is the decision: moss = allowed, amber = waiting for a person, brick = denied; the same three colours in
-   the model, the log, the chips and the receipt. Type: Sora throughout; JetBrains Mono only for literal machine
-   data (agent names, action IDs, hashes). Motion: the model is the one moving thing; everything else is still. */
+   who run Copilot Studio. Job: explain what the checkpoint does, then get a demo booked.
+   Colour is the decision: moss = allowed, amber = waiting for a person, brick = denied. Type: Sora throughout;
+   JetBrains Mono only for literal machine data (agent names, action IDs, hashes). Nothing on the page moves by
+   itself; the explainer video plays only when the visitor starts it. */
 :root{
   --bg:#FFFFFF; --bg-2:#F3F5F9; --fg:#111111; --fg-2:#5A6B82; --brand:#0B2545; --amber:#E9A23B; --amber-ink:#0B2545;
   --line:#E2E6EC; --base:#0B2545; --on-base:#FFFFFF; --on-base-2:#B9C4D4;
@@ -118,106 +114,24 @@ section.tint{background:var(--bg-2)}
 .menu .btn{margin-top:16px;width:100%;display:inline-flex;padding:0 22px;border-bottom:0;color:var(--btn-fg)}
 @media (min-width:1120px){ .nav-links{display:flex} .nav-cta{display:inline-flex} .menu-btn{display:none} .menu{display:none!important} }
 
-/* ---------- the story: intro, the model, five steps ---------- */
-.story{padding:0;scroll-margin-top:0}
-.story-grid{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"intro" "stage" "steps"}
-.intro{grid-area:intro;padding:clamp(28px,6vw,44px) var(--gutter-r) 28px var(--gutter-l)}
+/* ---------- hero: promise on the left, the explainer video on the right once it is added ---------- */
+.hero{padding-block:clamp(40px,7vw,96px) clamp(56px,8vw,104px)}
+.hero .wrap{display:grid;gap:40px;align-items:center}
+@media (min-width:1000px){ .hero .wrap:has(.film){grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:56px} }
 .by{display:flex;align-items:center;gap:10px;margin:0 0 18px;color:var(--fg-2);font-weight:600;font-size:.95rem}
 .by svg{width:30px;height:20px;color:var(--brand)}
-.intro h1{font-size:clamp(2.35rem,8.6vw,3.6rem);line-height:1.02;margin:0 0 20px}
-.intro .lead{margin-bottom:26px}
-.hint{display:none;margin:32px 0 0;color:var(--fg-2);font-size:.92rem;align-items:center;gap:10px}
-.hint svg{width:18px;height:18px;flex:none}
-.stage-col{grid-area:stage;position:sticky;top:var(--nav-h);z-index:4;height:min(58svh,560px);min-height:340px}
-.steps{grid-area:steps;list-style:none;margin:0;padding:0 var(--gutter-r) 8svh var(--gutter-l)}
-.step{min-height:46svh;padding:26px 0 18px;max-width:34rem}
-.step .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--brand);color:var(--brand);font-weight:600;font-size:.9rem;margin:0 0 12px;font-variant-numeric:tabular-nums}
-.step h2{font-size:clamp(1.4rem,2.2vw,1.75rem);margin:0 0 10px}
-.step p{color:var(--fg-2);margin:0}
-.step .eg{font-family:var(--mono);font-size:.92em;color:var(--brand)}
-@media (min-width:1000px){
-  .story-grid{grid-template-columns:minmax(420px,37%) minmax(0,1fr);grid-template-rows:auto 1fr;grid-template-areas:"intro stage" "steps stage"}
-  .intro,.steps{padding-left:max(var(--gutter-l),calc((100vw - var(--max)) / 2 + 16px));padding-right:clamp(28px,3.4vw,56px)}
-  .intro{min-height:calc(100svh - var(--nav-h));display:flex;flex-direction:column;justify-content:center;padding-block:48px 64px}
-  .intro h1{font-size:clamp(2.5rem,3.3vw,3.4rem)}
-  .hint{display:flex}
-  .stage-col{position:relative;top:auto;height:auto;min-height:0;z-index:auto;padding-right:max(var(--gutter-r),28px)}
-  /* the model sits in a framed window, about 7:5, centred in the window height while the steps scroll */
-  .stage-col .stage{--sh:min(calc((100vw - max(420px,37vw) - 44px) / 1.42),calc(100svh - var(--nav-h) - 40px));
-    position:sticky;top:calc(var(--nav-h) + (100svh - var(--nav-h) - var(--sh)) / 2);height:var(--sh);border-radius:20px;box-shadow:inset 0 0 0 1px var(--line)}
-  .steps{padding-bottom:0}
-  .step{min-height:76svh;display:flex;flex-direction:column;justify-content:center;padding:40px 0}
-  .step:last-child{min-height:calc(100svh - var(--nav-h))}
-  .js .step{opacity:.42;transition:opacity var(--d4) var(--ease-out)}
-  .js .step.on{opacity:1}
-}
+.hero h1{font-size:clamp(2.4rem,5.2vw,4rem);line-height:1.02;margin:0 0 20px;max-width:15ch}
+.hero .lead{margin-bottom:28px}
 
-/* the stage: canvas, labels drawn over it, decision log, controls */
-.stage{position:relative;height:100%;overflow:hidden;background:var(--bg-2);isolation:isolate;container-type:inline-size}
-/* the HUD follows the width of the stage, not the window: a narrow stage on a laptop gets the phone controls.
-   --inset-* tell the model how much of each edge the HUD covers, so it frames the scene inside the rest. */
-.stage-art{position:absolute;inset:0;--inset-t:44px;--inset-b:58px;--inset-l:20px;--inset-r:8px}
-@container (min-width:640px){ .stage-art{--inset-t:64px;--inset-b:72px;--inset-l:118px;--inset-r:20px} }
-.stage-art img,.stage-art canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.stage-art img{object-fit:cover;transition:opacity var(--d4) var(--ease-out)}
-.stage-art canvas{opacity:0;transition:opacity var(--d4) var(--ease-out)}
-.stage.ready .stage-art canvas{opacity:1}
-.stage.ready .stage-art img{opacity:0}
-.labels{position:absolute;inset:0;pointer-events:none;z-index:1}
-.lbl,.chip{position:absolute;left:0;top:0;white-space:nowrap;will-change:transform}
-.lbl{font:600 .76rem/1 var(--font);color:var(--brand);background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:6px;padding:6px 8px;box-shadow:0 6px 14px -10px rgba(11,37,69,.45);transition:opacity var(--d3) var(--ease-out)}
-.lbl.agent{font:500 .72rem/1 var(--mono);margin-left:-6px}
-.lbl.gate{background:var(--brand);border-color:var(--brand);color:#fff}
-
-.lbl.off{opacity:0}
-.chip span{display:inline-flex;align-items:center;gap:7px;font:600 .78rem/1 var(--font);padding:7px 10px 7px 9px;border-radius:999px;background:#fff;box-shadow:0 8px 18px -10px rgba(11,37,69,.5);animation:chip 1.9s var(--ease-out) both}
-.chip i{width:8px;height:8px;border-radius:50%;background:currentColor;flex:none}
-.chip.k-allow span{color:var(--moss-ink)}
-.chip.k-ask span{color:var(--brand)} .chip.k-ask i{background:var(--amber)}
-.chip.k-deny span{color:var(--brick-ink)}
-@keyframes chip{0%{opacity:0;transform:translateY(8px) scale(.94)}12%{opacity:1;transform:none}74%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-12px)}}
-@media (prefers-reduced-motion: reduce){ .chip span{animation:none} }
-.hud{display:none}
-.stage.live .hud{display:block}
-.hud-log{position:absolute;z-index:2;left:10px;top:8px;right:60px;pointer-events:none;padding:6px 10px;border-radius:10px;background:rgba(243,245,249,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
-.hud-log:has(.log:empty){background:none}
-.hud-t{margin:0 0 6px;font-size:.78rem;font-weight:600;color:var(--fg-2)}
-.log{list-style:none;margin:0;padding:0;font:500 .7rem/1.45 var(--mono);color:var(--brand)}
-.log li{display:flex;flex-wrap:wrap;gap:0 8px;padding:2px 0}
-.log li:first-child{animation:logIn var(--d3) var(--ease-out) both}
-.log li:nth-child(n+2){opacity:.62}
-.log li:nth-child(n+4){display:none!important}
-.log .who{color:var(--fg-2)}
-.log .out.k-allow{color:var(--moss-ink)} .log .out.k-ask{color:#8A5A12} .log .out.k-deny{color:var(--brick-ink)}
-@keyframes logIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
-.hud-t,.log li:nth-child(n+2){display:none}
-@container (min-width:640px){
-  .hud-log{left:14px;top:12px;right:auto;max-width:460px;padding:8px 12px}
-  .hud-t{display:block}
-  .log li:nth-child(n+2){display:flex}
-  .log{font-size:.74rem}
-}
-.hud-pause{position:absolute;z-index:2;right:10px;top:8px;display:inline-flex;align-items:center;gap:8px;min-height:40px;min-width:40px;justify-content:center;padding:0 10px;border:1.5px solid var(--line);border-radius:8px;background:rgba(255,255,255,.92);color:var(--brand);font:600 .85rem var(--font);cursor:pointer}
-.hud-pause svg{width:16px;height:16px;fill:currentColor}
-.hud-pause .i-play{display:none}
-.hud-pause[aria-pressed="true"] .i-play{display:block}
-.hud-pause[aria-pressed="true"] .i-pause{display:none}
-.hud-pause span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-@container (min-width:640px){ .hud-pause{right:20px;top:16px} .hud-pause span{position:static;width:auto;height:auto;overflow:visible;clip:auto} }
-@media (prefers-reduced-motion: reduce){ .hud-pause{display:none!important} }
-.hud-try{position:absolute;z-index:2;left:0;right:0;bottom:0;display:flex;align-items:center;gap:8px;padding:10px 12px 12px;overflow-x:auto;scrollbar-width:none;background:linear-gradient(to top,rgba(243,245,249,.96) 55%,rgba(243,245,249,0))}
-.hud-try::-webkit-scrollbar{display:none}
-.hud-try .tl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-@container (min-width:900px){ .hud-try .tl{position:static;width:auto;height:auto;overflow:visible;clip:auto;font-size:.8rem;font-weight:600;color:var(--fg-2);margin-right:2px} }
-.hud-try button{flex:none;min-height:40px;padding:0 13px;border-radius:999px;border:1.5px solid var(--line);background:#fff;color:var(--brand);font:600 .82rem var(--font);cursor:pointer;white-space:nowrap;transition:border-color var(--t-micro),transform var(--t-micro) var(--ease-out)}
-.hud-try button:hover{border-color:var(--brand)}
-.hud-try button:active{transform:scale(.97)}
-.hud-try button i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;vertical-align:0}
-.hud-try .k-allow i{background:var(--moss)} .hud-try .k-ask i{background:var(--amber)} .hud-try .k-deny i{background:var(--brick)}
-/* one row of controls: it scrolls sideways until the stage is wide enough to show all four */
-@container (min-width:640px){ .hud-try{left:8px;right:8px;bottom:10px;padding:6px 12px} }
-@container (min-width:880px){ .hud-try{left:20px;right:20px;bottom:18px;padding:0;background:none;overflow:visible} }
-.stage.no-webgl .hud,.stage.no-webgl .labels{display:none}
+/* ---------- how a request is handled ---------- */
+.how .wrap{display:grid;gap:28px}
+@media (min-width:960px){ .how .wrap{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px;align-items:start} }
+.how-steps{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.how-steps li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:6px 14px;padding:24px 0;border-bottom:1px solid var(--line)}
+.how-steps .n{grid-row:span 2;width:32px;height:32px;border-radius:50%;border:1.5px solid var(--brand);display:inline-flex;align-items:center;justify-content:center;font-weight:600;color:var(--brand);font-size:.9rem;font-variant-numeric:tabular-nums}
+.how-steps h3{margin:3px 0 0}
+.how-steps p{margin:0;color:var(--fg-2)}
+.how-steps .eg{font-family:var(--mono);font-size:.92em;color:var(--brand)}
 
 /* ---------- inside the gate: nine checks ---------- */
 .checks{list-style:none;counter-reset:c;margin:40px 0 0;padding:0;display:grid;gap:0 40px;border-top:1px solid var(--line)}
@@ -377,9 +291,9 @@ footer .legal{margin-top:44px;padding-top:20px;border-top:1px solid rgba(255,255
 
 <main id="main">
 
-<section class="story" aria-labelledby="ap-h1">
-  <div class="story-grid">
-    <div class="intro">
+<section class="hero tint" aria-labelledby="ap-h1">
+  <div class="wrap">
+    <div class="hero-copy">
       <p class="by"><svg viewBox="0 0 92 60" aria-hidden="true"><use href="#mark"/></svg>AgentPermit, from Plinthera</p>
       <h1 id="ap-h1">Every agent. Explicitly permitted.</h1>
       <p class="lead">The checkpoint between your AI agents and the systems they act on. Before an agent issues a refund, grants access or exports data, your rules decide: go ahead, wait for a named person, or stop. Every decision is signed and kept.</p>
@@ -387,56 +301,22 @@ footer .legal{margin-top:44px;padding-top:20px;border-top:1px solid rgba(255,255
         <a class="btn btn-amber" href="/?need=AgentPermit#contact">Book a demo</a>
         <a class="btn btn-secondary btn-wa" href="https://wa.me/918177833697?text=Hi%20Plinthera%2C%20I%27d%20like%20to%20know%20more%20about%20AgentPermit." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa"/></svg>Ask on WhatsApp</a>
       </div>
-      <p class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v16M6 14l6 6 6-6"/></svg>Scroll to follow a request through the gate</p>
     </div>
+  </div>
+</section>
 
-    <div class="stage-col">
-      <div class="stage" data-checkpoint>
-        <div class="stage-art" role="img" aria-label="A scale model of AgentPermit. Three AI agents send requests down three lanes to a gate shaped like the Plinthera mark. Allowed requests pass through to the system they asked for. A large refund waits at an approver's desk until a named person signs it off. A denied request is stopped at the gate. A request that tries to go around the gate hits the wall. Every decision sends a signed receipt to a chained stack.">
-          <img src="/assets/agentpermit/checkpoint-poster.webp" alt="" width="1400" height="1100" decoding="async" fetchpriority="high">
-          <canvas aria-hidden="true"></canvas>
-        </div>
-        <div class="labels" data-labels aria-hidden="true"></div>
-        <div class="hud">
-          <div class="hud-log"><p class="hud-t">Decisions</p><ol class="log" data-log aria-live="off"></ol></div>
-          <button type="button" class="hud-pause" data-pause aria-pressed="false"><svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></svg><svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11a.8.8 0 0 0 1.2.7l9-5.5a.8.8 0 0 0 0-1.4l-9-5.5A.8.8 0 0 0 4 2.5Z"/></svg><span>Pause</span></button>
-          <div class="hud-try" role="group" aria-labelledby="try-l">
-            <span class="tl" id="try-l">Send a request</span>
-            <button type="button" class="k-allow" data-send="small-refund"><i></i>Refund AED 180</button>
-            <button type="button" class="k-ask" data-send="large-refund"><i></i>Refund AED 4,200</button>
-            <button type="button" class="k-deny" data-send="bulk-export"><i></i>Export 38,000 records</button>
-            <button type="button" class="k-deny" data-send="bypass-front"><i></i>Go around the gate</button>
-          </div>
-        </div>
-      </div>
+<section class="how" id="how" aria-labelledby="how-h">
+  <div class="wrap">
+    <div>
+      <h2 id="how-h">How a request is handled</h2>
+      <p class="lead">From the moment an agent decides to act to the moment the action reaches your systems.</p>
     </div>
-
-    <ol class="steps">
-      <li class="step" data-step="asks">
-        <p class="n" aria-hidden="true">1</p>
-        <h2>The agent asks first</h2>
-        <p>Right before it acts, the agent sends AgentPermit the action and its details, such as <span class="eg">Refund.Issue</span> for AED 4,200. Who is asking comes from the agent's sign-in, never from what the request says, and an agent that isn't registered can't act at all.</p>
-      </li>
-      <li class="step" data-step="rules">
-        <p class="n" aria-hidden="true">2</p>
-        <h2>Your rules decide</h2>
-        <p>Every action in the catalogue has a risk level, and your rules set the answer. For example, refunds up to AED 1,000 go through, larger ones wait for the finance lead, and anything over AED 5,000 is refused. Rules are published as signed versions, so a new limit applies without a redeploy.</p>
-      </li>
-      <li class="step" data-step="person">
-        <p class="n" aria-hidden="true">3</p>
-        <h2>A named person signs off</h2>
-        <p>When a rule says ask, the request waits with its details frozen. The accountable person approves or rejects it in the AgentPermit console or in a Teams card. If anything in the request changes while it waits, it is refused.</p>
-      </li>
-      <li class="step" data-step="wall">
-        <p class="n" aria-hidden="true">4</p>
-        <h2>There is no way around the gate</h2>
-        <p>Your systems accept agent actions from AgentPermit and nothing else, and a paired data-loss policy in Power Platform stops agents connecting to them directly. An agent that keeps testing a refusal is quarantined automatically.</p>
-      </li>
-      <li class="step" data-step="receipts">
-        <p class="n" aria-hidden="true">5</p>
-        <h2>Every decision leaves a receipt</h2>
-        <p>Each decision is written to a receipt, signed with a key that never leaves your Azure Key Vault and chained to the receipt before it. An auditor can check any receipt independently, and altering one breaks the chain.</p>
-      </li>
+    <ol class="how-steps">
+      <li><span class="n" aria-hidden="true">1</span><h3>The agent asks first</h3><p>Right before it acts, the agent sends AgentPermit the action and its details, such as <span class="eg">Refund.Issue</span> for AED 4,200. Who is asking comes from the agent's sign-in, never from what the request says, and an agent that isn't registered can't act at all.</p></li>
+      <li><span class="n" aria-hidden="true">2</span><h3>Your rules decide</h3><p>Every action in the catalogue has a risk level, and your rules set the answer. For example, refunds up to AED 1,000 go through, larger ones wait for the finance lead, and anything over AED 5,000 is refused. Rules are published as signed versions, so a new limit applies without a redeploy.</p></li>
+      <li><span class="n" aria-hidden="true">3</span><h3>A named person signs off</h3><p>When a rule says ask, the request waits with its details frozen. The accountable person approves or rejects it in the AgentPermit console or in a Teams card. If anything in the request changes while it waits, it is refused.</p></li>
+      <li><span class="n" aria-hidden="true">4</span><h3>There is no way around it</h3><p>Your systems accept agent actions from AgentPermit and nothing else, and a paired data-loss policy in Power Platform stops agents connecting to them directly. An agent that keeps testing a refusal is quarantined automatically.</p></li>
+      <li><span class="n" aria-hidden="true">5</span><h3>Every decision leaves a receipt</h3><p>Each decision is written to a receipt, signed with a key that never leaves your Azure Key Vault and chained to the receipt before it. An auditor can check any receipt independently, and altering one breaks the chain.</p></li>
     </ol>
   </div>
 </section>
@@ -630,29 +510,6 @@ footer .legal{margin-top:44px;padding-top:20px;border-top:1px solid rgba(255,255
   menu.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && menu.classList.contains('open')) { setMenu(false); menuBtn.focus(); } });
 
-  /* the story: whichever step crosses the reading line steers the model.
-     Desktop: the middle of the window. Phone: a line in the space below the model. */
-  const steps = Array.from(document.querySelectorAll('.step'));
-  const stageCol = document.querySelector('.stage-col');
-  const desk = matchMedia('(min-width:1000px)');
-  let current = null, sRaf = 0;
-  function pick(){
-    sRaf = 0;
-    const vh = innerHeight;
-    let line = vh * 0.5;
-    if (!desk.matches) { const b = stageCol.getBoundingClientRect().bottom; line = b + (vh - b) * 0.35; }
-    let name = 'overview';
-    for (const s of steps) { const r = s.getBoundingClientRect(); if (r.top <= line && r.bottom > line) { name = s.dataset.step; break; } }
-    if (name === current) return;
-    current = name;
-    steps.forEach(s => s.classList.toggle('on', s.dataset.step === name));
-    document.documentElement.dataset.apStep = name;
-    dispatchEvent(new CustomEvent('ap:step'));
-  }
-  addEventListener('scroll', () => { if (!sRaf) sRaf = requestAnimationFrame(pick); }, { passive: true });
-  addEventListener('resize', () => { current = null; pick(); });
-  pick();
-
   /* scroll progress in the nav mark */
   let pRaf = null;
   const setProgress = () => { pRaf = null; const max = document.documentElement.scrollHeight - innerHeight; document.documentElement.style.setProperty('--p', max > 0 ? Math.min(1, Math.max(0, scrollY / max)).toFixed(4) : '0'); };
@@ -669,6 +526,5 @@ footer .legal{margin-top:44px;padding-top:20px;border-top:1px solid rgba(255,255
   document.getElementById('year').textContent = String(new Date().getFullYear());
 })();
 </script>
-<script type="module" src="/assets/agentpermit/checkpoint.js"></script>
 </body>
 </html>

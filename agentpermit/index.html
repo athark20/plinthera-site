@@ -19,14 +19,19 @@
 <meta property="og:title" content="AgentPermit | Every agent, explicitly permitted">
 <meta property="og:description" content="The checkpoint between your AI agents and the systems they act on: allow, ask a named person, or deny, with a signed receipt for every decision.">
 <meta property="og:url" content="https://plinthera.com/agentpermit/">
-<meta property="og:image" content="https://plinthera.com/assets/og-image.png">
+<meta property="og:video" content="https://plinthera.com/assets/agentpermit/agentpermit-explainer.mp4">
+<meta property="og:video:type" content="video/mp4">
+<meta property="og:video:width" content="1920">
+<meta property="og:video:height" content="1080">
+<meta property="og:image" content="https://plinthera.com/assets/agentpermit/og-agentpermit.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AgentPermit | Every agent, explicitly permitted">
 <meta name="twitter:description" content="The checkpoint between your AI agents and the systems they act on: allow, ask a named person, or deny, with a signed receipt for every decision.">
-<meta name="twitter:image" content="https://plinthera.com/assets/og-image.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"AgentPermit","url":"https://plinthera.com/agentpermit/","applicationCategory":"SecurityApplication","operatingSystem":"Microsoft Azure","description":"An enforcement and evidence gateway for AI agents. Every action an agent requests is allowed, sent to a named person for sign-off, or denied, and every decision is written to a signed, hash-chained receipt.","image":"https://plinthera.com/assets/og-image.png","provider":{"@type":"Organization","name":"Plinthera","url":"https://plinthera.com/"}}</script>
+<meta name="twitter:image" content="https://plinthera.com/assets/agentpermit/og-agentpermit.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"AgentPermit","url":"https://plinthera.com/agentpermit/","applicationCategory":"SecurityApplication","operatingSystem":"Microsoft Azure","description":"An enforcement and evidence gateway for AI agents. Every action an agent requests is allowed, sent to a named person for sign-off, or denied, and every decision is written to a signed, hash-chained receipt.","image":"https://plinthera.com/assets/agentpermit/og-agentpermit.png","provider":{"@type":"Organization","name":"Plinthera","url":"https://plinthera.com/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoObject","name":"AgentPermit explained","description":"How AgentPermit checks every action an AI agent takes: the agent asks first, your rules decide, a named person signs off on risky actions, there is no way around the checkpoint, and every decision leaves a signed receipt.","thumbnailUrl":"https://plinthera.com/assets/agentpermit/explainer-poster.webp","uploadDate":"2026-11-03","duration":"PT1M17S","contentUrl":"https://plinthera.com/assets/agentpermit/agentpermit-explainer.mp4","embedUrl":"https://plinthera.com/agentpermit/"}</script>
 <style>
 @font-face{font-family:"Sora";font-style:normal;font-weight:400;font-display:swap;src:url("/assets/fonts/sora-400.woff2") format("woff2")}
 @font-face{font-family:"Sora";font-style:normal;font-weight:600;font-display:swap;src:url("/assets/fonts/sora-600.woff2") format("woff2")}
@@ -117,11 +122,26 @@ section.tint{background:var(--bg-2)}
 /* ---------- hero: promise on the left, the explainer video on the right once it is added ---------- */
 .hero{padding-block:clamp(40px,7vw,96px) clamp(56px,8vw,104px)}
 .hero .wrap{display:grid;gap:40px;align-items:center}
-@media (min-width:1000px){ .hero .wrap:has(.film){grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:56px} }
 .by{display:flex;align-items:center;gap:10px;margin:0 0 18px;color:var(--fg-2);font-weight:600;font-size:.95rem}
 .by svg{width:30px;height:20px;color:var(--brand)}
 .hero h1{font-size:clamp(2.4rem,5.2vw,4rem);line-height:1.02;margin:0 0 20px;max-width:15ch}
 .hero .lead{margin-bottom:28px}
+.hero-copy{max-width:760px}
+
+/* the explainer: nothing plays until the visitor asks */
+.film{margin:0}
+.film-frame{position:relative;aspect-ratio:16/9;border-radius:18px;overflow:hidden;background:#F3F5F9;box-shadow:0 34px 70px -40px rgba(11,37,69,.5),0 0 0 1px var(--line)}
+.film video{position:absolute;inset:0;display:block;width:100%;height:100%;background:#F3F5F9}
+.film-play{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;border:0;padding:0;margin:0;background:rgba(243,245,249,.18);cursor:pointer;font:inherit;color:var(--brand)}
+.film-play .pb{display:grid;place-items:center;width:clamp(64px,8vw,96px);height:clamp(64px,8vw,96px);border-radius:50%;background:var(--brand);color:#fff;box-shadow:0 18px 40px -16px rgba(11,37,69,.7);transition:transform var(--t-micro) var(--ease-out)}
+.film-play .pb svg{width:34%;height:34%;margin-left:6%;fill:currentColor}
+.film-play .pl{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;background:#fff;font-weight:600;font-size:clamp(.85rem,1.4vw,1rem);box-shadow:0 10px 24px -14px rgba(11,37,69,.5)}
+.film-play .pl small{font-weight:400;color:var(--fg-2);font-size:.9em}
+.film-play:hover .pb{transform:scale(1.06)}
+.film-play:focus-visible{outline:none}
+.film-play:focus-visible .pb{outline:3px solid var(--focus);outline-offset:4px}
+.film.playing .film-play{display:none}
+.film figcaption{margin-top:12px;color:var(--fg-2);font-size:.92rem}
 
 /* ---------- how a request is handled ---------- */
 .how .wrap{display:grid;gap:28px}
@@ -302,6 +322,17 @@ footer .legal{margin-top:44px;padding-top:20px;border-top:1px solid rgba(255,255
         <a class="btn btn-secondary btn-wa" href="https://wa.me/918177833697?text=Hi%20Plinthera%2C%20I%27d%20like%20to%20know%20more%20about%20AgentPermit." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa"/></svg>Ask on WhatsApp</a>
       </div>
     </div>
+    <figure class="film" id="film">
+      <div class="film-frame">
+        <video id="film-video" controls preload="none" playsinline width="1920" height="1080" poster="/assets/agentpermit/explainer-poster.webp" aria-describedby="film-cap">
+          <source src="/assets/agentpermit/agentpermit-explainer.mp4" type="video/mp4">
+          <source src="/assets/agentpermit/agentpermit-explainer.webm" type="video/webm">
+          <a href="/assets/agentpermit/agentpermit-explainer.mp4">Download the explainer video (MP4, 4 MB)</a>
+        </video>
+        <button class="film-play" type="button" aria-label="Play the AgentPermit explainer, 1 minute 17 seconds"><span class="pb"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11a.8.8 0 0 0 1.2.7l9-5.5a.8.8 0 0 0 0-1.4l-9-5.5A.8.8 0 0 0 4 2.5Z"/></svg></span><span class="pl">Watch how it works <small>1:17</small></span></button>
+      </div>
+      <figcaption id="film-cap">How AgentPermit handles a request, in 77 seconds. The video has no sound: everything it says is on screen and in the steps below.</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -522,6 +553,13 @@ footer .legal{margin-top:44px;padding-top:20px;border-top:1px solid rgba(255,255
     document.querySelectorAll('.faq-q[aria-expanded="true"]').forEach(o => o.setAttribute('aria-expanded', 'false'));
     q.setAttribute('aria-expanded', String(!open));
   }));
+
+  /* explainer: the big button starts the video; it comes back when the video ends */
+  const film = document.getElementById('film'), video = document.getElementById('film-video'), play = film.querySelector('.film-play');
+  video.controls = false;   // the player's own controls appear once it is playing; without this script they are always there
+  play.addEventListener('click', () => { film.classList.add('playing'); video.controls = true; video.play().catch(() => { film.classList.remove('playing'); }); video.focus(); });
+  video.addEventListener('play', () => { film.classList.add('playing'); video.controls = true; });
+  video.addEventListener('ended', () => { film.classList.remove('playing'); video.controls = false; video.load(); });
 
   document.getElementById('year').textContent = String(new Date().getFullYear());
 })();

@@ -859,6 +859,17 @@ footer .addr{color:var(--on-base)}
 
   /* reveals: elements are visible at rest; when they enter the viewport they animate from a small offset.
      Children of a [data-reveal-group] stagger by 70 ms. Fires once per element. */
+  const splitWords = el => Array.from(el.childNodes).forEach(n => {
+    if (n.nodeType === 1) { splitWords(n); return; }
+    if (n.nodeType !== 3) return;
+    const frag = document.createDocumentFragment();
+    n.textContent.split(/(\s+)/).forEach(p => {
+      if (!p) return;
+      if (/^\s+$/.test(p)) { frag.appendChild(document.createTextNode(' ')); return; }
+      const s = document.createElement('span'); s.className = 'wd'; s.style.display = 'inline-block'; s.textContent = p; frag.appendChild(s);
+    });
+    n.replaceWith(frag);
+  });
   const revealEls = Array.from(document.querySelectorAll('[data-reveal]'));
   if ('IntersectionObserver' in window && !RM() && 'animate' in Element.prototype) {
     const seen = new WeakSet();
@@ -870,9 +881,10 @@ footer .addr{color:var(--on-base)}
         let delay = 0;
         if (group) { const kids = Array.from(group.querySelectorAll('[data-reveal]')); delay = Math.min(kids.indexOf(en.target), 8) * 70; }
         if (en.target.tagName === 'H2') {
-          /* headline rises word by word: split once, then stagger each word 45 ms */
-          if (!en.target.dataset.split) { en.target.dataset.split = '1'; en.target.innerHTML = en.target.textContent.trim().split(/\s+/).map(w => '<span style="display:inline-block">' + w + '</span>').join(' '); }
-          en.target.querySelectorAll('span').forEach((w, i) => w.animate([{ opacity: .15, transform: 'translateY(.45em)' }, { opacity: 1, transform: 'none' }], { duration: 560, delay: delay + i * 45, easing: EASE, fill: 'backwards' }));
+          /* headline rises word by word: split once (words only, so styled parts inside keep their markup),
+             then stagger each word 45 ms */
+          if (!en.target.dataset.split) { en.target.dataset.split = '1'; splitWords(en.target); }
+          en.target.querySelectorAll('.wd').forEach((w, i) => w.animate([{ opacity: .15, transform: 'translateY(.45em)' }, { opacity: 1, transform: 'none' }], { duration: 560, delay: delay + i * 45, easing: EASE, fill: 'backwards' }));
         } else {
           en.target.animate([{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 1, transform: 'none' }], { duration: 520, delay, easing: EASE, fill: 'backwards' });
         }

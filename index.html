@@ -1,0 +1,936 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Plinthera | AI transformation and sports tech, Pune</title>
+<meta name="description" content="Plinthera puts the base under enterprise AI: senior-led transformation for the mid-market, plus booking, academy and enquiry systems for sport with AI built in. Pune and Dubai.">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#0B2545">
+<link rel="canonical" href="https://plinthera.com/">
+<link rel="preload" href="/assets/fonts/sora-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/sora-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Plinthera">
+<meta property="og:title" content="Plinthera | The base under your AI">
+<meta property="og:description" content="Plinthera puts the base under enterprise AI: senior-led transformation for the mid-market, plus booking, academy and enquiry systems for sport with AI built in. Pune and Dubai.">
+<meta property="og:url" content="https://plinthera.com/">
+<meta property="og:image" content="https://plinthera.com/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Plinthera | The base under your AI">
+<meta name="twitter:description" content="Plinthera puts the base under enterprise AI: senior-led transformation for the mid-market, plus booking, academy and enquiry systems for sport with AI built in. Pune and Dubai.">
+<meta name="twitter:image" content="https://plinthera.com/assets/og-image.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "ProfessionalService", "name": "Plinthera", "url": "https://plinthera.com/", "logo": "https://plinthera.com/assets/icon-512.png", "image": "https://plinthera.com/assets/og-image.png", "description": "Plinthera puts the base under enterprise AI: senior-led transformation for the mid-market, plus booking, academy and enquiry systems for sport with AI built in. Pune and Dubai.", "email": "hello@plinthera.com", "telephone": "+91 81778 33697", "address": {"@type": "PostalAddress", "addressLocality": "Pune", "addressRegion": "Maharashtra", "addressCountry": "IN"}, "areaServed": ["IN", "AE", "SG", "GB", "US", "AU"]}</script>
+<style>
+@font-face{font-family:"Sora";font-style:normal;font-weight:400;font-display:swap;src:url("/assets/fonts/sora-400.woff2") format("woff2")}
+@font-face{font-family:"Sora";font-style:normal;font-weight:600;font-display:swap;src:url("/assets/fonts/sora-600.woff2") format("woff2")}
+@font-face{font-family:"Source Serif 4";font-style:italic;font-weight:400;font-display:swap;src:url("/assets/fonts/source-serif-4-400-italic.woff2") format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:500;font-display:swap;src:url("/assets/fonts/jetbrains-mono-500.woff2") format("woff2")}
+/* ---------- Design plan ----------
+   Layout: a single long page whose every section stands on the brand's idea, the plinth. Content sits on white
+   and cloud surfaces; the navy "base" appears only where it carries weight (nav CTA, process, footer).
+   Colour: navy, amber (once per view), white, cloud, slate, mist. Type: Sora for everything read on screen,
+   Source Serif 4 italic for the one quotation, JetBrains Mono for figures. Motion: transform and opacity only. */
+:root{
+  --bg:#FFFFFF; --bg-2:#F3F5F9; --fg:#111111; --fg-2:#5A6B82; --brand:#0B2545; --amber:#E9A23B; --amber-ink:#0B2545;
+  --line:#E2E6EC; --card:#FFFFFF; --card-line:#E2E6EC; --base:#0B2545; --on-base:#FFFFFF; --on-base-2:#B9C4D4;
+  --btn-bg:#0B2545; --btn-fg:#FFFFFF; --btn-2-line:#0B2545; --shadow:0 10px 30px -18px rgba(11,37,69,.35);
+  --focus:#E9A23B; --good:#3F8A5B;
+  --font:"Sora","Segoe UI",Roboto,Helvetica,Arial,sans-serif; --serif:"Source Serif 4",Georgia,Cambria,serif; --mono:"JetBrains Mono",Consolas,Menlo,monospace;
+  /* Motion system. Durations: d1 micro (hover, press), d2 small state change, d3 panel and indicator moves, d4 entrances.
+     Easing: ease-out for anything arriving, ease-in-out for anything moving between two places, spring only for the plinth.
+     Only transform and opacity animate; every rule is cancelled under prefers-reduced-motion. */
+  --ease-out:cubic-bezier(.2,.8,.2,1); --ease-in:cubic-bezier(.4,0,1,1); --ease-in-out:cubic-bezier(.65,0,.35,1); --ease-spring:cubic-bezier(.34,1.4,.64,1);
+  --d1:140ms; --d2:220ms; --d3:380ms; --d4:640ms; --stagger:60ms; --t-micro:var(--d1); --t-reveal:var(--d4);
+  --max:1180px; --gutter-l:max(16px,env(safe-area-inset-left,0px)); --gutter-r:max(16px,env(safe-area-inset-right,0px));
+  color-scheme:light; /* the site commits to the light look in every viewer theme */
+}
+:root[data-theme="dark"]{color-scheme:light}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important} }
+body{margin:0;background:var(--bg);color:var(--fg);font:400 1.0625rem/1.6 var(--font);font-feature-settings:"ss01";overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
+img,svg{max-width:100%}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:var(--gutter-l);top:-48px;background:var(--amber);color:var(--amber-ink);padding:10px 14px;border-radius:6px;font-weight:600;z-index:100;transition:top var(--t-micro) var(--ease-out)}
+.skip:focus{top:calc(env(safe-area-inset-top,0px) + 8px)}
+.wrap{max-width:var(--max);margin:0 auto;padding-left:var(--gutter-l);padding-right:var(--gutter-r)}
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-2);margin:0 0 14px}
+h1,h2,h3{color:var(--brand);font-weight:600;letter-spacing:-.02em;text-wrap:balance;margin:0}
+h1{font-size:clamp(2.5rem,6vw,4.5rem);line-height:1.02}
+h2{font-size:clamp(1.85rem,3.4vw,2.6rem);line-height:1.1;margin-bottom:18px}
+h3{font-size:1.25rem;letter-spacing:-.01em;line-height:1.3}
+p{margin:0 0 1em}
+.lead{font-size:clamp(1.1rem,1.6vw,1.3rem);color:var(--fg-2);max-width:62ch}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+section{padding-block:clamp(64px,9vw,120px);scroll-margin-top:84px}
+section.tint{background:var(--bg-2)}
+.grid{display:grid;gap:24px}
+@media (min-width:760px){ .grid-2{grid-template-columns:1fr 1fr} .grid-3{grid-template-columns:repeat(3,1fr)} }
+@media (min-width:1000px){ .grid-6{grid-template-columns:repeat(3,1fr)} }
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 22px;border-radius:8px;font:600 1rem var(--font);text-decoration:none;cursor:pointer;border:1.5px solid transparent;transition:transform var(--t-micro) var(--ease-out),box-shadow var(--t-micro) var(--ease-out),background-color var(--t-micro) var(--ease-out),color var(--t-micro) var(--ease-out)}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)} .btn:active{transform:translateY(0) scale(.98);box-shadow:none}
+.btn-primary{background:var(--btn-bg);color:var(--btn-fg);will-change:transform}
+.btn-secondary{background:transparent;color:var(--brand);border-color:var(--btn-2-line)}
+.btn-amber{background:var(--amber);color:var(--amber-ink)}
+.btn .arrow{transition:transform var(--t-micro) var(--ease-out)} .btn:hover .arrow{transform:translateX(3px)}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid transparent;transition:border-color var(--t-micro) var(--ease-out)}
+.nav.scrolled{border-bottom-color:var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:76px;transition:min-height var(--d3) var(--ease-out)}
+.nav.scrolled .wrap{min-height:62px}
+.logo{transition:transform var(--d3) var(--ease-out);transform-origin:left center}
+.nav.scrolled .logo{transform:scale(.92)}
+.right{display:flex;align-items:center;gap:14px}
+.prog{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;text-decoration:none;color:var(--brand)}
+.prog svg{width:36px;height:24px;display:block;overflow:visible}
+.prog rect{transform-box:fill-box;transform-origin:left center}
+.prog .ghost{opacity:.16}
+.prog .p1{transform:scaleX(clamp(0,calc(var(--p,0) / .34),1))}
+.prog .p2{transform:scaleX(clamp(0,calc((var(--p,0) - .33) / .34),1))}
+.prog .p3{transform:scaleX(clamp(0,calc((var(--p,0) - .66) / .34),1))}
+@supports (animation-timeline: scroll()){ @media (prefers-reduced-motion: no-preference){
+  .prog .p1,.prog .p2,.prog .p3{animation:fillx linear both;animation-timeline:scroll(root)}
+  .prog .p1{animation-range:0% 34%} .prog .p2{animation-range:33% 67%} .prog .p3{animation-range:66% 100%}
+}}
+@keyframes fillx{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.logo{display:inline-flex;align-items:center;gap:12px;color:var(--brand);text-decoration:none}
+.logo svg{display:block;height:28px;width:auto}
+.nav-links{display:none;gap:4px;margin:0;padding:0;list-style:none}
+.nav-links a{display:inline-block;padding:10px 12px;border-radius:6px;text-decoration:none;color:var(--fg-2);font-weight:600;font-size:.95rem;transition:color var(--t-micro),background-color var(--t-micro)}
+.nav-links a:hover,.nav-links a[aria-current="true"]{color:var(--brand);background:var(--bg-2)}
+.nav-cta{display:none}
+.menu-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:1.5px solid var(--line);border-radius:8px;background:transparent;color:var(--brand);cursor:pointer}
+.menu-btn svg{width:22px;height:22px}
+.menu{display:none;position:absolute;left:0;right:0;top:100%;border-top:1px solid var(--line);background:var(--bg);box-shadow:var(--shadow);max-height:calc(100vh - 76px);overflow-y:auto}
+.menu .wrap{display:block;min-height:0;padding-bottom:20px}
+.menu.open{display:block}
+.menu ul{list-style:none;margin:0;padding:8px 0 16px}
+.menu a{display:block;padding:14px 0;text-decoration:none;color:var(--brand);font-weight:600;border-bottom:1px solid var(--line)}
+.menu .btn{margin-top:16px;width:100%;display:inline-flex;padding:0 22px;border-bottom:0;color:var(--btn-fg)}
+@media (min-width:900px){ .nav-links{display:flex} .nav-cta{display:inline-flex} .menu-btn{display:none} .menu{display:none!important} }
+
+/* hero */
+.hero{padding-block:clamp(48px,7vw,96px) clamp(56px,8vw,112px)}
+.hero .wrap{display:grid;gap:40px;align-items:center}
+@media (min-width:900px){ .hero .wrap{grid-template-columns:1.1fr .9fr;gap:56px} }
+.hero h1{margin:0 0 20px}
+.hero h1 .w{display:inline-block}
+.hero .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.hero .proofline{margin-top:34px;display:flex;flex-wrap:wrap;gap:10px 22px;color:var(--fg-2);font-size:.9rem}
+.hero .proofline span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--amber);margin-right:8px;vertical-align:middle}
+.plinth{position:relative;width:100%;max-width:560px;margin:0 auto;aspect-ratio:138/82}
+.plinth svg{width:100%;height:auto;display:block;overflow:visible}
+.plinth .blk{fill:var(--brand);transform-box:fill-box;transform-origin:center}
+.plinth .blk.cap{fill:var(--amber)}
+.plinth .lbl{font:600 3.4px var(--font);fill:var(--fg-2);letter-spacing:.06em;text-transform:uppercase}
+.plinth .lbl-line{stroke:var(--line);stroke-width:.4}
+@media (prefers-reduced-motion: no-preference){
+  .plinth .blk{animation:land 700ms var(--ease-spring) both}
+  .plinth .blk.b1{animation-delay:120ms} .plinth .blk.b2{animation-delay:300ms} .plinth .blk.cap{animation-delay:520ms}
+  .plinth .tag{animation:fade 500ms var(--ease-out) both;animation-delay:900ms}
+  .plinth .tag.t2{animation-delay:1000ms} .plinth .tag.t3{animation-delay:1100ms}
+}
+@keyframes land{from{opacity:.2;transform:translateY(-22px)}60%{transform:translateY(2px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: no-preference){
+  .hero .eyebrow,.hero .lead,.hero .actions,.hero .also,.hero .proofline,.hero h1 .w{animation:rise var(--d4) var(--ease-out) both}
+  .hero .eyebrow{animation-delay:40ms} .hero h1 .w:nth-child(1){animation-delay:120ms} .hero h1 .w:nth-child(2){animation-delay:190ms} .hero h1 .w:nth-child(3){animation-delay:260ms}
+  .hero .lead{animation-delay:340ms} .hero .actions{animation-delay:420ms} .hero .also{animation-delay:470ms} .hero .proofline{animation-delay:520ms}
+  .plinth .depth{transition:transform var(--d2) var(--ease-out);will-change:transform}
+}
+@keyframes rise{from{opacity:.15;transform:translateY(18px)}to{opacity:1;transform:none}}
+.hero h1 .w{display:inline-block}
+@keyframes fade{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+
+/* proof strip */
+.proof{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding-block:clamp(36px,5vw,56px)}
+.proof .grid-3{gap:32px}
+.stat .num{font:500 clamp(2.4rem,4.5vw,3.4rem)/1 var(--mono);color:var(--brand);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat .num small{font-size:.5em;color:var(--amber);margin-left:4px;vertical-align:.5em}
+.stat .lab{margin:10px 0 4px;font-weight:600;color:var(--brand)}
+.stat .note{color:var(--fg-2);font-size:.95rem;margin:0}
+
+/* principles */
+.principles .cards{margin-top:40px}
+.card{background:var(--card);border:1px solid var(--card-line);border-radius:14px;padding:26px;transition:transform var(--t-micro) var(--ease-out),box-shadow var(--t-micro) var(--ease-out)}
+.card.lift{transition:transform var(--d3) var(--ease-spring),box-shadow var(--d2) var(--ease-out)}
+.card.lift:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.icon{width:44px;height:44px;border-radius:10px;background:var(--bg-2);display:grid;place-items:center;margin-bottom:18px;color:var(--brand)}
+.card.on-cloud .icon{background:var(--bg)}
+.icon svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.card h3{margin-bottom:10px}
+.card p{color:var(--fg-2);margin:0}
+
+/* process stepper */
+.steps{position:relative;display:flex;gap:8px;overflow-x:auto;padding:4px 2px 12px;scrollbar-width:thin;margin-top:36px}
+.steps-ind{position:absolute;left:0;top:0;width:120px;height:80px;background:var(--base);border-radius:12px;pointer-events:none;transform:translate(2px,4px);transition:transform var(--d3) var(--ease-spring),width var(--d3) var(--ease-spring),height var(--d3) var(--ease-spring)}
+.steps-ind.ready{opacity:1}
+.steps::-webkit-scrollbar{height:6px}
+.step{position:relative;z-index:1;flex:0 0 auto;min-width:132px;text-align:left;background:var(--card);border:1px solid var(--card-line);border-radius:12px;padding:14px 16px;cursor:pointer;color:var(--fg);font:inherit;transition:background-color var(--t-micro),border-color var(--t-micro),transform var(--t-micro) var(--ease-out),color var(--t-micro)}
+.step .n{display:block;font:500 .8rem var(--mono);color:var(--fg-2);margin-bottom:6px}
+.step .t{display:block;font-weight:600;color:var(--brand)}
+.step .d{display:block;font-size:.8rem;color:var(--fg-2);margin-top:4px}
+.step:hover{transform:translateY(-2px)}
+.step[aria-selected="true"]{background:transparent;border-color:transparent}
+.steps.no-ind .step[aria-selected="true"]{background:var(--base);border-color:var(--base)}
+.step[aria-selected="true"] .n{color:var(--amber)} .step[aria-selected="true"] .t{color:var(--on-base)} .step[aria-selected="true"] .d{color:var(--on-base-2)}
+.step-panel{margin-top:20px;background:var(--card);border:1px solid var(--card-line);border-radius:14px;padding:28px;display:grid;gap:20px}
+@media (min-width:760px){ .step-panel{grid-template-columns:1.2fr .8fr;gap:40px} }
+.step-panel h3{margin-bottom:8px}
+.step-panel p{color:var(--fg-2)}
+.gate{background:var(--bg-2);border-radius:10px;padding:18px 20px}
+.gate .eyebrow{margin-bottom:8px}
+.gate p{margin:0;color:var(--fg)}
+@keyframes panelIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* packages */
+.pkg{display:flex;flex-direction:column;gap:14px;height:100%}
+.pkg .top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 12px}
+.pkg .len{font-size:.85rem;color:var(--fg-2);white-space:nowrap}
+.pkg .price{font:500 1.25rem var(--mono);color:var(--brand);margin-top:auto;padding-top:10px}
+.pkg .price small{font:400 .8rem var(--font);color:var(--fg-2);display:block;margin-top:2px}
+.pkg ul{margin:0;padding:0;list-style:none;color:var(--fg-2);font-size:.95rem;display:grid;gap:6px}
+.pkg li::before{content:"";display:inline-block;width:6px;height:6px;border-radius:1.5px;background:var(--amber);margin-right:10px;vertical-align:middle}
+.pkg.featured{border-color:var(--brand)}
+.badge{display:inline-block;white-space:nowrap;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;background:var(--amber);color:var(--amber-ink);border-radius:999px;padding:4px 10px}
+.pricing-note{color:var(--fg-2);font-size:.95rem;margin-top:22px;max-width:70ch}
+
+/* work */
+.work .case{display:flex;flex-direction:column;gap:12px;height:100%}
+.case .fig{font:500 clamp(2rem,3.5vw,2.6rem)/1 var(--mono);color:var(--brand);letter-spacing:-.02em}
+.case .fig small{font-size:.45em;color:var(--amber);vertical-align:.6em;margin-left:3px}
+.case .who{font-weight:600;color:var(--brand)}
+.case p{color:var(--fg-2);margin:0}
+.case .stack{margin-top:auto;padding-top:8px;display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:.75rem;font-weight:600;color:var(--fg-2);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+/* sports tech */
+.hero .also{display:inline-flex;align-items:center;gap:10px;margin-top:18px;font-size:.9rem;font-weight:600;color:var(--brand);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:7px 14px 7px 8px;transition:border-color var(--t-micro),background-color var(--t-micro),transform var(--t-micro) var(--ease-out)}
+.hero .also:hover{border-color:var(--brand);background:var(--bg-2);transform:translateY(-1px)}
+.hero .also .new{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;background:var(--amber);color:var(--amber-ink);border-radius:999px;padding:3px 8px}
+.hero .also svg{width:14px;height:14px;transition:transform var(--t-micro) var(--ease-out)}
+.hero .also:hover svg{transform:translateX(3px)}
+.sports .ai{display:inline-block;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);background:var(--bg-2);border-radius:999px;padding:4px 10px;white-space:nowrap}
+.sports .for{color:var(--fg-2);font-size:.9rem;margin:0}
+.sports .for b{color:var(--brand);font-weight:600}
+.sports .flow{margin-top:40px;display:grid;gap:16px}
+@media (min-width:760px){ .sports .flow{grid-template-columns:repeat(4,1fr)} }
+.sports .flow .f{background:var(--card);border:1px solid var(--card-line);border-radius:12px;padding:18px 20px}
+.sports .flow .n{display:block;font:500 .8rem var(--mono);color:var(--amber);margin-bottom:6px}
+.sports .flow b{display:block;color:var(--brand);margin-bottom:4px}
+.sports .flow p{margin:0;color:var(--fg-2);font-size:.9rem}
+.sports .runs{margin-top:24px;color:var(--fg-2);font-size:.95rem;max-width:72ch}
+.sports .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px;align-items:center}
+.btn-wa svg{width:18px;height:18px;fill:currentColor}
+.quote{margin:48px auto 0;max-width:820px;text-align:center}
+.quote blockquote{margin:0;font:italic 400 clamp(1.3rem,2.4vw,1.75rem)/1.4 var(--serif);color:var(--brand)}
+.quote cite{display:block;margin-top:14px;font-style:normal;color:var(--fg-2);font-size:.95rem}
+
+/* about + trust */
+.about .wrap{display:grid;gap:40px}
+@media (min-width:900px){ .about .wrap{grid-template-columns:1fr 1fr;gap:64px;align-items:start} }
+.about ul{padding-left:20px;color:var(--fg-2)}
+.about li{margin:6px 0}
+.notfor{background:var(--bg-2);border-radius:14px;padding:24px 26px}
+.notfor h3{margin-bottom:8px}
+.trust .grid{margin-top:36px}
+.trust .item{display:flex;gap:14px;align-items:flex-start}
+.trust .item svg{flex:0 0 22px;width:22px;height:22px;stroke:var(--good);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-top:3px}
+.trust .item b{color:var(--brand);display:block;margin-bottom:2px}
+.trust .item span{color:var(--fg-2);font-size:.95rem}
+.platforms{margin-top:40px;display:flex;flex-wrap:wrap;gap:8px}
+
+/* faq */
+.faq-list{margin-top:32px;border-top:1px solid var(--line)}
+.faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:20px 0;cursor:pointer;font:600 1.05rem var(--font);color:var(--brand)}
+.faq-q .pm{flex:0 0 28px;width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;transition:transform 240ms var(--ease-out),background-color var(--t-micro)}
+.faq-q .pm::before,.faq-q .pm::after{content:"";position:absolute;width:12px;height:2px;background:currentColor;border-radius:1px}
+.faq-q .pm{position:relative} .faq-q .pm::after{transform:rotate(90deg);transition:transform 240ms var(--ease-out)}
+.faq-q[aria-expanded="true"] .pm{transform:rotate(45deg);background:var(--bg-2)}
+.faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows 320ms var(--ease-in-out)}
+.faq-a>div{overflow:hidden}
+.faq-a p{color:var(--fg-2);margin:0;padding:0 0 22px;max-width:70ch}
+.faq-q[aria-expanded="true"]+.faq-a{grid-template-rows:1fr}
+
+/* contact */
+.contact .wrap{display:grid;gap:40px}
+@media (min-width:900px){ .contact .wrap{grid-template-columns:.9fr 1.1fr;gap:64px} }
+.contact .side p{color:var(--fg-2)}
+.contact .side ol{padding-left:20px;color:var(--fg-2);margin:0}
+.contact .side li{margin:8px 0}
+.form{background:var(--card);border:1px solid var(--card-line);border-radius:16px;padding:28px;display:grid;gap:18px}
+@media (min-width:600px){ .form .row{display:grid;grid-template-columns:1fr 1fr;gap:18px} }
+.field{display:grid;gap:6px}
+.field label{font-weight:600;font-size:.9rem;color:var(--brand)}
+.field input,.field select,.field textarea{font:inherit;color:var(--fg);background:var(--bg);border:1.5px solid var(--line);border-radius:8px;padding:12px 14px;min-height:48px;width:100%;transition:border-color var(--t-micro),box-shadow var(--t-micro)}
+.field textarea{min-height:120px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--amber) 35%,transparent)}
+.field .err{display:none;color:#B3443C;font-size:.85rem}
+.field.invalid input,.field.invalid select,.field.invalid textarea{border-color:#B3443C}
+.field.invalid .err{display:block}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.form .fine{color:var(--fg-2);font-size:.85rem;margin:0}
+.done{display:none;background:var(--bg-2);border-radius:12px;padding:22px;animation:panelIn 320ms var(--ease-out)}
+.done.show{display:block}
+.done h3{margin-bottom:8px}
+.done p{color:var(--fg-2);margin:0 0 12px}
+.done textarea{width:100%;min-height:150px;font:400 .9rem/1.5 var(--mono);color:var(--fg);background:var(--bg);border:1.5px solid var(--line);border-radius:8px;padding:12px}
+.copyrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
+.addr{font-family:var(--mono);font-size:.95rem;color:var(--brand);user-select:all}
+.btn-sm{min-height:40px;padding:0 14px;font-size:.9rem}
+
+/* footer: the base */
+footer{background:var(--base);color:var(--on-base);padding-block:clamp(48px,7vw,80px) 28px}
+footer .top{display:grid;gap:36px}
+@media (min-width:860px){ footer .top{grid-template-columns:1.4fr 1fr 1fr 1fr} }
+footer .logo{color:var(--on-base)}
+footer .tag{margin:16px 0 0;color:var(--amber);font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+footer h4{margin:0 0 12px;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--on-base-2)}
+footer ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+footer li{min-height:32px;display:flex;align-items:center} footer li a{display:inline-block;padding:6px 0}
+footer a{color:var(--on-base);text-decoration:none;opacity:.9} footer a:hover{opacity:1;text-decoration:underline;text-underline-offset:3px}
+footer .legal{margin-top:44px;padding-top:20px;border-top:1px solid rgba(255,255,255,.14);display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;color:var(--on-base-2);font-size:.85rem}
+footer .addr{color:var(--on-base)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="wordmark" viewBox="0 0 967.4 198"><path fill="currentColor" d="M42 170V23H92.4Q110.8 23 123.7 29Q136.6 35 143.4 46.1Q150.2 57.2 150.2 72.4V75.6Q150.2 90.8 143.4 101.9Q136.6 113 123.7 119.1Q110.8 125.2 92.4 125.2H70.4V170ZM70.4 47.6V100.6H94.8Q103.4 100.6 109.3 97.2Q115.2 93.8 118.3 87.8Q121.4 81.8 121.4 74Q121.4 66.2 118.3 60.2Q115.2 54.2 109.3 50.9Q103.4 47.6 94.8 47.6Z M171.8 170V44.8H158.2V24H199.6V170Z M235.6 170V82.2H220.4V61.4H263.4V170ZM245.8 48.4Q237.6 48.4 233.7 44.1Q229.8 39.8 229.8 33.2Q229.8 26.6 233.7 22.4Q237.6 18.2 245.8 18.2Q254 18.2 257.8 22.4Q261.6 26.6 261.6 33.2Q261.6 39.8 257.8 44.1Q254 48.4 245.8 48.4Z M294.4 170V61.4H316.4V88.2Q317.4 84 318.8 80.2Q323.2 69.2 331.9 63.6Q340.6 58 353.6 58H354.8Q374.2 58 384.2 70.5Q394.2 83 394.2 107.8V170H366.4V105.4Q366.4 95.4 360.7 89.2Q355 83 345 83Q334.8 83 328.5 89.3Q322.2 95.6 322.2 106.2V170Z M470.2 171.4Q455.2 171.4 445.5 167.5Q435.8 163.6 431 154.3Q426.2 145 426.2 129.2V81.8H409V61.4H426.4V30.8H452.4V61.4H485.8V81.8H452.2V131Q452.2 139 456.5 143.3Q460.8 147.6 468.8 147.6H485.8V171.4Z M508.2 170V24H536V79.8Q540.2 69.6 548 64Q556.2 58 569 58H570.2Q588.8 58 598.4 70.8Q608 83.6 608 108V170H580.2V105.4Q580.2 95 574.3 89Q568.4 83 558.8 83Q548.6 83 542.3 89.7Q536 96.4 536 107.2V170Z M685.4 173.8Q671.4 173.8 660.9 169Q650.4 164.2 643.5 156.1Q636.6 148 633.1 138Q629.6 128 629.6 117.6V113.8Q629.6 103 633.1 92.9Q636.6 82.8 643.5 74.9Q650.4 67 660.6 62.3Q670.8 57.6 684.2 57.6Q701.8 57.6 713.7 65.3Q725.6 73 731.6 85.5Q737.6 98 737.6 112.4V122.4H656Q656.6 128.6 658.8 133.8Q662 141.8 668.6 146.3Q675.2 150.8 685.4 150.8Q695.6 150.8 702 146.7Q708.4 142.6 710.2 136.6H735.8Q733.4 147.8 726.6 156.2Q719.8 164.6 709.3 169.2Q698.8 173.8 685.4 173.8ZM656.4 105.4H711Q710.4 100.2 708.6 96Q705.6 88.6 699.5 84.6Q693.4 80.6 684.2 80.6Q675 80.6 668.6 84.8Q662.2 89 659 96.8Q657.2 100.8 656.4 105.4Z M759.8 170V61.4H781.8V96.6Q783.6 81 791.2 72Q801.2 60 820.6 60H824.6V84.2H817Q803 84.2 795.3 91.7Q787.6 99.2 787.6 113.4V170Z M907.4 170V149.2Q906 153.4 904.2 156.8Q899.6 164.6 891.7 168.7Q883.8 172.8 872.4 172.8Q860.6 172.8 851.7 168.6Q842.8 164.4 837.9 156.6Q833 148.8 833 137.8Q833 125.8 838.9 118.2Q844.8 110.6 855.5 106.8Q866.2 103 880.6 103H902.8V102Q902.8 92.6 898.2 88Q893.6 83.4 884 83.4Q879 83.4 872 83.6Q865 83.8 857.9 84.1Q850.8 84.4 845.2 84.8V61.2Q849.8 60.8 855.6 60.4Q861.4 60 867.5 59.9Q873.6 59.8 879 59.8Q895.8 59.8 906.9 64.2Q918 68.6 923.7 78Q929.4 87.4 929.4 102.6V170ZM902.8 119.6H880.2Q870.6 119.6 865.5 124.3Q860.4 129 860.4 136.4Q860.4 143.8 865.5 148.4Q870.6 153 880.2 153Q886 153 890.9 150.9Q895.8 148.8 899.1 143.7Q902.4 138.6 902.8 129.8Z"/></symbol>
+  <symbol id="mark" viewBox="0 0 92 60"><rect x="28" y="0" width="36" height="16" rx="2" fill="#E9A23B"/><rect x="14" y="22" width="64" height="16" rx="2" fill="currentColor"/><rect x="0" y="44" width="92" height="16" rx="2" fill="currentColor"/></symbol>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Plinthera home">
+      <svg viewBox="0 0 92 60" style="height:26px;width:40px" aria-hidden="true"><use href="#mark"/></svg>
+      <svg viewBox="0 0 967.4 198" style="height:28px;width:137px" aria-hidden="true"><use href="#wordmark"/></svg>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-links" id="navlinks">
+        <li><a href="#approach">Approach</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#sports">Sports tech</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+    <div class="right">
+      <a class="prog" href="#top" aria-label="Page progress; back to top" title="Back to top">
+        <svg viewBox="0 0 92 60" aria-hidden="true">
+          <rect class="ghost" x="28" y="0" width="36" height="16" rx="2" fill="#E9A23B"/><rect class="ghost" x="14" y="22" width="64" height="16" rx="2" fill="currentColor"/><rect class="ghost" x="0" y="44" width="92" height="16" rx="2" fill="currentColor"/>
+          <rect class="p1" x="0" y="44" width="92" height="16" rx="2" fill="currentColor"/><rect class="p2" x="14" y="22" width="64" height="16" rx="2" fill="currentColor"/><rect class="p3" x="28" y="0" width="36" height="16" rx="2" fill="#E9A23B"/>
+        </svg>
+      </a>
+      <a class="btn btn-primary nav-cta" href="#contact">Book a teardown</a>
+      <button class="menu-btn" id="menubtn" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path class="l1" d="M4 7h16"/><path class="l2" d="M4 12h16"/><path class="l3" d="M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="menu" id="menu">
+    <div class="wrap">
+      <ul>
+        <li><a href="#approach">Approach</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#sports">Sports tech</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <a class="btn btn-primary" href="#contact">Book a teardown</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<span id="top"></span>
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">AI transformation for the mid-market</p>
+      <h1 id="hero-title"><span class="w">The base</span> <span class="w">under</span> <span class="w">your AI.</span></h1>
+      <p class="lead">Most AI projects fail where they meet the business, not in the model. We build the base: the workflows, data, governance and people that let agents and copilots carry real work. Senior-led, delivered from India, built to be handed over.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#contact">Book a free teardown <svg class="arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        <a class="btn btn-secondary" href="#approach">See how we work</a>
+      </div>
+      <a class="also" href="#sports"><span class="new">New</span> Booking, academy and enquiry systems for sport, with AI built in <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+      <p class="proofline"><span>Fortune-500 telecom</span><span>Global insurance carrier</span><span>Indian automotive manufacturer</span></p>
+    </div>
+    <div class="plinth" role="img" aria-label="A stepped base of three blocks: people and process at the bottom, data and governance above, AI agents on top">
+      <svg viewBox="-2 -4 138 82" aria-hidden="true">
+        <g class="depth" data-depth="1"><rect class="blk b1" x="0" y="44" width="92" height="16" rx="2"/><g class="tag t1"><line class="lbl-line" x1="46" y1="62" x2="46" y2="66"/><text class="lbl" x="46" y="70" text-anchor="middle">People and process</text></g></g>
+        <g class="depth" data-depth="2"><rect class="blk b2" x="14" y="22" width="64" height="16" rx="2"/><g class="tag t2"><line class="lbl-line" x1="80" y1="30" x2="86" y2="30"/><text class="lbl" x="87" y="31.3">Data, governance</text></g></g>
+        <g class="depth" data-depth="3"><rect class="blk cap" x="28" y="0" width="36" height="16" rx="2"/><g class="tag t3"><line class="lbl-line" x1="66" y1="8" x2="72" y2="8"/><text class="lbl" x="73" y="9.3">Agents, copilots</text></g></g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div class="proof" aria-label="Results">
+  <div class="wrap">
+    <div class="grid grid-3" data-reveal-group>
+      <div class="stat" data-reveal>
+        <div class="num"><span data-count="33000">33,000</span><small>+</small></div>
+        <p class="lab">engineering hours a year</p>
+        <p class="note">returned to a Fortune-500 telecom by six agents on Copilot Studio, against a measured baseline</p>
+      </div>
+      <div class="stat" data-reveal>
+        <div class="num"><span data-count="900">900</span><small>+</small></div>
+        <p class="lab">hours a year</p>
+        <p class="note">saved for a global insurance carrier by a monitoring agent on AWS Bedrock, with every action approved by a person</p>
+      </div>
+      <div class="stat" data-reveal>
+        <div class="num"><span data-count="100">100</span><small>%</small></div>
+        <p class="lab">on-premise</p>
+        <p class="note">retrieval system for an Indian automotive manufacturer: no cloud, no data leaving the plant network</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="principles" id="why" aria-labelledby="why-title">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Why the base</p>
+    <h2 id="why-title" data-reveal>Seventy percent of what makes AI stick is not the model</h2>
+    <p class="lead" data-reveal>It is the workflow the agent lands in, the data it can see, the rules it works under and the people who run it afterwards. We build those four things first, then the agents on top. Every engagement follows three rules.</p>
+    <div class="grid grid-3 cards" data-reveal-group>
+      <article class="card lift" data-reveal>
+        <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17h18M5 17v-4M9 17V7M13 17v-6M17 17V5M21 17v-3"/></svg></div>
+        <h3>Measured before, measured after</h3>
+        <p>A baseline week is timed before any build starts. The saving we report is the difference, annualised, net of the time your team spends reviewing agent output.</p>
+      </article>
+      <article class="card lift" data-reveal>
+        <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 15h3"/><circle cx="16.5" cy="15" r="1.5"/></svg></div>
+        <h3>Built on your tenant</h3>
+        <p>Everything runs in your Azure, AWS or Google account, or your Claude Enterprise workspace, under your access controls. There is nothing to migrate at handover and no data-residency argument to lose.</p>
+      </article>
+      <article class="card lift" data-reveal>
+        <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="12" r="4"/><path d="M12 12h9M18 12v3M15 12v2"/></svg></div>
+        <h3>Handed over, not held</h3>
+        <p>Runbooks, training, admin access and an evaluation suite go to your team. The engagement ends when you can run the system without us; a retainer is a choice, not a dependency.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="tint process" id="approach" aria-labelledby="approach-title">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>How we work</p>
+    <h2 id="approach-title" data-reveal>Seven stages, each with a gate you sign off</h2>
+    <p class="lead" data-reveal>The same path for a two-person clinic and a two-thousand-person operator. A stage does not start until the previous gate is accepted, and the gates are written into the contract.</p>
+    <div class="steps" role="tablist" aria-label="Engagement stages" id="steps">
+      <div class="steps-ind" id="steps-ind" aria-hidden="true"></div>
+      <button class="step" role="tab" id="tab-0" aria-selected="true" aria-controls="panel-steps" data-i="0"><span class="n">01</span><span class="t">Discover</span><span class="d">Week 0</span></button>
+      <button class="step" role="tab" id="tab-1" aria-selected="false" tabindex="-1" aria-controls="panel-steps" data-i="1"><span class="n">02</span><span class="t">Audit</span><span class="d">Weeks 1–3</span></button>
+      <button class="step" role="tab" id="tab-2" aria-selected="false" tabindex="-1" aria-controls="panel-steps" data-i="2"><span class="n">03</span><span class="t">Design</span><span class="d">Weeks 3–4</span></button>
+      <button class="step" role="tab" id="tab-3" aria-selected="false" tabindex="-1" aria-controls="panel-steps" data-i="3"><span class="n">04</span><span class="t">Build</span><span class="d">Weeks 4–10</span></button>
+      <button class="step" role="tab" id="tab-4" aria-selected="false" tabindex="-1" aria-controls="panel-steps" data-i="4"><span class="n">05</span><span class="t">Pilot</span><span class="d">2–4 weeks</span></button>
+      <button class="step" role="tab" id="tab-5" aria-selected="false" tabindex="-1" aria-controls="panel-steps" data-i="5"><span class="n">06</span><span class="t">Handover</span><span class="d">2 weeks</span></button>
+      <button class="step" role="tab" id="tab-6" aria-selected="false" tabindex="-1" aria-controls="panel-steps" data-i="6"><span class="n">07</span><span class="t">Operate</span><span class="d">Monthly</span></button>
+    </div>
+    <div class="step-panel" id="panel-steps" role="tabpanel" aria-labelledby="tab-0" tabindex="0">
+      <div>
+        <p class="eyebrow" id="sp-eyebrow">Stage 1 · Week 0</p>
+        <h3 id="sp-title">Discover</h3>
+        <p id="sp-body">A sponsor interview, access to systems and data samples, a stakeholder map, and success metrics with a baseline we measure before anything is built.</p>
+      </div>
+      <div class="gate"><p class="eyebrow">The gate</p><p id="sp-gate">Signed statement of work, baseline numbers agreed in writing, first invoice paid.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="services" aria-labelledby="services-title">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Services</p>
+    <h2 id="services-title" data-reveal>One ladder, from a free hour to a running operation</h2>
+    <p class="lead" data-reveal>Fixed prices with a written scope. Half on signature, the rest at the gates. Platform and model costs run on your own account and are never resold.</p>
+    <div class="grid grid-2 grid-6" style="margin-top:40px" data-reveal-group>
+      <article class="card lift pkg" data-reveal>
+        <div class="top"><h3>Workflow Teardown</h3><span class="len">1 week</span></div>
+        <ul><li>60-minute recorded session</li><li>Five-page report</li><li>Top three automation candidates with ROI</li></ul>
+        <div class="price">Free<small>for companies with 20+ staff; otherwise $490</small></div>
+      </article>
+      <article class="card lift pkg" data-reveal>
+        <div class="top"><h3>Opportunity Audit</h3><span class="len">2–3 weeks</span></div>
+        <ul><li>Process mapping and data readiness</li><li>Backlog scored on value and effort</li><li>Business case and 90-day roadmap</li></ul>
+        <div class="price">from $3,500<small>$8,000–20,000 for mid-market, $25,000+ for enterprise</small></div>
+      </article>
+      <article class="card lift pkg featured" data-reveal>
+        <div class="top"><h3>Automation Sprint</h3><span class="badge">Most chosen</span></div>
+        <ul><li>Two to four agents or automations in production</li><li>Copilot Studio, Claude, n8n, Power Automate or Bedrock</li><li>Runbook and team training</li></ul>
+        <div class="price">from $15,000<small>4–6 weeks; up to $45,000 by scope</small></div>
+      </article>
+      <article class="card lift pkg" data-reveal>
+        <div class="top"><h3>Agent and Copilot Deployment</h3><span class="len">8–16 weeks</span></div>
+        <ul><li>Production multi-agent system</li><li>Integrations, evaluations, security review</li><li>Governance and handover</li></ul>
+        <div class="price">from $60,000<small>up to $250,000 by scope</small></div>
+      </article>
+      <article class="card lift pkg" data-reveal>
+        <div class="top"><h3>Transformation Program</h3><span class="len">6–12 months</span></div>
+        <ul><li>Roadmap and three to six workstreams</li><li>Claude Enterprise or Microsoft 365 Copilot rollout with adoption cohorts</li><li>AI centre of excellence and operating model</li></ul>
+        <div class="price">from $250,000<small>scoped per program</small></div>
+      </article>
+      <article class="card lift pkg" data-reveal>
+        <div class="top"><h3>Managed AI Operations</h3><span class="len">Monthly</span></div>
+        <ul><li>Monitoring, evaluations, cost control</li><li>Model upgrades and prompt maintenance</li><li>Governance reporting</li></ul>
+        <div class="price">from $2,500 / month<small>Standard $7,500; Enterprise $15,000–25,000; 12-month term, quarterly exit</small></div>
+      </article>
+    </div>
+    <p class="pricing-note" data-reveal>Prices in US dollars. Clients in the GCC, Singapore and Australia are invoiced in local currency at the rate on the invoice date; Indian clients are quoted in rupees. Time-and-materials work and change requests use a published rate card.</p>
+  </div>
+</section>
+
+<section class="tint rollouts" id="rollouts" aria-labelledby="rollouts-title">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Platform rollouts</p>
+    <h2 id="rollouts-title" data-reveal>Already bought the seats? We make them pay for themselves</h2>
+    <p class="lead" data-reveal>Claude Enterprise and Microsoft 365 Copilot arrive as licences, not as results. A rollout is a six-week programme with a measured baseline, the same gates as every engagement, and your team running it at the end.</p>
+    <div class="grid grid-2" style="margin-top:40px" data-reveal-group>
+      <article class="card lift pkg on-cloud" data-reveal>
+        <div class="top"><h3>Claude Enterprise</h3><span class="len">6 weeks</span></div>
+        <p style="color:var(--fg-2);margin:0">For organisations rolling Claude out across teams. We find the tasks worth doing with it, set up Projects and connectors to your systems, configure admin controls, single sign-on and data policies with your IT team, run training cohorts, and measure adoption and hours against the baseline.</p>
+        <ul><li>Use-case map: the twenty tasks that repay the seats</li><li>Projects, connectors and shared prompts for each team</li><li>Governance: who may use what, with which data, logged</li><li>Agents built on Claude models through Anthropic's API, AWS Bedrock or Google Vertex AI, in your tenant</li></ul>
+        <div class="price">Priced as an Automation Sprint<small>or inside a Transformation Program for larger estates</small></div>
+      </article>
+      <article class="card lift pkg on-cloud" data-reveal>
+        <div class="top"><h3>Microsoft 365 Copilot and Copilot Studio</h3><span class="len">6 weeks</span></div>
+        <p style="color:var(--fg-2);margin:0">For Microsoft estates. We tune the tenant (permissions, SharePoint hygiene, sensitivity labels) so Copilot answers safely, build the agents that carry whole workflows in Copilot Studio and Power Platform, and train the people who will own them.</p>
+        <ul><li>Tenant readiness and oversharing review before anyone turns Copilot on</li><li>Copilot Studio agents with Azure AI Search over your knowledge</li><li>Power Automate flows for the hand-offs between systems</li><li>Adoption cohorts and a measured hours-returned figure</li></ul>
+        <div class="price">Priced as an Automation Sprint<small>or inside a Transformation Program for larger estates</small></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="sports" id="sports" aria-labelledby="sports-title">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Sports tech</p>
+    <h2 id="sports-title" data-reveal>Booking, academy and enquiry systems for sport, with AI built in</h2>
+    <p class="lead" data-reveal>The same discipline we bring to enterprises, packaged for practice centres, academies, grounds and sports companies. Each product takes bookings and payments, answers enquiries on WhatsApp in English, Hindi and Marathi, and gives the owner one screen that tells the truth about the week. Designed in Pune with the owners and coaches of the venues we play at ourselves.</p>
+    <div class="grid grid-3" style="margin-top:40px" data-reveal-group>
+      <article class="card lift pkg" data-reveal>
+        <div class="top"><h3>Slot Booking</h3><span class="len">Live in 2–3 weeks</span></div>
+        <p class="for"><b>For</b> bowling-machine nets, turfs, courts, pools and practice centres</p>
+        <ul>
+          <li>Live availability, online booking and UPI payment; QR code at the gate</li>
+          <li>WhatsApp confirmations, reminders and a waitlist that fills cancellations</li>
+          <li>AI enquiry desk that answers “is Saturday 6 pm free?” and books it</li>
+          <li>Owner dashboard: occupancy, no-shows, revenue by slot, which hours to price up</li>
+        </ul>
+        <div class="price">Development fee + monthly<small>one monthly fee covers hosting, updates, backups and the AI desk</small></div>
+      </article>
+      <article class="card lift pkg featured" data-reveal>
+        <div class="top"><h3>Academy and Ground</h3><span class="badge">Most asked</span></div>
+        <p class="for"><b>For</b> cricket and football academies, coaching centres and the grounds they run</p>
+        <ul>
+          <li>Enrolment, batches, attendance and coach rosters in one place</li>
+          <li>Fee schedules with AI-drafted reminders that parents actually read</li>
+          <li>Progress notes: the coach ticks the boxes, AI writes the parent update</li>
+          <li>Ground and net booking for matches and practice, public or members-only</li>
+        </ul>
+        <div class="price">Development fee + monthly<small>founding-customer pricing for the first academies in Pune</small></div>
+      </article>
+      <article class="card lift pkg" data-reveal>
+        <div class="top"><h3>AI Enquiry Desk and Operations</h3><span class="len">Live in 3–4 weeks</span></div>
+        <p class="for"><b>For</b> sports companies, event organisers and multi-venue operators</p>
+        <ul>
+          <li>One AI agent across WhatsApp, Instagram and the website: enquiries, quotes, bookings, follow-ups</li>
+          <li>Tournament and event operations: registrations, fixtures, payments, results</li>
+          <li>Leads that never go cold: every enquiry logged, every follow-up timed</li>
+          <li>Built on Claude or Copilot Studio; your team sees every conversation</li>
+        </ul>
+        <div class="price">Development fee + monthly<small>scoped per venue count and channels</small></div>
+      </article>
+    </div>
+    <div class="flow" data-reveal-group aria-label="How a sports deployment runs">
+      <div class="f" data-reveal><span class="n">01</span><b>Walkthrough</b><p>Sixty minutes at your venue. Your slots, prices, batches and the questions you answer forty times a day.</p></div>
+      <div class="f" data-reveal><span class="n">02</span><b>Build on your rules</b><p>Two to three weeks. You see it working on your real schedule before anything goes live.</p></div>
+      <div class="f" data-reveal><span class="n">03</span><b>Go live</b><p>Your WhatsApp number, your QR codes, your UPI. Staff trained in an afternoon.</p></div>
+      <div class="f" data-reveal><span class="n">04</span><b>Run</b><p>Hosting, updates, backups and the AI desk on one monthly fee. A person answers when you call.</p></div>
+    </div>
+    <p class="runs" data-reveal><span class="ai">Where the AI is</span>&nbsp; The enquiry desk understands a voice note in Marathi and books the slot. Fee reminders and parent updates are drafted, not templated. The dashboard tells you which Tuesday evenings to price up and which batch is about to lose students. Everything else is plain, reliable software that does not need a login to explain.</p>
+    <p class="runs" data-reveal>Unlike our enterprise work, these products run on Plinthera's own platform, so a practice centre never has to run a cloud account. Your data is yours and exportable at any time.</p>
+    <div class="actions" data-reveal>
+      <a class="btn btn-primary" href="#contact">Book a venue walkthrough <svg class="arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+      <a class="btn btn-secondary btn-wa" href="https://wa.me/918177833697?text=Hi%20Plinthera%2C%20I%20run%20a%20sports%20venue%20or%20academy%20and%20want%20to%20talk%20about%20booking%20software." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.8-1.4.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.1.6a2.7 2.7 0 0 0 1.8-1.2c.2-.6.2-1.1.2-1.2l-.5-.3Z"/></svg> WhatsApp us</a>
+    </div>
+  </div>
+</section>
+
+<section class="work" id="work" aria-labelledby="work-title">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Work</p>
+    <h2 id="work-title" data-reveal>Three systems in production, each measured against a baseline</h2>
+    <div class="grid grid-3" style="margin-top:40px" data-reveal-group>
+      <article class="card lift case on-cloud" data-reveal>
+        <div class="fig"><span data-count="33000">33,000</span><small>hrs / yr</small></div>
+        <p class="who">Fortune-500 telecom, engineering operations</p>
+        <p>Six agents on Copilot Studio, each owning one job: triage, log summary, runbook retrieval, change drafting, approval routing and post-incident notes. Azure AI Search over fourteen knowledge sources with access control carried through.</p>
+        <div class="stack"><span class="chip">Copilot Studio</span><span class="chip">Azure AI Search</span><span class="chip">1,200 engineers</span></div>
+      </article>
+      <article class="card lift case on-cloud" data-reveal>
+        <div class="fig"><span data-count="900">900</span><small>hrs / yr</small></div>
+        <p class="who">Global insurance carrier, operations</p>
+        <p>A file-monitoring agent on AWS Bedrock that watches inbound document flows, flags exceptions and drafts the response, with a person approving every action that touches a policy record.</p>
+        <div class="stack"><span class="chip">AWS Bedrock</span><span class="chip">Human approval</span><span class="chip">Audit log</span></div>
+      </article>
+      <article class="card lift case on-cloud" data-reveal>
+        <div class="fig"><span data-count="100">100</span><small>% local</small></div>
+        <p class="who">Indian automotive manufacturer, engineering</p>
+        <p>A retrieval system over engineering documentation that runs entirely inside the plant network. Local models, local index, nothing leaves the premises, and the engineering team operates it.</p>
+        <div class="stack"><span class="chip">On-premise RAG</span><span class="chip">Local models</span><span class="chip">Handed over</span></div>
+      </article>
+    </div>
+    <div class="quote" data-reveal>
+      <blockquote>“The agents did not replace anyone. They gave our senior engineers their afternoons back.”</blockquote>
+      <cite>Head of Engineering Operations, Fortune-500 telecom</cite>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about" aria-labelledby="about-title">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow" data-reveal>About</p>
+      <h2 id="about-title" data-reveal>Senior-led, by people who have shipped this in production</h2>
+      <p class="lead" data-reveal>Plinthera is led by Ak Khan, Principal, with eleven years in enterprise IT from support through cloud to AI, and the production deployments above behind him. The team works from Pune with on-site weeks in the GCC, Singapore and wherever the client is.</p>
+      <ul data-reveal>
+        <li>Claude Enterprise and the Claude API; Microsoft Copilot Studio, Azure AI Foundry and Azure AI Search; AWS Bedrock; Google Vertex AI; n8n and Power Platform</li>
+        <li>Certified: Azure Administrator (AZ-104), Azure AI Engineer (AI-102), GitHub Copilot (GH-300)</li>
+        <li>Agent governance built in: every deployment ships with an evaluation suite, a logged approval path and a kill switch</li>
+        <li>Pune, India and Dubai, UAE; working hours overlap the GCC, Singapore, the UK and US mornings</li>
+      </ul>
+    </div>
+    <div class="notfor card" data-reveal>
+      <h3>Who we are not for</h3>
+      <p style="color:var(--fg-2);margin:0 0 10px">Anyone shopping for the cheapest hourly developer, or for a strategy deck without a build. We do not bill below a published floor, we do not resell cloud, and we do not start a build without a measured baseline.</p>
+      <p style="color:var(--fg-2);margin:0 0 10px">Our sports-tech products are the one exception to the cloud rule: they run on Plinthera's platform for a monthly fee, because a practice centre should not have to run a cloud account.</p>
+      <p style="color:var(--fg-2);margin:0">If that is the brief, we will say so on the first call and point you somewhere better.</p>
+    </div>
+  </div>
+</section>
+
+<section class="tint trust" id="trust" aria-labelledby="trust-title">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Trust and governance</p>
+    <h2 id="trust-title" data-reveal>Built to pass your security review before it starts</h2>
+    <div class="grid grid-3" data-reveal-group>
+      <div class="item" data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><div><b>Your tenant, your keys</b><span>Models, data and agents run in your cloud account under your identity provider; we hold no copies.</span></div></div>
+      <div class="item" data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><div><b>Human approval where it matters</b><span>Any action that changes a record stops at a logged approval step unless you decide otherwise in writing.</span></div></div>
+      <div class="item" data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><div><b>Evaluations before pilot</b><span>No agent reaches users without an eval suite and a pass threshold you agreed; it reruns on every model upgrade.</span></div></div>
+      <div class="item" data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><div><b>Kill switch and named owner</b><span>Every production deployment can be stopped by your team in one step and has a named owner on your side.</span></div></div>
+      <div class="item" data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><div><b>Data processing agreement</b><span>Our DPA covers GDPR, UK GDPR, Singapore PDPA, UAE PDPL and India's DPDP Act; residency is set per engagement.</span></div></div>
+      <div class="item" data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><div><b>Vendor review ready</b><span>Security questionnaire answers, insurance certificates and subprocessor list available on request from security@plinthera.com.</span></div></div>
+    </div>
+    <div class="platforms" data-reveal aria-label="Platforms we build on">
+      <span class="chip">Claude Enterprise</span><span class="chip">Claude API</span><span class="chip">Microsoft Copilot Studio</span><span class="chip">Azure AI Foundry</span><span class="chip">Azure AI Search</span><span class="chip">AWS Bedrock</span><span class="chip">Google Vertex AI</span><span class="chip">Power Platform</span><span class="chip">n8n</span><span class="chip">Langfuse</span><span class="chip">Promptfoo</span>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq" aria-labelledby="faq-title">
+  <div class="wrap" style="max-width:860px">
+    <p class="eyebrow" data-reveal>Questions</p>
+    <h2 id="faq-title" data-reveal>What clients ask before the first call</h2>
+    <div class="faq-list" data-reveal>
+      <h3 class="sr">How long does it take</h3>
+      <button class="faq-q" aria-expanded="false" aria-controls="fa-1" id="fq-1">How quickly can something be in production? <span class="pm" aria-hidden="true"></span></button>
+      <div class="faq-a" id="fa-1" role="region" aria-labelledby="fq-1"><div><p>An Automation Sprint takes four to six weeks from signature to the first automations running with real users, after a two-to-three-week audit. Larger deployments run eight to sixteen weeks. We do not compress the baseline week; it is what makes the saving provable.</p></div></div>
+      <button class="faq-q" aria-expanded="false" aria-controls="fa-2" id="fq-2">Which platforms do you work with? <span class="pm" aria-hidden="true"></span></button>
+      <div class="faq-a" id="fa-2" role="region" aria-labelledby="fq-2"><div><p>Claude Enterprise for organisation-wide rollouts, with Claude models through Anthropic's API, AWS Bedrock or Google Vertex AI for agents; Microsoft Copilot Studio, Azure AI Foundry, Azure AI Search and Power Platform for Microsoft estates; n8n or the platform's own tooling for orchestration. We sell the outcome, not the platform, and we build on the one you already pay for.</p></div></div>
+      <button class="faq-q" aria-expanded="false" aria-controls="fa-3" id="fq-3">Where does our data go? <span class="pm" aria-hidden="true"></span></button>
+      <div class="faq-a" id="fa-3" role="region" aria-labelledby="fq-3"><div><p>Nowhere new. Everything is built and run inside your own cloud tenant or, where required, on your premises. Plinthera staff access it through your identity provider with the permissions you grant and lose them at handover.</p></div></div>
+      <button class="faq-q" aria-expanded="false" aria-controls="fa-4" id="fq-4">How is pricing structured? <span class="pm" aria-hidden="true"></span></button>
+      <div class="faq-a" id="fa-4" role="region" aria-labelledby="fq-4"><div><p>Fixed price per package with a written scope. Half on signature, the rest at the gates. Change requests are priced from a published rate card and start only when signed. Retainers are monthly in advance with a quarterly exit.</p></div></div>
+      <button class="faq-q" aria-expanded="false" aria-controls="fa-5" id="fq-5">What happens after handover? <span class="pm" aria-hidden="true"></span></button>
+      <div class="faq-a" id="fa-5" role="region" aria-labelledby="fq-5"><div><p>Thirty days of hypercare are included. After that your team runs the system with the runbook and evaluation suite we leave behind. If you want us to keep monitoring, upgrading models and reporting on governance, that is the Managed AI Operations retainer, and you can leave it at any quarter end.</p></div></div>
+      <button class="faq-q" aria-expanded="false" aria-controls="fa-6" id="fq-6">I run a sports venue or academy. How does that work? <span class="pm" aria-hidden="true"></span></button>
+      <div class="faq-a" id="fa-6" role="region" aria-labelledby="fq-6"><div><p>Differently from the enterprise work. Sports-tech products are priced as a development fee paid up front plus a monthly fee, and they run on Plinthera's own platform, so there is no cloud account, no server and no IT person on your side. The monthly fee covers hosting, updates, backups, the AI enquiry desk and support. A slot-booking system is live in two to three weeks; an academy system in three to four. Your bookings, students and payment records are yours and can be exported at any time, and if you leave, we hand them over in a format the next system can read. Start with a venue walkthrough or message us on WhatsApp.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="tint contact" id="contact" aria-labelledby="contact-title">
+  <div class="wrap">
+    <div class="side">
+      <p class="eyebrow" data-reveal>Book a teardown</p>
+      <h2 id="contact-title" data-reveal>Sixty minutes, your workflows, three candidates with a number on each</h2>
+      <p data-reveal>Tell us a little about the work your team does by hand and we will come back within one working day with a time. The teardown is free for companies with twenty or more staff. Sports venues and academies: ask for a walkthrough instead, or <a href="https://wa.me/918177833697" target="_blank" rel="noopener" style="color:var(--brand);font-weight:600">message us on WhatsApp</a>.</p>
+      <ol data-reveal>
+        <li>A 60-minute recorded call with the people who do the work</li>
+        <li>A five-page report within a week</li>
+        <li>The top three candidates, each with an hours-per-year estimate and the data it would need</li>
+      </ol>
+      <p data-reveal style="margin-top:22px">Prefer email? Write to <a class="addr" id="addr1" href="mailto:hello@plinthera.com">hello@plinthera.com</a> <button class="btn btn-secondary btn-sm" type="button" data-copy="hello@plinthera.com">Copy</button></p>
+    </div>
+    <form class="form card" id="lead-form" action="https://wa.me/918177833697" method="get" target="_blank" novalidate data-reveal>
+      <div class="row">
+        <div class="field"><label for="f-name">Your name</label><input id="f-name" name="name" type="text" autocomplete="name" required><span class="err">Please add your name.</span></div>
+        <div class="field"><label for="f-email">Work email</label><input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required><span class="err">Please use a valid work email.</span></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="f-company">Company</label><input id="f-company" name="company" type="text" autocomplete="organization" required><span class="err">Please add your company.</span></div>
+        <div class="field"><label for="f-size">Company size</label><select id="f-size" name="size" required><option value="">Choose</option><option>1–19</option><option>20–199</option><option>200–1,999</option><option>2,000+</option></select><span class="err">Please choose a size.</span></div>
+      </div>
+      <div class="field"><label for="f-need">What you are looking for</label><select id="f-need" name="need"><option>AI automation for my team (teardown)</option><option>Claude Enterprise or Microsoft 365 Copilot rollout</option><option>Sports: slot booking for a venue</option><option>Sports: academy and ground management</option><option>Sports: AI enquiry desk and operations</option><option>Something else</option></select></div>
+      <div class="row">
+        <div class="field"><label for="f-market">Where you operate</label><select id="f-market" name="market"><option>UAE / GCC</option><option>Singapore / SEA</option><option>United States</option><option>United Kingdom</option><option>Australia / NZ</option><option>India</option><option>Other</option></select></div>
+        <div class="field"><label for="f-platform">Main platform</label><select id="f-platform" name="platform"><option>Microsoft 365 / Azure</option><option>Claude Enterprise / Anthropic</option><option>AWS</option><option>Google Cloud</option><option>Mixed or unsure</option></select></div>
+      </div>
+      <div class="field"><label for="f-work">The work you want off your team's plate</label><textarea id="f-work" name="work" required placeholder="For example: 6 people spend Monday mornings assembling the same weekly report from 14 sources. Or: 4 nets, 14 hours a day, bookings on paper and WhatsApp."></textarea><span class="err">Tell us a little about the work.</span></div>
+            <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
+        <button class="btn btn-primary" type="submit" id="submit-btn">Request a teardown</button>
+        <p class="fine">No newsletter, no sequence. One reply from a person. <a href="/privacy.html">Privacy notice</a></p>
+      </div>
+      <div class="done" id="done" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="top" data-reveal-group>
+      <div data-reveal>
+        <a class="logo" href="#top" aria-label="Plinthera home"><svg viewBox="0 0 92 60" style="height:26px;width:40px" aria-hidden="true"><use href="#mark"/></svg><svg viewBox="0 0 967.4 198" style="height:28px;width:137px" aria-hidden="true"><use href="#wordmark"/></svg></a>
+        <p class="tag">The base under your AI</p>
+        <p style="color:var(--on-base-2);margin:14px 0 0;max-width:38ch">Senior-led AI transformation for the mid-market, and booking, academy and enquiry systems for sport. Delivered from India, built to be handed over.</p>
+      </div>
+      <div data-reveal><h4>Services</h4><ul><li><a href="#services">Workflow Teardown</a></li><li><a href="#services">Opportunity Audit</a></li><li><a href="#services">Automation Sprint</a></li><li><a href="#services">Deployment</a></li><li><a href="#rollouts">Claude Enterprise rollouts</a></li><li><a href="#services">Managed AI Operations</a></li></ul></div>
+      <div data-reveal><h4>Sports tech</h4><ul><li><a href="#sports">Slot Booking</a></li><li><a href="#sports">Academy and Ground</a></li><li><a href="#sports">AI Enquiry Desk</a></li><li><a href="#approach">How we work</a></li><li><a href="#about">About</a></li><li><a href="#faq">FAQ</a></li></ul></div>
+      <div data-reveal><h4>Contact</h4><ul><li><a href="mailto:hello@plinthera.com">hello@plinthera.com</a></li><li><a href="mailto:security@plinthera.com">security@plinthera.com</a></li><li><a href="https://wa.me/918177833697" target="_blank" rel="noopener">+91 81778 33697 (WhatsApp)</a></li><li>Pune, India</li><li>Dubai, UAE</li></ul></div>
+    </div>
+    <div class="legal">
+      <span>© <span id="year">2026</span> Plinthera. Client figures are measured against agreed baselines; references are anonymised unless named with permission. Claude is a trademark of Anthropic, PBC; Microsoft 365 Copilot and Copilot Studio are trademarks of Microsoft Corporation; Plinthera is an independent consultancy.</span>
+      <span><a href="/privacy.html">Privacy notice</a> · plinthera.com</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const RM = () => reduce.matches;
+  const EASE = 'cubic-bezier(.2,.8,.2,1)';
+
+  /* nav: border appears once the page has scrolled; a sentinel keeps it off the scroll event */
+  const nav = document.getElementById('nav');
+  const sentinel = document.createElement('div'); sentinel.style.cssText = 'position:absolute;top:0;height:1px;width:1px;';
+  document.body.prepend(sentinel);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([e]) => nav.classList.toggle('scrolled', !e.isIntersecting), { threshold: 0 }).observe(sentinel);
+  } else { nav.classList.add('scrolled'); }
+
+  /* mobile menu */
+  const menuBtn = document.getElementById('menubtn'), menu = document.getElementById('menu');
+  function setMenu(open){ menu.classList.toggle('open', open); menuBtn.setAttribute('aria-expanded', String(open)); menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu'); }
+  menuBtn.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
+  menu.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && menu.classList.contains('open')) { setMenu(false); menuBtn.focus(); } });
+
+  /* active section in the nav */
+  const links = Array.from(document.querySelectorAll('#navlinks a'));
+  const byId = Object.fromEntries(links.map(a => [a.getAttribute('href').slice(1), a]));
+  if ('IntersectionObserver' in window) {
+    const visible = new Set();
+    const secObs = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) visible.add(en.target.id); else visible.delete(en.target.id); });
+      links.forEach(a => a.removeAttribute('aria-current'));
+      const first = Object.keys(byId).find(id => visible.has(id));
+      if (first) byId[first].setAttribute('aria-current', 'true');
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    Object.keys(byId).forEach(id => { const s = document.getElementById(id); if (s) secObs.observe(s); });
+  }
+
+  /* reveals: elements are visible at rest; when they enter the viewport they animate from a small offset.
+     Children of a [data-reveal-group] stagger by 70 ms. Fires once per element. */
+  const revealEls = Array.from(document.querySelectorAll('[data-reveal]'));
+  if ('IntersectionObserver' in window && !RM() && 'animate' in Element.prototype) {
+    const seen = new WeakSet();
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (!en.isIntersecting || seen.has(en.target)) return;
+        seen.add(en.target); io.unobserve(en.target);
+        const group = en.target.closest('[data-reveal-group]');
+        let delay = 0;
+        if (group) { const kids = Array.from(group.querySelectorAll('[data-reveal]')); delay = Math.min(kids.indexOf(en.target), 8) * 70; }
+        if (en.target.tagName === 'H2') {
+          /* headline rises word by word: split once, then stagger each word 45 ms */
+          if (!en.target.dataset.split) { en.target.dataset.split = '1'; en.target.innerHTML = en.target.textContent.trim().split(/\s+/).map(w => '<span style="display:inline-block">' + w + '</span>').join(' '); }
+          en.target.querySelectorAll('span').forEach((w, i) => w.animate([{ opacity: .15, transform: 'translateY(.45em)' }, { opacity: 1, transform: 'none' }], { duration: 560, delay: delay + i * 45, easing: EASE, fill: 'backwards' }));
+        } else {
+          en.target.animate([{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 1, transform: 'none' }], { duration: 520, delay, easing: EASE, fill: 'backwards' });
+        }
+        en.target.querySelectorAll('[data-count]').forEach(countUp);
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+    revealEls.forEach(el => io.observe(el));
+  }
+
+  /* count-up for the proof figures: eased, 1.2 s, tabular digits; instant under reduced motion */
+  function countUp(el){
+    const target = Number(el.dataset.count); if (!target || el.dataset.done) return; el.dataset.done = '1';
+    if (RM()) { el.textContent = target.toLocaleString('en-US'); return; }
+    const t0 = performance.now(), dur = 1200;
+    const tick = now => { const p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3); el.textContent = Math.round(target * e).toLocaleString('en-US'); if (p < 1) requestAnimationFrame(tick); else el.animate([{ transform: 'scale(1.04)' }, { transform: 'none' }], { duration: 260, easing: EASE }); };
+    el.style.display = 'inline-block';
+    requestAnimationFrame(tick);
+  }
+  if (RM() || !('IntersectionObserver' in window)) document.querySelectorAll('[data-count]').forEach(el => { el.textContent = Number(el.dataset.count).toLocaleString('en-US'); });
+
+  /* stepper */
+  const STAGES = [
+    ['Stage 1 · Week 0', 'Discover', 'A sponsor interview, access to systems and data samples, a stakeholder map, and success metrics with a baseline we measure before anything is built.', 'Signed statement of work, baseline numbers agreed in writing, first invoice paid.'],
+    ['Stage 2 · Weeks 1–3', 'Audit', 'Process walkthroughs with six to twelve of the people who do the work, data readiness scoring, a backlog scored on value and effort, and the security and compliance constraints written down.', 'Audit report accepted; the top three use cases chosen for the sprint.'],
+    ['Stage 3 · Weeks 3–4', 'Design', 'Target architecture on your own tenant, agent and workflow designs, the evaluation plan, the governance plan (who may run what, what is logged, where a person approves) and a cost estimate for tokens and licences.', 'Architecture and evaluation plan approved by your IT lead and the process owner.'],
+    ['Stage 4 · Weeks 4–10', 'Build', 'Two-week iterations with a demo every Friday. The evaluation suite runs on every change. The runbook is written as we go, not at the end.', 'Evaluations pass the agreed thresholds and a pilot group signs off.'],
+    ['Stage 5 · 2–4 weeks', 'Pilot', 'Ten to fifty real users, usage and quality dashboards, a weekly adoption review with the sponsor, and a change log of everything we adjust.', 'Adoption and quality targets met, or the scope is re-cut in writing.'],
+    ['Stage 6 · 2 weeks', 'Handover', 'Rollout to the full user group, training cohorts, admin access transferred, documentation complete, thirty days of hypercare.', 'Handover checklist signed; final invoice paid; case study and reference agreed.'],
+    ['Stage 7 · Monthly', 'Operate', 'For clients who want it: a monthly health report, model and prompt upgrades, cost optimisation, a quarterly refresh of the use-case backlog and governance reporting.', 'Quarterly business review; renewal or exit decided sixty days before the term ends.'],
+  ];
+  const tabs = Array.from(document.querySelectorAll('.step')), panel = document.getElementById('panel-steps');
+  const spE = document.getElementById('sp-eyebrow'), spT = document.getElementById('sp-title'), spB = document.getElementById('sp-body'), spG = document.getElementById('sp-gate');
+  /* the selected-tab highlight is one element that slides and resizes between tabs (FLIP), instead of each tab repainting */
+  const stepsEl = document.getElementById('steps'), ind = document.getElementById('steps-ind');
+  function placeInd(i, instant){
+    const t = tabs[i]; if (!t) return;
+    if (instant) ind.style.transition = 'none';
+    ind.style.width = t.offsetWidth + 'px'; ind.style.height = t.offsetHeight + 'px';
+    ind.style.transform = 'translate(' + t.offsetLeft + 'px,' + t.offsetTop + 'px)';
+    if (instant) { void ind.offsetWidth; ind.style.transition = ''; }
+  }
+  let swapping = null;
+  async function selectStage(i, focus){
+    tabs.forEach((t, k) => { const on = k === i; t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1; });
+    panel.setAttribute('aria-labelledby', 'tab-' + i);
+    placeInd(i, false);
+    const s = STAGES[i];
+    const write = () => { spE.textContent = s[0]; spT.textContent = s[1]; spB.textContent = s[2]; spG.textContent = s[3]; };
+    if (RM() || !('animate' in panel)) { write(); }
+    else {
+      if (swapping) swapping.cancel();
+      swapping = panel.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(-6px)' }], { duration: 120, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards' });
+      try { await swapping.finished; } catch (e) { return; }
+      write(); swapping.cancel(); swapping = null;
+      panel.animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 300, easing: EASE });
+    }
+    tabs[i].scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: RM() ? 'auto' : 'smooth' });
+    if (focus) tabs[i].focus();
+  }
+  placeInd(0, true);
+  if ('ResizeObserver' in window) new ResizeObserver(() => placeInd(tabs.findIndex(t => t.getAttribute('aria-selected') === 'true'), true)).observe(stepsEl);
+  else stepsEl.classList.add('no-ind');
+  tabs.forEach(t => t.addEventListener('click', () => selectStage(Number(t.dataset.i), false)));
+  document.getElementById('steps').addEventListener('keydown', e => {
+    const cur = tabs.findIndex(t => t.getAttribute('aria-selected') === 'true'); let n = cur;
+    if (e.key === 'ArrowRight') n = (cur + 1) % tabs.length; else if (e.key === 'ArrowLeft') n = (cur - 1 + tabs.length) % tabs.length; else if (e.key === 'Home') n = 0; else if (e.key === 'End') n = tabs.length - 1; else return;
+    e.preventDefault(); selectStage(n, true);
+  });
+
+  /* FAQ accordion: one open at a time, height animated with grid rows */
+  document.querySelectorAll('.faq-q').forEach(q => q.addEventListener('click', () => {
+    const open = q.getAttribute('aria-expanded') === 'true';
+    document.querySelectorAll('.faq-q[aria-expanded="true"]').forEach(o => o.setAttribute('aria-expanded', 'false'));
+    q.setAttribute('aria-expanded', String(!open));
+  }));
+
+  /* copy buttons */
+  document.querySelectorAll('[data-copy]').forEach(b => b.addEventListener('click', async () => {
+    const text = b.dataset.copy, old = b.textContent;
+    try { await navigator.clipboard.writeText(text); b.textContent = 'Copied'; }
+    catch (e) { const el = document.getElementById('addr1'); if (el) { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); } b.textContent = 'Select and copy'; }
+    setTimeout(() => { b.textContent = old; }, 1800);
+  }));
+
+  /* lead form: this site has no server, so the form prepares the enquiry and the visitor sends it
+     on WhatsApp (one tap, message filled in) or by email. */
+  const form = document.getElementById('lead-form'), done = document.getElementById('done'), submitBtn = document.getElementById('submit-btn');
+  /* the button follows the request type: sports options ask for a walkthrough, everything else a teardown */
+  form.need.addEventListener('change', () => { if (!submitBtn.disabled) submitBtn.textContent = /^Sports/.test(form.need.value) ? 'Request a walkthrough' : 'Request a teardown'; });
+  const WA_NUMBER = '918177833697';
+  function fieldOk(input, test){ const f = input.closest('.field'); const ok = test(input.value.trim()); f.classList.toggle('invalid', !ok); return ok; }
+  function composeMessage(d){
+    const kind = /^Sports/.test(d.need) ? 'Venue walkthrough request' : 'Teardown request';
+    return `${kind}\n\nName: ${d.name}\nWork email: ${d.email}\nCompany: ${d.company} (${d.size})\nLooking for: ${d.need}\nMarket: ${d.market}\nPlatform: ${d.platform}\n\nThe work:\n${d.work}\n`;
+  }
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const name = form.name, email = form.email, company = form.company, size = form.size, work = form.work;
+    const checks = [fieldOk(name, v => v.length > 1), fieldOk(email, v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)), fieldOk(company, v => v.length > 1), fieldOk(size, v => v !== ''), fieldOk(work, v => v.length > 10)];
+    if (checks.includes(false)) { form.querySelector('.field.invalid input, .field.invalid select, .field.invalid textarea').focus(); return; }
+    const data = { name: name.value.trim(), email: email.value.trim(), company: company.value.trim(), size: size.value, need: form.need.value, market: form.market.value, platform: form.platform.value, work: work.value.trim() };
+    submitBtn.disabled = true; submitBtn.textContent = 'Sending…';
+    const stored = false;
+    submitBtn.disabled = false; submitBtn.textContent = /^Sports/.test(data.need) ? 'Request a walkthrough' : 'Request a teardown';
+    if (stored) {
+      done.innerHTML = '<h3>Received. We will reply within one working day.</h3><p>Thank you. Your request has reached the Plinthera team. A copy of what you sent is below.</p>' +
+        '<textarea readonly aria-label="Your request"></textarea><div class="copyrow"><button type="button" class="btn btn-secondary btn-sm" data-copy-msg>Copy the message</button><span class="addr">hello@plinthera.com</span></div>';
+    } else {
+      const wa = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(composeMessage(data));
+      done.innerHTML = '<h3>Last step: send it to us</h3><p>Your message is ready. Tap Send on WhatsApp and it opens filled in, or copy it and email the address shown. We reply within one working day.</p>' +
+        '<textarea readonly aria-label="Your request"></textarea><div class="copyrow"><a class="btn btn-primary btn-sm" href="' + wa + '" target="_blank" rel="noopener">Send on WhatsApp</a><button type="button" class="btn btn-secondary btn-sm" data-copy-msg>Copy the message</button><span class="addr">hello@plinthera.com</span></div>';
+    }
+    done.querySelector('textarea').value = composeMessage(data);
+    done.classList.add('show');
+    done.querySelectorAll('[data-copy-msg]').forEach(b => b.addEventListener('click', async () => {
+      const ta = done.querySelector('textarea'); const old = b.textContent;
+      try { await navigator.clipboard.writeText(ta.value); b.textContent = 'Copied'; } catch (err) { ta.focus(); ta.select(); b.textContent = 'Press Ctrl+C or Cmd+C'; }
+      setTimeout(() => { b.textContent = old; }, 2000);
+    }));
+    done.querySelectorAll('[data-copy]').forEach(b => b.addEventListener('click', async () => { const old = b.textContent; try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = 'Copied'; } catch (err) { b.textContent = 'Select the address'; } setTimeout(() => { b.textContent = old; }, 1800); }));
+    done.scrollIntoView({ block: 'nearest', behavior: RM() ? 'auto' : 'smooth' });
+    done.querySelector('h3').setAttribute('tabindex', '-1'); done.querySelector('h3').focus();
+  });
+
+  /* scroll progress: the plinth in the nav fills base, course, cap as the page is read.
+     One passive scroll listener, coalesced to a frame; browsers with scroll-driven animations ignore it and use the CSS timeline. */
+  let pRaf = null;
+  const setProgress = () => { pRaf = null; const max = document.documentElement.scrollHeight - innerHeight; document.documentElement.style.setProperty('--p', max > 0 ? Math.min(1, Math.max(0, scrollY / max)).toFixed(4) : '0'); };
+  addEventListener('scroll', () => { if (!pRaf) pRaf = requestAnimationFrame(setProgress); }, { passive: true });
+  setProgress();
+
+  const fine = matchMedia('(pointer: fine)');
+  /* hero parallax: three depth layers follow the pointer at different ratios, eased each frame toward the target */
+  if (fine.matches && !RM()) {
+    const hero = document.querySelector('.hero'), layers = Array.from(document.querySelectorAll('.plinth .depth'));
+    const RATIO = { 1: [0.9, 0.6], 2: [1.8, 1.2], 3: [3.0, 2.0] };
+    let tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
+    const loop = () => { cx += (tx - cx) * .12; cy += (ty - cy) * .12; layers.forEach(g => { const r = RATIO[g.dataset.depth]; g.style.transform = 'translate(' + (cx * r[0]).toFixed(2) + 'px,' + (cy * r[1]).toFixed(2) + 'px)'; }); if (Math.abs(tx - cx) > .005 || Math.abs(ty - cy) > .005) raf = requestAnimationFrame(loop); else raf = null; };
+    hero.addEventListener('pointermove', e => { const r = hero.getBoundingClientRect(); tx = ((e.clientX - r.left) / r.width - .5) * 2; ty = ((e.clientY - r.top) / r.height - .5) * 2; if (!raf) raf = requestAnimationFrame(loop); });
+    hero.addEventListener('pointerleave', () => { tx = 0; ty = 0; if (!raf) raf = requestAnimationFrame(loop); });
+  }
+  /* magnetic primary buttons: the button leans up to 4 px toward the pointer and springs back on leave */
+  if (fine.matches && !RM()) {
+    document.querySelectorAll('.btn-primary').forEach(btn => {
+      let tx = 0, ty = 0, cx = 0, cy = 0, raf = null, over = false;
+      const loop = () => { cx += (tx - cx) * .2; cy += (ty - cy) * .2; btn.style.transform = 'translate(' + cx.toFixed(2) + 'px,' + cy.toFixed(2) + 'px)'; if (Math.abs(tx - cx) > .05 || Math.abs(ty - cy) > .05) raf = requestAnimationFrame(loop); else { raf = null; if (!over) btn.style.transform = ''; } };
+      btn.addEventListener('pointerenter', () => { over = true; });
+      btn.addEventListener('pointermove', e => { const r = btn.getBoundingClientRect(); tx = ((e.clientX - r.left) / r.width - .5) * 8; ty = -2 + ((e.clientY - r.top) / r.height - .5) * 6; if (!raf) raf = requestAnimationFrame(loop); });
+      btn.addEventListener('pointerleave', () => { over = false; tx = 0; ty = 0; if (!raf) raf = requestAnimationFrame(loop); });
+    });
+  }
+
+  /* open the section a shared link points at */
+  const h = (location.hash || '').replace('#', '');
+  if (/^[a-z]+$/.test(h) && document.getElementById(h)) { requestAnimationFrame(() => document.getElementById(h).scrollIntoView({ behavior: 'auto' })); }
+  document.getElementById('year').textContent = String(new Date().getFullYear());
+})();
+</script>
+</body>
+</html>

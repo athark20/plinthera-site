@@ -1,0 +1,222 @@
+WEBVTT
+
+1
+00:00:04.500 --> 00:00:05.343
+Meet Priya.
+
+2
+00:00:05.693 --> 00:00:09.383
+She runs finance operations
+at a fast-growing company,
+
+3
+00:00:09.423 --> 00:00:12.473
+where AI agents now work
+alongside her team,
+
+4
+00:00:12.513 --> 00:00:16.247
+issuing refunds, updating
+records and approving payments.
+
+5
+00:00:17.000 --> 00:00:18.264
+The agents are fast.
+
+6
+00:00:18.564 --> 00:00:21.035
+But they act on whatever
+access they were given.
+
+7
+00:00:21.334 --> 00:00:24.272
+Nobody checks first,
+and nothing records why.
+
+8
+00:00:25.133 --> 00:00:28.873
+Then, one Friday night,
+an agent misreads a request,
+
+9
+00:00:28.913 --> 00:00:31.229
+and refunds 900,000 dirhams.
+
+10
+00:00:31.579 --> 00:00:34.572
+Another exports 38,000 customer records.
+
+11
+00:00:35.122 --> 00:00:38.028
+On Monday, the auditors ask:
+who approved this?
+
+12
+00:00:38.428 --> 00:00:39.636
+Nobody did.
+
+13
+00:00:41.750 --> 00:00:43.990
+That's why we built AgentPermit:
+
+14
+00:00:44.030 --> 00:00:47.091
+a checkpoint between your
+AI agents and your systems.
+
+15
+00:00:47.491 --> 00:00:49.924
+Every agent, explicitly permitted.
+
+16
+00:00:50.867 --> 00:00:52.009
+Here's how it works.
+
+17
+00:00:52.359 --> 00:00:54.609
+First, onboard your agents.
+
+18
+00:00:54.649 --> 00:00:57.549
+AgentPermit finds them in Copilot Studio,
+
+19
+00:00:57.589 --> 00:00:59.934
+and gives each one a verified identity,
+
+20
+00:00:59.974 --> 00:01:02.787
+so no agent can pass
+itself off as another.
+
+21
+00:01:05.433 --> 00:01:07.564
+Then put the gateway in front of them:
+
+22
+00:01:07.604 --> 00:01:12.617
+one action in Copilot Studio,
+one API call in code, or MCP.
+
+23
+00:01:12.967 --> 00:01:17.468
+And lock the door, so your systems
+only take actions through AgentPermit.
+
+24
+00:01:20.033 --> 00:01:24.489
+Next, set your rules in plain words:
+allow it, ask me first, or stop it.
+
+25
+00:01:24.839 --> 00:01:29.695
+Publish, and they're signed and live at
+once. Anything no rule covers is stopped.
+
+26
+00:01:32.133 --> 00:01:36.008
+Each agent starts by learning,
+then testing, then goes live.
+
+27
+00:01:37.667 --> 00:01:39.814
+Now every request runs nine checks.
+
+28
+00:01:40.114 --> 00:01:43.884
+Routine actions go straight through,
+risky ones are stopped,
+
+29
+00:01:43.924 --> 00:01:46.678
+and anything in between
+waits for a named person.
+
+30
+00:01:48.733 --> 00:01:52.448
+So when an agent tries to
+refund 900,000 dirhams,
+
+31
+00:01:52.488 --> 00:01:55.472
+Priya gets the request in Teams,
+and rejects it.
+
+32
+00:01:55.872 --> 00:01:57.084
+Nothing runs.
+
+33
+00:01:58.533 --> 00:02:00.917
+Agents never hold the
+keys to your systems.
+
+34
+00:02:01.217 --> 00:02:03.417
+And every decision leaves a signed,
+
+35
+00:02:03.457 --> 00:02:06.798
+chained receipt that auditors
+can verify on their own.
+
+36
+00:02:08.633 --> 00:02:10.238
+And you watch it all live:
+
+37
+00:02:10.278 --> 00:02:12.753
+today's activity,
+what needs your sign-off,
+
+38
+00:02:12.793 --> 00:02:14.395
+and a trace of every decision.
+
+39
+00:02:14.745 --> 00:02:17.490
+If an agent suddenly does
+far more than usual,
+
+40
+00:02:17.530 --> 00:02:20.903
+it's stopped on its own,
+and one switch pauses them all.
+
+41
+00:02:23.567 --> 00:02:27.757
+Verified identities,
+plain-language rules, human sign-off,
+
+42
+00:02:27.797 --> 00:02:30.137
+runaway protection and signed receipts,
+
+43
+00:02:30.177 --> 00:02:32.356
+all running in your own Azure tenant.
+
+44
+00:02:34.150 --> 00:02:36.155
+Use it wherever agents move money,
+
+45
+00:02:36.195 --> 00:02:38.915
+change access or touch sensitive data:
+
+46
+00:02:38.955 --> 00:02:43.493
+in finance, banking, HR, IT,
+healthcare and procurement.
+
+47
+00:02:46.767 --> 00:02:48.520
+AgentPermit, from Plinthera.
+
+48
+00:02:48.820 --> 00:02:51.003
+Every agent, explicitly permitted.
+
+49
+00:02:51.352 --> 00:02:52.636
+Book your demo today.
